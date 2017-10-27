@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加关系</title>
+		<script src="jquery-1.10.2.js"></script>
+		<style>
+			*{padding:0px;margin:0px}
+			table,thead{width: 100%;}
+			tr th{width:25%;height:30px;background-color: #23B7E5;font-size: 16px;padding: 2px 0px;color:#fff;}
+			tr td{text-align: center;padding: 5px 0px;background-color: #fff;font-size: 14px;}
+			tr td a{padding: 2px 5px;border:1px solid #ddd;cursor: pointer;}
+			ul li{list-style-type: none;overflow: hidden;}
+			.body{
+			width: 100%;
+			height: 100%;
+			background: white;
+		}
+		#top{
+			height: 400px;
+			width: 100%;
+			margin-top:15px;
+			margin-bottom:15px;  
+			background: yellow;
+		}
+		#teacher{
+			height: 150px;
+			width: 30%;
+			margin-left:2.5%;
+			background: red;
+			float: left;
+		}
+		#brother{
+			height: 150px;
+			width: 30%;
+			margin-left: 2.5%;	
+			background: gray;
+			float: left;
+		}
+		#student{
+			height: 150px;
+			width: 30%;
+			margin-left: 2.5%;
+			background: green;
+			float: left;
+		}
+			
+			#div_teacher ul li p{50%;text-align: right;flex: 1;}
+			
+			#div_student ul li p{50%;text-align: right;flex: 1;}
+		
+			#div_brother ul li p{50%;text-align: right;flex: 1;}
+			#div2 ul{overflow: hidden;}
+			#div2 ul li{float: left;width:150px;height:120px;border:1px solid #ddd;margin-right: 10px;}
+			#div2 ul li img{width: 100%;height: 100%;}
+			.div_panel{min-height: 200px;}
+		</style>
+	</head>
+	<body>
+		<div id="top">
+			<div id="div2">
+				<ul>
+					<li>
+						<img id="img1" src="car1.jpg" draggable="true" ondragstart="drag(this)" />
+						<input type="hidden" id="inp_money" value="23"/>
+						<input type="hidden" id="inp_name" value="耐克3.0" />
+					</li>
+					<li>
+						<img id="img1" src="car2.jpg" draggable="true" ondragstart="drag(this)" />
+						<input type="hidden" id="inp_money" value="100"/>
+						<input type="hidden" id="inp_name" value="奥迪" />
+					</li>
+					<li>
+						<img id="img1" src="car3.jpg" draggable="true" ondragstart="drag(this)" />
+						<input type="hidden" id="inp_money" value="1000"/>
+						<input type="hidden" id="inp_name" value="东风特产" />
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div id="teacher">
+			<div id="div_teacher" ondrop="drop_teacher()" ondragover="allowDrop(event)">
+				<div class="div_panel">
+					<table border="0" cellspacing="0" cellpadding="0">
+						<thead>
+							<tr>
+								<th>姓名</th>
+								<th>性别</th>
+								<th>工作</th>
+								<th>年龄</th>
+							</tr>
+						</thead>
+						<tbody id="ul_panel"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div id="brother">
+			<div id="div_brother" ondrop="drop_brother()" ondragover="allowDrop(event)">
+				<div class="div_panel">
+					<table border="0" cellspacing="0" cellpadding="0">
+						<thead>
+							<tr>
+								<th>姓名1</th>
+								<th>性别</th>
+								<th>工作</th>
+								<th>年龄</th>
+							</tr>
+						</thead>
+						<tbody id="u2_panel"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div id="student">
+			<div id="div_brother" ondrop="drop_student()" ondragover="allowDrop(event)">
+				<div class="div_panel">
+					<table border="0" cellspacing="0" cellpadding="0">
+						<thead>
+							<tr>
+								<th>姓名2</th>
+								<th>性别</th>
+								<th>工作</th>
+								<th>年龄</th>
+							</tr>
+						</thead>
+						<tbody id="u3_panel"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		var name="";
+		var data=[];
+		function allowDrop(e){
+			e.preventDefault();
+		}
+		function drag(t){
+			money=$(t).siblings("#inp_money").val();
+			name=$(t).siblings("#inp_name").val();
+			/*var num=1;
+			add(name,money,num);*/
+		}
+		function addJson(name,money){
+			for(var j=0;j<data.length;j++){
+				if(data[j].name==name){
+					data[j].num++;
+					return;
+				}
+			}
+			data.push({
+				money:money,
+				name:name,
+				num:1
+			});
+		}
+		function addHtml_teacher(){
+			var text_html='';
+			var totalMoney=0;
+			$("#ul_panel").html("");
+			for(var i=0;i<data.length;i++){
+				text_html+='<tr><td>'+data[i].name+'</td><td>'+data[i].money+'</td><td><a onclick="reduce(\'\'+'+i+',this)">-</a> '+data[i].num+' ';
+				text_html+='<a onclick="addNum(\'\'+'+i+',this)">+</a></td><td>￥'+(data[i].money*data[i].num)+'</td></tr>';
+				totalMoney+=data[i].money*data[i].num;
+				$("#totalMoney").text(totalMoney);
+			}
+			$("#ul_panel").append(text_html);
+		}
+		function addHtml_brother(){
+			var text_html='';
+			var totalMoney=0;
+			$("#u2_panel").html("");
+			for(var i=0;i<data.length;i++){
+				text_html+='<tr><td>'+data[i].name+'</td><td>'+data[i].money+'</td><td><a onclick="reduce(\'\'+'+i+',this)">-</a> '+data[i].num+' ';
+				text_html+='<a onclick="addNum(\'\'+'+i+',this)">+</a></td><td>￥'+(data[i].money*data[i].num)+'</td></tr>';
+				totalMoney+=data[i].money*data[i].num;
+				$("#totalMoney").text(totalMoney);
+			}
+			$("#u2_panel").append(text_html);
+		}
+		function addHtml_student(){
+			var text_html='';
+			var totalMoney=0;
+			$("#u3_panel").html("");
+			for(var i=0;i<data.length;i++){
+				text_html+='<tr><td>'+data[i].name+'</td><td>'+data[i].money+'</td><td><a onclick="reduce(\'\'+'+i+',this)">-</a> '+data[i].num+' ';
+				text_html+='<a onclick="addNum(\'\'+'+i+',this)">+</a></td><td>￥'+(data[i].money*data[i].num)+'</td></tr>';
+				totalMoney+=data[i].money*data[i].num;
+				$("#totalMoney").text(totalMoney);
+			}
+			$("#u3_panel").append(text_html);
+		}
+		function drop_teacher(){
+			addJson(name,money);
+			addHtml_teacher();
+		}
+		function drop_student(){
+			addJson(name,money);
+			addHtml_student();
+		}
+		function drop_brother(){
+			addJson(name,money);
+			addHtml_brother();
+		}
+		function reduce(a,t){
+			data[a].num--;
+			if(data[a].num==0){
+				data.splice(a,1);
+			}
+			if(data.length==0){
+				$("#totalMoney").text(0);
+			}
+			addHtml();
+		}
+		function addNum(a,t){
+			data[a].num++;
+			addHtml();
+		}
+		
+	</script>
+</html>
