@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd"> 
+<struts>  
+    <package name="t" extends="struts-default">  
+        <action name="registe" class="action.newregister" method="insertPeople">
+            <result name="SUCCESS">/register/register.jsp</result>
+            		<parm></parm>  
+        </action> 
+         <action name="search" class="action.search_people" method="searchPeople">
+            <result name="SUCCESS">/add/add.jsp</result>  
+        </action> 
+    </package>  
+</struts>  
