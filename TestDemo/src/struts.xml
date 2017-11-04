@@ -6,7 +6,16 @@
 <struts>  
     <package name="t" extends="struts-default">  
         <action name="getid" class="action.newregister" method="getpersonid">
-        	<result name="SUCCESS">/register/register.jsp</result>
+        	<result name="SUCCESS">/register.html</result>
+        </action>
+        <action name="insert" class="action.newregister" method="insert_register_People">
+        	<result name="SUCCESS">/search.jsp</result>
+        </action>
+        <action name="lookup" class="action.addrelation" method="lookall">
+        	<result name="SUCCESS">/addrelation.jsp</result>
+        </action>
+        <action name="add_r" class="action.addrelation" method="add_Relation">
+        	<result name="SUCCESS">/addrelation.jsp</result>
         </action>
     </package>  
 </struts>  

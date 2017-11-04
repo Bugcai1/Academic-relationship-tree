@@ -39,8 +39,8 @@
 		data.search_type=$('#search_t').val();
 		alert(data.search_type);
 		$.post(url,{"id":$('#user_id').val(),"search_type":$('#search_t').val()},function(data,status){
-			alert("ooo");
-			//create(data);
+			//alert("ooo");
+			create(data);
 		});
 	}
 	
@@ -93,7 +93,7 @@
                         link = new JTopo.Link(userNode, otherNode); // 增加连线
                 }
                 link.strokeColor ='235, 175, 66';
-            }else if(parseInt(data[i].relation)==4){
+            }else if(parseInt(data[i].relation)==2){
                 // alert("44");
                 if(ts==true){
                     ts=false;

@@ -3,7 +3,7 @@
   <display-name>struts2</display-name>  
     
   <welcome-file-list>  
-    <welcome-file>register/register.jsp</welcome-file>  <!--设置起始页-->  
+    <welcome-file>addrelation.jsp</welcome-file>  <!--设置起始页-->  
   </welcome-file-list>   
   <!--设置相关的过滤器-->   
   <filter>  

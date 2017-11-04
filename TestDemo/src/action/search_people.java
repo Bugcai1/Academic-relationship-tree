@@ -180,11 +180,11 @@ public class search_people {
 					rpar.previous();
 				while(rpar.next())
 				{
-				list.put("child_id",rpar.getString(1));
-				list.put("child_name", rpar.getString(2));
-				list.put("child_sex",rpar.getString(3));
-				list.put("child_work",rpar.getString(4));
-				list.put("child_phone",rpar.getString(5));
+					list.put("child_id",rpar.getString(1));
+					list.put("child_name", rpar.getString(2));
+					list.put("child_sex",rpar.getString(3));
+					list.put("child_work",rpar.getString(4));
+					list.put("child_phone",rpar.getString(5));
 				}
 				
 				list.put("relation",relation);

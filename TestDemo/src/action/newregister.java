@@ -115,25 +115,18 @@ public class newregister {
 //	}
 	public String getpersonid() throws SQLException, IOException
 	{
-		JSONArray json=new JSONArray();
-		JSONObject list=new JSONObject();
-		System.out.println("jjj");
 		int r=0;
 		DbUtil con=new DbUtil();
 		r=con.getID();
-		list.put("id",""+r);
-		json.add(list);
 		HttpServletResponse response=ServletActionContext.getResponse(); 
 		response.setContentType("text/html;charset=utf-8");  
 	    PrintWriter out = response.getWriter(); 
 
-	    out.println(json);
+	    out.println(r);
 	   
 	    out.flush();  
 	    out.close();
-	    
-	    System.out.println(json);
-		return null;
+		return "SUCCESS";
 	}
 	
 	/*
@@ -148,13 +141,14 @@ public class newregister {
 	/*
 	 * 插入注册的成员 向register_person表中进行添加
 	 */
-	public int insert_register_People() throws SQLException
+	public String insert_register_People() throws SQLException
 	{
-		String insert = "insert into register_person values("+getId()+",'"+getName()+"','"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
+		String insert = "insert into register_person values("+getId()+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
 		DbUtil con=new DbUtil();
 		con.executeUpdate(insert);
-//		createPerson_Table();
-		return 1;
+		createPerson_Table();
+		System.out.print(insert);
+		return "SUCCESS";
 	}
 	/*
 	 * 插入没有注册的人物//向  no_register_person表中添加
