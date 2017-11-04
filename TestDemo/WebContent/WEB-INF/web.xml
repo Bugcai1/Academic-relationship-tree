@@ -1,0 +1,26 @@
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"  
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">  
+  <display-name>struts2</display-name>  
+    
+  <welcome-file-list>  
+    <welcome-file>register/register.jsp</welcome-file>  <!--设置起始页-->  
+  </welcome-file-list>   
+  <!--设置相关的过滤器-->   
+  <filter>  
+        <filter-name>struts-prepare</filter-name>  
+        <filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareFilter</filter-class>  
+    </filter>  
+  
+    <filter>  
+        <filter-name>struts-execute</filter-name>  
+        <filter-class>org.apache.struts2.dispatcher.filter.StrutsExecuteFilter</filter-class>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>struts-prepare</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>  
+    <filter-mapping>  
+        <filter-name>struts-execute</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>  
+</web-app>

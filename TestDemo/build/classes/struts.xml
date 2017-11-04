@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd"> 
+<struts>  
+    <package name="t" extends="struts-default">  
+        <action name="getid" class="action.newregister" method="getpersonid">
+        	<result name="SUCCESS">/register/register.jsp</result>
+        </action>
+    </package>  
+</struts>  
