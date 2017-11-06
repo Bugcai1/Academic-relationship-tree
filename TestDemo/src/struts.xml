@@ -14,8 +14,17 @@
         <action name="lookup" class="action.addrelation" method="lookall">
         	<result name="SUCCESS">/addrelation.jsp</result>
         </action>
-        <action name="add_r" class="action.addrelation" method="add_Relation">
+       
+         <action name="add_relation" class="action.addrelation" method="add_Relation">
         	<result name="SUCCESS">/addrelation.jsp</result>
+        </action>
+        
+        <action name="search" class="action.search_people" method="all_search">
+        	<result name="SUCCESS">/search.jsp</result>
+        </action>
+        
+        <action name="login" class="action.person_login" method="login">
+        	
         </action>
     </package>  
 </struts>  

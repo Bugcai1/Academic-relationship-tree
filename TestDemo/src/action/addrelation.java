@@ -25,68 +25,54 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class addrelation {
-	private int user_id;//添加的人的id
-	private String user_phone;//添加的人的手机号
-	//以上两项，作为判断出入表的寻找依据
-	
-	private String relation;
-	//插入的关系类型
-	
-	private int user1_id;
-	private int user2_id;
-	
-	private String start_time;
-	private String end_time;
-	
-	
-	
+	private int user_id;
+	private String name;
+	private String sex;
+	private String work;
+	private String phone;
+	private int id;
+	private int type;
 	public int getUser_id() {
 		return user_id;
 	}
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
-
-	public String getUser_phone() {
-		return user_phone;
+	public String getName() {
+		return name;
 	}
-	public void setUser_phone(String user_phone) {
-		this.user_phone = user_phone;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public String getRelation() {
-		return relation;
+	public String getSex() {
+		return sex;
 	}
-	public void setRelation(String relation) {
-		this.relation = relation;
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
-	
-	public int getUser1_id() {
-		return user1_id;
+	public String getWork() {
+		return work;
 	}
-	public void setUser1_id(int user1_id) {
-		this.user1_id = user1_id;
+	public void setWork(String work) {
+		this.work = work;
 	}
-
-	public int getUser2_id() {
-		return user2_id;
+	public String getPhone() {
+		return phone;
 	}
-	public void setUser2_id(int user2_id) {
-		this.user2_id = user2_id;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
-	
-	public String getStart_time() {
-		return start_time;
+	public int getId() {
+		return id;
 	}
-	public void setStart_time(String start_time) {
-		this.start_time = start_time;
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public String getEnd_time() {
-		return end_time;
+	public int getType() {
+		return type;
 	}
-	public void setEnd_time(String end_time) {
-		this.end_time = end_time;
+	public void setType(int type) {
+		this.type = type;
 	}
 	public String lookall() throws SQLException, IOException
 	{
@@ -115,15 +101,27 @@ public class addrelation {
 	    out.close();
 		return "SUCCESS";
 	}
-	public void add_Relation()
+	public void add_Relation() throws SQLException
 	{
-		/*
-		 * 这里边的relation还没有改成数字的类型，需要我们重新定义
-		 */
-		String table_name="a"+getUser_id()+getUser_phone();
-		String sql="insert into "+table_name+" values("+getUser1_id()+","+getUser2_id()+","+getRelation()+","+getStart_time()+","+getEnd_time()+");";
+		System.out.println("----------------\n"+getWork());
+		System.out.println(getType()+"     "+getUser_id());
+		
+		String search_p="select phone from register_person where id="+getUser_id()+";"; 
+		
 		DbUtil con=new DbUtil();
-		con.executeUpdate(sql);//执行插入语句
+		ResultSet rs=con.executeQuery(search_p);
+		
+		String phone="";
+		while(rs.next())
+		{
+			phone=rs.getString(1);
+		}
+		
+		String table_name="a"+getUser_id()+phone;
+		
+		String sql="insert into "+table_name+" values("+getUser_id()+","+getId()+","+getType()+",0,0);";
+		System.out.println(sql);
+		con.executeUpdate(sql);
 		
 	}
 }

@@ -120,6 +120,7 @@ public class search_people {
 		/*
 		 * 按照树的层次遍历的思想，将数据表中的信息，一个一个的查出来。
 		 */
+		System.out.println(table_name);
 		int Q[]=new int[1000];
 		int front=0;
 		int end=0;
@@ -135,12 +136,14 @@ public class search_people {
 			String search_relation="select * from "+table_name+" where user_id="+id+";";
 			rs=con.executeQuery(search_relation);//此时rs包含的内容很重要：一部分是要返回的数据，一部分要取在寻找；
 			int count=conn.executecount(table_name, id);
-			int length=60;
+			int length=120;
 			int k=0;
 			while(rs.next())
 			{
+				System.out.println("id="+rs.getString(1) + " "+"kk=   "+kk);
 				k++;
 				Q[end++]=rs.getInt(2);
+				System.out.println("hao "+rs.getInt(2));
 				int par=rs.getInt(1);
 				int chi=rs.getInt(2);
 				int relation=rs.getInt(3);

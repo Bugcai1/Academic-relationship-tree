@@ -5,6 +5,8 @@
 <html> 
 <head> 
 <title>登录</title> 
+<script type="text/javascript" src="login/jquery.js"></script>
+<script src="login/json2.js"></script>
 <style type="text/css"> 
 body {/*设置背景*/
     margin-left:50px;
@@ -226,13 +228,13 @@ fieldset span {
 
           <div class="inputWrap"> 
 
-            <input type="text" name="userName" placeholder="帐号\姓名\手机号" autofocus required> 
+            <input type="text" name="userName" placeholder="请输入手机号" autofocus required> 
 
           </div> 
 
           <div class="inputWrap"> 
 
-            <input type="password" name="password" placeholder="请输入密码" required> 
+            <input type="password" id="password" name="password" placeholder="请输入账号" required> 
 
           </div> 
 
@@ -244,15 +246,32 @@ fieldset span {
 
           <span>记住密码</span> 
 
-          <a href="#">忘记密码</a> <a href="register">注册</a> <input type="submit" value="登录"> 
+          <a href="#">忘记密码</a> <a href="register.html">注册</a> <input type="button" value="登录" onclick="post()"> 
 
         </fieldset> 
 
       </div> 
 
     </section> 
-
   </form> 
 </div> 
 </body> 
+<script>
+<!--可以添加检查机制-->
+function post()
+{
+	var  getval =$('#password').val();
+	var url="login";
+	$.post(url,{"password":getval},function(data,status){
+		alert(data);
+		alert(status);
+		if(parseInt(data)==1)
+		{
+			window.location.href="search.jsp?cc="+getval;
+		}	
+		else
+			alert("您还没有注册，请您先注册");
+	});	
+}
+</script>
 </html>
