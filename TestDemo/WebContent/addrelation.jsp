@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags" %>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-    <script src="jtopo-0.4.8-min.js"></script>
-		<script type="text/javascript" src="jquery-2.1.4.js"></script>
+    <script src="addrelation/jtopo-0.4.8-min.js"></script>
+    <script type="text/javascript" src="addrelation/jquery.min.js"></script>
+<link rel="Stylesheet" type="text/css" href="addrelation/login.css" />
+		<script type="text/javascript" src="addrelation/jquery-2.1.4.js"></script>
 		<title>添加关系</title>
 		
 
@@ -122,69 +123,14 @@
 					var w=parseInt(screen.width);
 					var c=document.getElementById("relation");    
 				    c.width=w*0.35;
-				    alert(c.width);
 					create(data);
 				});
 			}
 		</script>
-		<script type="text/javascript">
-        function myformatter(date){
-            var y = date.getFullYear();
-            var m = date.getMonth()+1;
-            var d = date.getDate();
-            return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
-        }
-        function myparser(s){
-            if (!s) return new Date();
-            var ss = (s.split('-'));
-            var y = parseInt(ss[0],10);
-            var m = parseInt(ss[1],10);
-            var d = parseInt(ss[2],10);
-            if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
-                return new Date(y,m-1,d);
-            } else {
-                return new Date();
-            }
-        }
-    </script>
 	</head>
 	<body>	
-	<!-- <div id="addo" class="easyui-dialog" style="width:400px;height:300px;padding:10px 20px" closed="true">
-		<form id="fm" method="post">
-			<div class="fitem a" align="right">
-				<label >姓名:</label>
-				<input id="name1" name="name" class="validatebox" required="true">
-			</div>
-			<div class="fitem a" align="right">
-				<label>工作:</label>
-				<input id="work1" name="work" class="validatebox" required="true">
-			</div>
-			<div class="fitem a" align="right">
-				<label>手机号:</label>
-				<input id="phone1" name="phone" class="validatebox" required="true">
-			</div>
-			<div class="fitem a" align="right">
-				<label>性别:</label>
-				<input id="sex1" name="sex" class="validatebox" required="true">
-			</div>
-			<div class="fitem a" align="right">
-				<label>start:</label>
-				<input id="start" name="start" class="easyui-datebox" data-options="formatter:myformatter,parser:myparser"></input>
-				<!--<input id="pud" name="publishDate" class="easyui-validatebox" required="true">-->
-			<!-- </div>
-			<div class="fitem a" align="right">
-				<label>start:</label>
-				<input id="start" name="start" class="easyui-datebox" data-options="formatter:myformatter,parser:myparser"></input>
-				<input id="pud" name="publishDate" class="easyui-validatebox" required="true">
-			</div>
-			<div align="right">
-				<a href="#"  class="easyui-linkbutton" iconCls="icon-ok" onclick="">保存</a>
-				<a href="#"  class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addo').dialog('close')">Cancel</a>
-			</div>
-		</form>
-	</div> -->
-	
-	
+		 
+	<div id="example">
 	<div id="left1"><canvas height="500" id="relation"></canvas></div>
 	<div id="left2">
 		<div id="top">
@@ -218,16 +164,70 @@
 		<input type="text" id="user_id" value=""/>
 		<input type="button" value="show" onclick="shows()">
 		</div>
+	</div>
+	<div id="LoginBox">
+       <form id="fm" method="post">
+            <div class="row1">
+                完善信息<a href="javascript:void(0)" title="关闭窗口" class="close_btn" id="closeBtn">×</a>
+            </div>
+            <div class="row" align="center">
+                姓名:
+                 <input type="text" id="name" placeholder="" />
+            </div>
+            <div class="row" align="center">
+                工作:
+                 <input type="text" id="txtName" placeholder="" />
+                </div>
+            <div class="row" align="center">
+                手机号:
+                 <input type="text" id="txtName" placeholder="" />
+                  </div>
+            <div class="row" align="center">
+                性别:
+                 <input type="text" id="txtName" placeholder="" />
+                
+            <div class="row" align="center">
+                start time:
+                 <input type="text" id="txtName" placeholder="" />
+                
+            </div>
+            <div class="row" align="center">
+                end time:
+                 <input type="text" id="txtName" placeholder="2017-01-30" />
+                
+            </div>
+            <div class="row">
+            <a href="#" id="loginbtn">登录</a>
+        </div>
+        </form>
+    </div>
 		
 		
 	</body>
 	
 	<script type="text/javascript">
 	function shows(){
-		// alert("uuu");
-		// $('#addo').dialog('open');
-		// alert("ggg");
+		 $("body").append("<div id='mask'></div>");
+            $("#mask").addClass("mask").fadeIn("slow");
+            $("#LoginBox").fadeIn("slow");
+
 	}
+
+	$("#loginbtn").hover(function () {
+            $(this).stop().animate({
+                opacity: '1'
+            }, 600);
+        }, function () {
+            $(this).stop().animate({
+                opacity: '0.8'
+            }, 1000);
+        });
+
+	$(".close_btn").hover(function () { $(this).css({ color: 'black' }) }, function () { $(this).css({ color: '#999' }) }).on('click', function () {
+            $("#LoginBox").fadeOut("fast");
+            $("#mask").css({ display: 'none' });
+        });
+
 	function create(data1){
 		
 		var data=eval('('+data1+')');
