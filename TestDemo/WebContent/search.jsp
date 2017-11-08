@@ -161,6 +161,12 @@ function commit(){
 </div>
 </body>
 <script type="text/javascript">
+function deleterelation()
+{
+	var url = "deleterelation";
+	
+}
+
 function search()
 {
 	var url="search";
@@ -220,7 +226,6 @@ function create(data1){
             otherNode.url='#';
             otherNode.id=data[i].child_id;
            	otherNode.click(function(event){
-           		
             });
            	
             otherNode_z[i]=otherNode;

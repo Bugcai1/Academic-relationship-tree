@@ -64,6 +64,7 @@ public class Deleterelation {
             relationNumber =3;
         }
     }
+    
     public String SetTableID()
     {
         int result;
