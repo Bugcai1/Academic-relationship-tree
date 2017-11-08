@@ -32,7 +32,7 @@ public class DbUtil {
      */
     public void createNewPersonTable(String name) throws SQLException
     {
-    	String sql="create table "+name+"(user_id int(3),relation_id int(3),relation int(2),start_time int(20),end_time int(20));";
+    	String sql="create table "+name+"(user_id int(3),relation_id int(3),relation int(2),start_time ver(20),end_time ver(20));";
     	System.out.println(sql);
     	stat.execute(sql);
     }

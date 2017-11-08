@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts2.ServletActionContext;
-
 import SqlCon.DbUtil;
 import freemarker.ext.util.IdentityHashMap;
 import net.sf.json.JSONArray;
@@ -22,6 +20,9 @@ public class search_people {
 	private int relation_type;
 	private int start_time;
 	private int end_time;
+
+	
+
 	
 	
 	public int getSearch_type() {
@@ -261,4 +262,5 @@ public class search_people {
 		
 		
 	}
+	
 }
