@@ -22,7 +22,7 @@ public class Deleterelation {
     private String ID2;
     private String Relation;
     int RelationNumber;
-    SqlCon connects = new SqlCon();
+    DbUtil connects = new DbUtil();
     
     public String getTableID() {
         return TableID;
