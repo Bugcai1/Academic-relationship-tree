@@ -1,27 +1,16 @@
 package action;
 
-
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-import org.apache.struts2.ServletActionContext;
 import SqlCon.DbUtil;
-import freemarker.ext.util.IdentityHashMap;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 public class Deleterelation {
-    
     private String TableID;
     private String ID1;
     private String ID2;
     private String Relation;
-    int RelationNumber;
+    
+    int relationNumber;
     DbUtil connects = new DbUtil();
     
     public String getTableID() {
@@ -33,14 +22,14 @@ public class Deleterelation {
     public String getID1() {
         return ID1;
     }
-    public void setID1(String iD1) {
-        ID1 = iD1;
+    public void setID1(String ID1) {
+        this.ID1 = ID1;
     }
     public String getID2() {
         return ID2;
     }
-    public void setID2(String iD2) {
-        ID2 = iD2;
+    public void setID2(String ID2) {
+        this.ID2 = ID2;
     }
     public String getRelation() {
         return Relation;
@@ -61,11 +50,11 @@ public class Deleterelation {
         }
         else
         {
-            relationNumber =3;
+            relationNumber = 3;
         }
     }
     
-    public String SetTableID()
+    public String deleteAction() throws SQLException
     {
         int result;
         ResultSet phoneset = null;
@@ -78,11 +67,10 @@ public class Deleterelation {
             phone = phoneset.getString(1);
         }
         String table_name="a"+getTableID()+phone;
-        String deletesql = "Delete from "+ table_name + "where user_id =" + ID1 + ",relation_id = "+ ID2 + ",Relation = " + Relation()+";";
-        result = connects.executeUpdata(deletesql);
-        if(result = -1)
+        String deletesql = "Delete from "+ table_name + "where user_id =" + ID1 + ",relation_id = "+ ID2 + ",Relation = " + relationNumber+";";
+        result = connects.executeUpdate(deletesql);
+        if(result == -1)
             return "Failed";
         return "SUCCESS";
     }
-    
 }

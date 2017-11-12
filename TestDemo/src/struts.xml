@@ -26,5 +26,13 @@
         <action name="login" class="action.person_login" method="login">
         	
         </action>
+        
+        <action name="deleteRelation" class="action.Deleterelation" method="deleteAction">
+        	<result name="SUCCESS">/search.jsp</result>
+        </action>
+        
+        <action name="changeRelation" class="action.ChangeRelation" method="changeAction">
+        	<result name="SUCCESS">/search.jsp</result>
+        </action>
     </package>  
 </struts>  

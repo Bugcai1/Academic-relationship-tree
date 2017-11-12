@@ -1,28 +1,17 @@
 package action;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-import org.apache.struts2.ServletActionContext;
 import SqlCon.DbUtil;
-import freemarker.ext.util.IdentityHashMap;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 public class ChangeRelation {
     private int TableID ;
     private String ID1;
     private String ID2;
-    private String PreRelation;
-    private String NowRelation;
-    int pre;
-    int now;
-    SqlCon connects = new SqlCon();
+    private String preRelation;
+    private String nowRelation;
+    private String startTime;
+    private String endTime;
     
     public int getTableID() {
         return TableID;
@@ -33,27 +22,41 @@ public class ChangeRelation {
     public String getID1() {
         return ID1;
     }
-    public void setID1(String iD1) {
-        ID1 = iD1;
+    public void setID1(String ID1) {
+        this.ID1 = ID1;
     }
     public String getID2() {
         return ID2;
     }
-    public void setID2(String iD2) {
-        ID2 = iD2;
+    public void setID2(String ID2) {
+        this.ID2 = ID2;
     }
     public String getPreRelation() {
-        return PreRelation;
+        return preRelation;
     }
     public void setPreRelation(String preRelation) {
-        PreRelation = preRelation;
+        this.preRelation = preRelation;
     }
     public String getNowRelation() {
-        return NowRelation;
+        return nowRelation;
     }
     public void setNowRelation(String nowRelation) {
-        NowRelation = nowRelation;
+        this.nowRelation = nowRelation;
     }
+    public String getStartTime() {
+        return startTime;
+    }
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+    public String getEndTime() {
+        return endTime;
+    }
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+    
+    
     //将输入的关系转化成对应的数字
     public int setRelationNumber(String Relation)
     {
@@ -73,15 +76,17 @@ public class ChangeRelation {
         return relationNumber;
     }
     
-    public void ChangeRelation()
+    public String changeAction() throws SQLException
     {
-        pre = setRelationNumber(PreRelation);
-        now = setRelationNumber(NowRelation);
+    	DbUtil connects = new DbUtil();
+    	int pre;
+        int now;
+        pre = setRelationNumber(preRelation);
+        now = setRelationNumber(nowRelation);
         int result;
         ResultSet phoneset = null;
         String phone = "";
         String search_phone="select phone from register_person where id="+TableID+";";
-        setRelationNumber();
         phoneset = connects.executeQuery(search_phone);
         while(phoneset.next())
         {
@@ -89,10 +94,18 @@ public class ChangeRelation {
         }
         String table_name="a"+getTableID()+phone;
         
-        String deletesql = "Delete from "+ table_name + "where user_id =" + ID1 + ",relation_id = "+ ID2 + ",Relation = " + PreRelation()+";";
-        String addsql = "insert into author (user_id,relation_id,Relation) values('"+ID1+"','"+ID2+"','"+NowRelation+");";
-        connects.executeUpdata(deletesql);
-        connects.executeUpdata(addsql);
+        String deletesql = "Delete from "+ table_name + "where user_id =" + ID1 + ",relation_id = "+ ID2 + ",Relation = " + pre+";";
+        String addsql = "insert into author (user_id, relation_id,Relation, start_time, end_time) values("+ 
+        				ID1 +
+        				", "+ ID2 +
+        				", "+ now +
+        				", \""+startTime+
+        				"\",\""+endTime+
+        				"\";)";
+        result = connects.executeUpdate(deletesql);
+        if (result ==-1) return "Failed";
+        result = connects.executeUpdate(addsql);
+        if (result ==-1 ) return "Failed";
         return "SUCCESS";
     }
 }
