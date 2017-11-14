@@ -73,11 +73,11 @@ public class search_people {
 		int type=getSearch_type();//将查询的类型分为三类，1：代表进行全部的查询操作     2：代表按照关系类型进行查询操作       3：代表按照时间段进行查询操做
 		System.out.println("jjjjj");
 		System.out.println(getId()+"  "+getSearch_type());
-		if(type==1)
+		if(type==100)
 			search_id();
-		else if(type==2)
+		else if(type==10)
 			look_type();
-		else if(type==3)
+		else if(type==1)
 			search_time();
 		return "SUCCESS";
 	}
@@ -141,16 +141,16 @@ public class search_people {
 			int k=0;
 			while(rs.next())
 			{
-				System.out.println("id="+rs.getString(1) + " "+"kk=   "+kk);
+//				System.out.println("id="+rs.getString(1) + " "+"kk=   "+kk);
 				k++;
 				Q[end++]=rs.getInt(2);
-				System.out.println("hao "+rs.getInt(2));
+//				System.out.println("hao "+rs.getInt(2));
 				int par=rs.getInt(1);
 				int chi=rs.getInt(2);
 				int relation=rs.getInt(3);
 				int start=rs.getInt(4);
 				int end_t=rs.getInt(5);
-//				System.out.println(start+" "+end_t);
+				System.out.println("count="+count);
 				
 				String search_information="select * from register_person where id="+par+";";
 				rpar=conn.executeQuery(search_information);
@@ -198,10 +198,14 @@ public class search_people {
 				int x=0;
 				int y=0;
 				
-				x=(int)Math.sin(k/count*Math.PI)*length+dex[pk];
-				y=(int)Math.cos(k/count*Math.PI)*length+dey[pk];
+				
+				System.out.println(k+"  坐标  "+(Math.sin(k*2.0/count*Math.PI))+"   "+dex[pk]);
+				System.out.println((Math.cos(k*2.0/count*Math.PI))+"   "+dey[pk]);
+				x=(int)(Math.sin(k*2.0/count*Math.PI)*length+dex[pk]);
+				y=(int)(Math.cos(k*2.0/count*Math.PI)*length+dey[pk]);
 				dex[++kk]=x;
 				dey[kk]=y;
+				System.out.println("x="+x+"  y="+y);
 				
 				list.put("x",x);
 				list.put("y", y);

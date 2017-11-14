@@ -8,8 +8,8 @@ public class ChangeRelation {
     private int TableID ;
     private String ID1;
     private String ID2;
-    private String preRelation;
-    private String nowRelation;
+//    private String preRelation;
+    private int nowRelation;
     private String startTime;
     private String endTime;
     
@@ -31,16 +31,16 @@ public class ChangeRelation {
     public void setID2(String ID2) {
         this.ID2 = ID2;
     }
-    public String getPreRelation() {
-        return preRelation;
-    }
-    public void setPreRelation(String preRelation) {
-        this.preRelation = preRelation;
-    }
-    public String getNowRelation() {
+//    public String getPreRelation() {
+//        return preRelation;
+//    }
+//    public void setPreRelation(int preRelation) {
+//        this.preRelation = preRelation;
+//    }
+    public int getNowRelation() {
         return nowRelation;
     }
-    public void setNowRelation(String nowRelation) {
+    public void setNowRelation(int nowRelation) {
         this.nowRelation = nowRelation;
     }
     public String getStartTime() {
@@ -58,31 +58,38 @@ public class ChangeRelation {
     
     
     //将输入的关系转化成对应的数字
-    public int setRelationNumber(String Relation)
-    {
-        int relationNumber;
-        if(Relation.equals("老师"))
-        {
-            relationNumber = 1;
-        }
-        else if (Relation.equals("师兄弟"))
-        {
-            relationNumber = 2;
-        }
-        else
-        {
-            relationNumber =3;
-        }
-        return relationNumber;
-    }
     
+    public String deleteAction() throws SQLException
+    {
+    	DbUtil connects = new DbUtil();
+    	ResultSet phoneset = null;
+        String phone = "";
+        String search_phone="select phone from register_person where id="+TableID+";";
+        phoneset = connects.executeQuery(search_phone);
+        while(phoneset.next())
+        {
+            phone = phoneset.getString(1);
+        }
+        String table_name="a"+getTableID()+phone;
+        
+        String sql="delete from "+table_name+" where user_id="+getID1()+" and relation_id="+getID2()+";";
+        
+        System.out.println("删除的语句："+sql);
+        connects.executeUpdate(sql);
+        
+        
+        
+    	return "SUCCESS";
+    }
     public String changeAction() throws SQLException
     {
+    	System.out.println("--------------------------------------------------");
     	DbUtil connects = new DbUtil();
     	int pre;
         int now;
-        pre = setRelationNumber(preRelation);
-        now = setRelationNumber(nowRelation);
+//        pre = setRelationNumber(preRelation);
+//        now = setRelationNumber(nowRelation);
+        now=getNowRelation();
         int result;
         ResultSet phoneset = null;
         String phone = "";
@@ -94,18 +101,9 @@ public class ChangeRelation {
         }
         String table_name="a"+getTableID()+phone;
         
-        String deletesql = "Delete from "+ table_name + "where user_id =" + ID1 + ",relation_id = "+ ID2 + ",Relation = " + pre+";";
-        String addsql = "insert into author (user_id, relation_id,Relation, start_time, end_time) values("+ 
-        				ID1 +
-        				", "+ ID2 +
-        				", "+ now +
-        				", \""+startTime+
-        				"\",\""+endTime+
-        				"\";)";
-        result = connects.executeUpdate(deletesql);
-        if (result ==-1) return "Failed";
-        result = connects.executeUpdate(addsql);
-        if (result ==-1 ) return "Failed";
+        String sql="update "+table_name+" set relation="+now+",start_time='"+getStartTime()+"',end_time='"+getEndTime()+"' where user_id="+getID1()+" and relation_id="+getID2()+";";
+        System.out.println("更新的语句：   "+sql);
+        connects.executeUpdate(sql);
         return "SUCCESS";
     }
 }

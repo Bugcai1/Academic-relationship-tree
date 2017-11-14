@@ -2,6 +2,7 @@ package action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,13 +14,71 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class newregister {
-	private int type;//´«ËÍµÄÊÇ ²åÈëµÄÀàĞÍ
+	private int type;//ä¼ é€çš„æ˜¯ æ’å…¥çš„ç±»å‹
 	private String name;
 	private String id;
 	private String sex;
 	private String work;
 	private String phone;
 	
+	private int user_id;
+	private String start_time;
+	private String end_time;
+	private String relation;
+	private int final_people;
+	
+	
+	
+	public int getUser_id() {
+		return user_id;
+	}
+
+
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
+
+
+	public String getStart_time() {
+		return start_time;
+	}
+
+
+	public void setStart_time(String start_time) {
+		this.start_time = start_time;
+	}
+
+
+	public String getEnd_time() {
+		return end_time;
+	}
+
+
+	public void setEnd_time(String end_time) {
+		this.end_time = end_time;
+	}
+
+
+	public String getRelation() {
+		return relation;
+	}
+
+
+	public void setRelation(String relation) {
+		this.relation = relation;
+	}
+
+
+	public int getFinal_people() {
+		return final_people;
+	}
+
+
+	public void setFinal_people(int final_people) {
+		this.final_people = final_people;
+	}
+
+
 	public int getType() {
 		return type;
 	}
@@ -80,34 +139,13 @@ public class newregister {
 	}
 
 
-	public String insert_people()
-	{
-		if(getType()==1) //type==1£¬±íÊ¾²åÈë×¢²áµÄÈË
-		{
-			try {
-				insert_register_People();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else if(getType()==2)  //type==2µÄÊ±ºò£¬±íÊ¾²åÈëÃ»ÓĞ×¢²áµÄÈË
-		{
-			try {
-				insert_no_register_People();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return "SUCCESS";
-	}
+	
 	
 
 	/*
-	 * ·µ»Ø×¢²á½çÃæµÄid
-	 * Ó¦¸ÃÊÇÏò½çÃæ·µ»Ø£¬ÈçºÎ·µ»Ø£¿£¿£¿£¿£¿£¿£¿
-	 * ÔÚÕâÀïÖ»ÊÇ·µ»Øµ±Ç°µÄĞòºÅÊı£¬idµÄÇ°×ºÔÚ½çÃæÖĞÌí¼Ó¼´¿É
+	 * è¿”å›æ³¨å†Œç•Œé¢çš„id
+	 * åº”è¯¥æ˜¯å‘ç•Œé¢è¿”å›ï¼Œå¦‚ä½•è¿”å›ï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
+	 * åœ¨è¿™é‡Œåªæ˜¯è¿”å›å½“å‰çš„åºå·æ•°ï¼Œidçš„å‰ç¼€åœ¨ç•Œé¢ä¸­æ·»åŠ å³å¯
 	 */
 //	public static void main(String[] args) throws SQLException
 //	{
@@ -130,7 +168,7 @@ public class newregister {
 	}
 	
 	/*
-	 * Î´×¢²áµÄÈËÌí¼ÓÊôÓÚ×Ô¼ºµÄ¹ØÏµ±í
+	 * æœªæ³¨å†Œçš„äººæ·»åŠ å±äºè‡ªå·±çš„å…³ç³»è¡¨
 	 */
 	public void createPerson_Table() throws SQLException
 	{
@@ -139,7 +177,7 @@ public class newregister {
 		con.createNewPersonTable(table_Name);
 	}
 	/*
-	 * ²åÈë×¢²áµÄ³ÉÔ± Ïòregister_person±íÖĞ½øĞĞÌí¼Ó
+	 * æ’å…¥æ³¨å†Œçš„æˆå‘˜ å‘register_personè¡¨ä¸­è¿›è¡Œæ·»åŠ 
 	 */
 	public String insert_register_People() throws SQLException
 	{
@@ -151,15 +189,33 @@ public class newregister {
 		return "SUCCESS";
 	}
 	/*
-	 * ²åÈëÃ»ÓĞ×¢²áµÄÈËÎï//Ïò  no_register_person±íÖĞÌí¼Ó
+	 * æ’å…¥æ²¡æœ‰æ³¨å†Œçš„äººç‰©//å‘  no_register_personè¡¨ä¸­æ·»åŠ 
 	 */
-	public int insert_no_register_People() throws SQLException
+	public String insert_nregister() throws SQLException, IOException
 	{
-		String insert = "insert into register_person values("+getId()+",'"+getName()+"','"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
+		System.out.println("æ²¡æœ‰æ³¨å†Œçš„äººç‰©");
 		DbUtil con=new DbUtil();
+		int r=con.getID();
+		String insert = "insert into no_register_person values("+r+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
 		con.executeUpdate(insert);
-		//´´½¨Ò»¸ö¹ØÏµ±í
-		return 1;
+		System.out.println("**************************\n"+insert);
+		String search_p="select phone from register_person where id="+getFinal_people()+";";
+		System.out.println("77777777777==="+search_p);
+		ResultSet rs=con.executeQuery(search_p);
+		
+		String phone="";
+		while(rs.next())
+		{
+			phone=rs.getString(1);
+		}
+		
+		String table_name="a"+getFinal_people()+phone;
+		
+		String sql="insert into "+table_name+" values("+getUser_id()+","+r+","+getRelation()+",'"+getStart_time()+"','"+getEnd_time()+"');";
+		System.out.println("æ’å…¥å‡½æ•°      "+sql);
+		con.executeUpdate(sql);
+		
+		return "SUCCESS";
 	}
 	
 }

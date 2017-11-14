@@ -10,7 +10,7 @@
 <style type="text/css"> 
 body {/*设置背景*/
     margin-left:50px;
-    background-image:url('imag.jpg');
+    background-image:url(bg.jpg);
     background-size: 100%,100%;
     overflow: scroll;
 }
@@ -19,7 +19,8 @@ body {/*设置背景*/
     width:380px; 
     overflow:scroll; 
     float:none;
-    background-color:#000000;
+    background-color:#;
+
 } 
 .loginForm{ 
     position:absolute; 
@@ -246,7 +247,7 @@ fieldset span {
 
           <span>记住密码</span> 
 
-          <a href="#">忘记密码</a> <a href="register.html">注册</a> <input type="button" value="登录" onclick="post()"> 
+          <a href="#">忘记密码</a> <a href="register.jsp">注册</a> <input type="button" value="登录" onclick="post()"> 
 
         </fieldset> 
 
@@ -263,8 +264,8 @@ function post()
 	var  getval =$('#password').val();
 	var url="login";
 	$.post(url,{"password":getval},function(data,status){
-		alert(data);
-		alert(status);
+		//alert(data);
+		//alert(status);
 		if(parseInt(data)==1)
 		{
 			window.location.href="search.jsp?cc="+getval;

@@ -7,12 +7,20 @@
 		<meta charset="UTF-8">
     <script src="addrelation/jtopo-0.4.8-min.js"></script>
     <script type="text/javascript" src="addrelation/jquery.min.js"></script>
-<link rel="Stylesheet" type="text/css" href="addrelation/login.css" />
+	<link rel="Stylesheet" type="text/css" href="addrelation/login.css" />
 		<script type="text/javascript" src="addrelation/jquery-2.1.4.js"></script>
+		<link rel="stylesheet" type="text/css" href="addrelation/common.css" />
+<link rel="stylesheet" type="text/css" href="addrelation/modal.css" />
+<link rel="stylesheet" type="text/css" href="css/search.css" />
+<script type="text/javascript" src="addrelation/moudel.js"></script>
 		<title>添加关系</title>
 		
 
 		<style>
+		
+		
+		
+		
 			*{padding:0px;margin:0px}
 			*{padding:0px;margin:0px}
 			table,thead{width: 100%;}
@@ -73,20 +81,20 @@
 			width:40%;
 			margin-right:1%;
 			float:left;
-			background:red;
+			background:white;
 		}
 		#left2{
 			height:500px;
 			width:23%;
 			margin-right:1%;
 			float:left;
-			background:red;
+			background:white;
 		}
 		#left3{
 			height:500px;
-			width:25%;
+			width:35%;
 			float:left;
-			background:pink;
+			background:white;
 		}
 			
 			#div_teacher ul li p{50%;text-align: right;flex: 1;}
@@ -119,17 +127,29 @@
 					}
 				},'json');
 				var urll="search";
-				$.post(urll,{"id":1,"search_type":1},function(data,status){
+				$.post(urll,{"id":1,"search_type":100},function(data,status){
 					var w=parseInt(screen.width);
 					var c=document.getElementById("relation");    
-				    c.width=w*0.35;
+				    c.width=w*0.4;
 					create(data);
 				});
 			}
 		</script>
 	</head>
 	<body>	
-		 
+		 <div>
+	<section class="demo" style="background:green">
+	<ol class="nav">
+      <li><a href="login.jsp">登陆</a></li>
+      <li><a href="#">About Me</a></li>
+      <li><a href="search.jsp">查询</a></li>
+      <li><a href="search.jsp">修改</a></li>
+      <li><a href="">合并</a></li>
+      <li><a href="addrelation.jsp">添加</a></li>
+    </ol>
+    </section>
+</div>
+
 	<div id="example">
 	<div id="left1"><canvas height="500" id="relation"></canvas></div>
 	<div id="left2">
@@ -141,10 +161,11 @@
 		</div>
 	</div>
 	<div id="left3">
-	<div id="div_brother" ondrop="drop_brother()" ondragover="allowDrop(event)">
-				<div class="div_panel">
-					<table border="0" cellspacing="0" cellpadding="0">
-						<caption><h2>添加的师兄弟</h2></caption>
+		<div align="center">这是<input type="text" id="final_people"/>的关系树</div>
+		<div id="div_brother" ondrop="drop_brother()" ondragover="allowDrop(event)">
+			<div class="div_panel">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<caption><h2>添加的人物</h2></caption>
 						<thead>
 							<tr>
 								<th>姓名</th>
@@ -155,56 +176,83 @@
 							</tr>
 						</thead>
 						<tbody id="u2_panel"></tbody>
-					</table>
-				</div>
+				</table>
 			</div>
-	
-	</div>
-		<div >
-		<input type="text" id="user_id" value=""/>
-		<input type="button" value="show" onclick="shows()">
 		</div>
 	</div>
+	</br>
+		<div>
+		<input type="hidden" id="user_id" value=""/></br>
+		<input type="hidden" id="start_time"/></br>
+		<input type="hidden" id="end_time"/></br>
+		<input type="hidden" id="type">
+		</div>
+	</div>
+	<div id="diag" class="key-word"><a href="javascript:;" id="add-key2" data-title="填写新成员信息">创建新人物</a></div>
 	<div id="LoginBox">
-       <form id="fm" method="post">
+       <form id="fmm" method="post">
             <div class="row1">
                 完善信息<a href="javascript:void(0)" title="关闭窗口" class="close_btn" id="closeBtn">×</a>
             </div>
             <div class="row" align="center">
-                姓名:
-                 <input type="text" id="name" placeholder="" />
-            </div>
+               <font size="12px">关系:</font>
+                 <select id="type_z">
+                 	<option value="1">老师</option>
+					<option value="2">师兄弟</option>
+					<option value="3">学生</option>
+                 </select>  
             <div class="row" align="center">
-                工作:
-                 <input type="text" id="txtName" placeholder="" />
-                </div>
-            <div class="row" align="center">
-                手机号:
-                 <input type="text" id="txtName" placeholder="" />
-                  </div>
-            <div class="row" align="center">
-                性别:
-                 <input type="text" id="txtName" placeholder="" />
-                
-            <div class="row" align="center">
-                start time:
-                 <input type="text" id="txtName" placeholder="" />
+                <font size="12px">开始时间:</font>
+                 <input type="text" id="start" placeholder="2017-01-30" />
                 
             </div>
             <div class="row" align="center">
-                end time:
-                 <input type="text" id="txtName" placeholder="2017-01-30" />
+                <font size="12px">结束时间:</font>
+                 <input type="text" id="end" placeholder="2017-01-30" />
                 
             </div>
             <div class="row">
-            <a href="#" id="loginbtn">登录</a>
+            <a href="#" id="btn" onclick="submit()">保存</a>
         </div>
         </form>
-    </div>
-		
-		
+    </div>	
 	</body>
-	
+	<script type="text/javascript">
+			 $("#add-key2").click(function(){
+			        $("#add-key2").createModal({
+			            background: "red",//设定弹窗之后的覆盖层的颜色
+			            width: "1000px",//设定弹窗的宽度
+			            height: "500px",//设定弹窗的高度
+			            resizable: true,//设定弹窗是否可以拖动改变大小
+						bgClose: true,
+						html:"<form id=\"addnew\">"+
+						"<div class=\"row\" align=\"center\">name:<input type=\"text\" id=\"new_name\"></br></div>"+
+			            "<div class=\"row\" align=\"center\">sex:<input type=\"text\" id=\"new_sex\"></br></div>"+
+			            "<div class=\"row\" align=\"center\">phone:<input type=\"text\" id=\"new_phone\"></br></div>"+
+			            "<div class=\"row\" align=\"center\">work:<input type=\"text\" id=\"new_work\"></br></div>"+
+			            "<div class=\"row\" align=\"center\">start time<input type=\"text\" id=\"new_start\"></br></div>"+
+			            "<div class=\"row\" align=\"center\">end time<input type=\"text\" id=\"new_end\"></br></div>"+
+			            "<div class=\"row\" align=\"center\">relation:<select id=\"new_type_z\"></div>"+
+			                    "<option value=\"1\">teacher</option>"+
+			                    "<option value=\"2\">brother</option>"+
+			                    "<option value=\"3\">student</option>"+
+			                 "</select></div>"+
+			            "<div class=\"row\" align=\"center\"><input type=\"button\" value=\"submit\" onclick=\"show()\"></div></form>" 
+			            	});
+			    });
+			    function show()
+			    {
+			    	/*
+			    	*首先进行未注册人的登记
+			    	*/
+			    	var url="insert_no_register_people";
+			    	alert("final="+$('#final_people').val());
+			    	$.post(url,{"final_people":$('#final_people').val(),"type":2,"name":$('#new_name').val(),"sex":$('#new_sex').val(),"phone":$('#new_phone').val(),"work":$('#new_work').val(),"user_id":$('#user_id').val(),"relation":$('#new_type_z').val(),"start_time":$('#new_start').val(),"end_time":$('#new_end').val()},function(data,status){
+			    		document.getElementById('close').click();
+			    	});
+			        /*窗口关闭的函数*/
+			    }
+	</script>
 	<script type="text/javascript">
 	function shows(){
 		 $("body").append("<div id='mask'></div>");
@@ -212,37 +260,44 @@
             $("#LoginBox").fadeIn("slow");
 
 	}
-
+	
 	$("#loginbtn").hover(function () {
-            $(this).stop().animate({
-                opacity: '1'
-            }, 600);
-        }, function () {
-            $(this).stop().animate({
-                opacity: '0.8'
-            }, 1000);
-        });
+        $(this).stop().animate({
+            opacity: '1'
+        }, 600);
+    }, function () {
+        $(this).stop().animate({
+            opacity: '0.8'
+        }, 1000);
+    });
 
-	$(".close_btn").hover(function () { $(this).css({ color: 'black' }) }, function () { $(this).css({ color: '#999' }) }).on('click', function () {
-            $("#LoginBox").fadeOut("fast");
-            $("#mask").css({ display: 'none' });
-        });
+$(".close_btn").hover(function () { $(this).css({ color: 'black' }) }, function () { $(this).css({ color: '#999' }) }).on('click', function () {
+        $("#LoginBox").fadeOut("fast");
+        $("#mask").css({ display: 'none' });
+    });
+	
+	var canvas = document.getElementById('relation');
+            var stage = new JTopo.Stage(canvas); // 创建一个舞台对象
+            //var scene = new JTopo.Scene(stage); // 创建一个场景对象
 
 	function create(data1){
-		
 		var data=eval('('+data1+')');
 	    var i=0;
 	    var k=0;
 	    var parent=data[0].parent_id;
-	    var canvas = document.getElementById('relation');
-	    var stage = new JTopo.Stage(canvas); // 创建一个舞台对象
+	    stage.clear();
+	    //var canvas = document.getElementById('relation');
+	    //var stage = new JTopo.Stage(canvas); // 创建一个舞台对象
 	    var scene = new JTopo.Scene(stage); // 创建一个场景对象
-	    scene.backgroundColor="#AE0000";
+	    scene.backgroundColor="#f1f1f1";
 	    var userNode = new JTopo.Node(); // 创建一个节点
-	    userNode.setBound(137, 117, 66, 66); // 同时设置大小及位置
+	    userNode.setBound(250, 200, 66, 66); // 同时设置大小及位置
 	    userNode.showSelected = true; // 不显示选中矩形
 	    userNode.setImage('1.png'); // 设置图片
 	    userNode.id=parent;
+	    userNode.click(function(event){
+	    	$('#user_id').val(this.id);
+	    });
 	    scene.add(userNode); // 放入到场景中
 	    var num=data.length,jr=true,py=true,ts=true;
 	    var link_all=new Array();
@@ -253,52 +308,39 @@
 	        while(parseInt(parent)==parseInt(temp))
 	        {
 	            var otherNode = new JTopo.Node(); // 创建一个节点
-	            otherNode.setBound(300+data[i].x, 200+data[i].y,50, 50); // 同时设置大小及位置
+	            otherNode.setBound(250+data[i].x, 200+data[i].y,50, 50); // 同时设置大小及位置
 	            otherNode.borderRadius = 50; // 圆角
 	            otherNode.setImage('2.png', false); // 设置图片
-	            otherNode.showSelected = false; // 不显示选中矩形
+	            otherNode.showSelected = true; // 不显示选中矩形
 	            scene.add(otherNode); // 放入到场景中
 	            otherNode.url='#';
 	            otherNode.id=data[i].child_id;
 	           	otherNode.click(function(event){
-	           		alert(this.id);
+	           		$('#user_id').val(this.id);
 	            });
 	           	
 	            otherNode_z[i]=otherNode;
 	            var link;
 	            if(parseInt(data[i].relation)==1){
-	                if(jr==true){
-	                    jr=false;
-	                    link = new JTopo.Link(userNode, otherNode,data[i].relation); // 增加连线
-	                }else{
-	                    link = new JTopo.Link(userNode, otherNode); // 增加连线
-	            }
-	            link.strokeColor ='235, 175, 66';
-	        }else if(parseInt(data[i].relation)==4){
-	            // alert("44");
-	            if(ts==true){
-	                ts=false;
-	                link = new JTopo.Link(userNode, otherNode,data[i].relation); // 增加连线
-	            }else{
-	                link = new JTopo.Link(userNode, otherNode); // 增加连线
-	            }
-	            link.strokeColor ='242, 75, 74';
-	        }else if(parseInt(data[i].relation)==3){
-	            // alert("33");
-	            if(py==true){
-	                py=false;
-	                link = new JTopo.Link(userNode, otherNode,data[i].relation); // 增加连线
-	            }else{
-	                link = new JTopo.Link(userNode, otherNode); // 增加连线
-	            }
-	            link.strokeColor ="61, 124, 201";
-	        }
+	            	link = new JTopo.Link(userNode, otherNode); // 增加连线
+	            	link.strokeColor ='235, 175, 66';
+	        	}
+	            else if(parseInt(data[i].relation)==2){
+	            	link = new JTopo.Link(userNode, otherNode); // 增加连线
+	            	link.strokeColor ='242, 75, 74';
+	        	}
+	            else if(parseInt(data[i].relation)==3){
+	            	link = new JTopo.Link(userNode, otherNode); // 增加连线
+	            	link.strokeColor ="61, 124, 201";
+	        	}
 	            i++;
 	            link.par=userNode.id;
 	            link.child=otherNode.id;
 	            link.ps=i-1;
 	            link.click(function(){
 	            	$('#par').val(data[this.ps].parent_name);
+	            	$('#par_id').val(this.par);
+	            	$('#chi_id').val(this.child);
 	            	$('#chi').val(data[this.ps].child_name);
 	            	$('#rela').val(data[this.ps].relation);
 	            });
@@ -307,17 +349,15 @@
 	        }
 	        
 	        var j=0;
-	        // alert("uu");
 	        while(j<i)
 	        {
 	            if(parseInt(data[j].child_id)==parseInt(data[i].parent_id))
 	            {
 	                break;
 	            }
+	            j=j+1;
 	        }
-	        // alert("j="+j);
 	        userNode=otherNode_z[j];
-	        //alert(userNode.getImage());
 	        parent=data[i].parent_id;
 	    }
 	}
@@ -328,6 +368,8 @@
 		var sex="";
 		var phone="";
 		var id="";
+		var start="";
+		var end="";
 		var data_brother=[];
 		function allowDrop(e){
 			e.preventDefault();
@@ -335,12 +377,12 @@
 		/*点击图片时就执行*/
 		function drag(t){
 			name=$(t).siblings("#inp_name").val();
-			/*sex=$(t).siblings("#inp_sex").val();
+			sex=$(t).siblings("#inp_sex").val();
 			work=$(t).siblings("#inp_work").val();
-			phone=$(t).siblings("#inp_phone").val();*/
+			phone=$(t).siblings("#inp_phone").val();
 			id=$(t).siblings("#pid").val();
 		}
-		function addJson(data,name,sex,work,phone){
+		function addJson(data,name,sex,work,phone,start,end){
 			for(var j=0;j<data.length;j++){
 				if(data[j].name==name){
 					return;
@@ -351,35 +393,61 @@
 			 	sex:sex,
 				work:work,
 			 	phone:phone,
+			 	start:start,
+			 	end:end,
 			});
 		}
+		//添加已有成员进行的提交，即填写后的日期节点的属性的提交
+		function submit()
+		{
+			var s=$('#type_z').val();
+	
+			start=$('#start').val();
+			end=$('#end').val();
 
-		function showdata(){
-			alert("data"+data_brother);
-			for(var i=0;i<data_brother;i++)
-			{	
-			}
+			$('#start_time').val(start);
+			$('#end_time').val(end);
+			$('#type').val(s);
+			
+			 $("#LoginBox").fadeOut("fast");
+	         $("#mask").css({ display: 'none' });
+	         
+	        addJson(data_brother,name,sex,work,phone,start,end);
+			addHtml_brother();
+			
+			var url="insertRelation";
+
+			$.post(url,{"final_people":$('#final_people').val(),"user_id":$('#user_id').val(),"user2_id":id,"relation":s,"start":start,"end":end},function(data,status){
+				alert(status);
+				showNew();		
+			});
+			
+		}
+		function showNew(){
+			var urll="search";
+                                $.post(urll,{"id":1,"search_type":100},function(data,status){
+                                        var w=parseInt(screen.width);
+                                        var c=document.getElementById("relation");    
+                                    c.width=w*0.4;
+                                        create(data);
+			})
+		}
+		function drop_brother(){
+			shows();
 		}
 		function addHtml_brother(){
 			var text_html=''
-				var totalMoney=0;
 				$("#u2_panel").html("");
 				for(var i=0;i<data_brother.length;i++){
-					text_html+='<tr><td>'+data_brother[i].name+'</td><td>'+data_brother[i].start+'</td>'+'<td>'+data_brother[i].end+'</td>'+'<td><a onclick="reduce_brother(\'\'+'+i+',this)">删除</a></td></tr>';
+					//text_html+='<tr><td>'+data_brother[i].name+'</td><td>'+start+'</td>'+'<td>'+end+'</td>'+'<td>'+$('#type_z').val()+'</td>'+'<td><a onclick="reduce_brother(\'\'+'+i+',this)">删除</a></td></tr>';
+				text_html+='<tr><td>'+data_brother[i].name+'</td><td>'+data_brother[i].start+'</td>'+'<td>'+data_brother[i].end+'</td>'+'<td>'+$('#type_z').val()+'</td>'+'<td><a onclick="reduce_brother(\'\'+'+i+',this)">删除</a></td></tr>';
 				}
 				$("#u2_panel").append(text_html);
 		}	
-		function drop_brother(){
-			
-			alert("hhh");
-			addJson(data_brother,name,sex,work,phone);
-			addHtml_brother();
-		}
 		function reduce_brother(a,t){
 			data_brother.splice(a,1);
 			addHtml_brother();
-		}
-		
+		}		
 	</script>
 	
 </html>

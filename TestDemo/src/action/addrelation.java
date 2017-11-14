@@ -1,13 +1,3 @@
-/*
- * ¶ÔÓÚÉ¾³ı²Ù×÷µÄ¸ĞÏë
- * 
- * Ó¦¸ÃÔÚÀ­¶¯ÈÎÎñ½ø±íµÄÊ±¿Ì¾Í½«ÈÎÎñÌí¼Óµ½×Ô¼ºµÄ¹ØÏµÖĞ£¬µã»÷É¾³ıÈ»ºó´Ó¹ØÏµÖĞÉ¾³ı
- * 
- * 1.·½±ã £ººóÌ¨²»ÓÃÒ»Æğ½âÎöjson£»
- * 2.¶ÔÓÚÖ¸¶¨¶à²ã¹ØÏµ¾ßÓĞºÃ´¦ £¬¿ÉÒÔËæÊ±±ä¸ü
- */
-
-
 
 package action;
 
@@ -24,55 +14,51 @@ import SqlCon.DbUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-public class addrelation {
+public class addrelation {	
 	private int user_id;
-	private String name;
-	private String sex;
-	private String work;
-	private String phone;
-	private int id;
-	private int type;
+	private int user2_id;
+	private int relation;
+	private String start;
+	private String end;
+	private int final_people;
+	
+	public int getFinal_people()
+	{
+		return final_people;
+	}
+	public void setFinal_people(int final_people)
+	{
+		this.final_people=final_people;
+	}
 	public int getUser_id() {
 		return user_id;
 	}
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
-	public String getName() {
-		return name;
+	public int getUser2_id() {
+		return user2_id;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setUser2_id(int user2_id) {
+		this.user2_id = user2_id;
 	}
-	public String getSex() {
-		return sex;
+	public int getRelation() {
+		return relation;
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setRelation(int relation) {
+		this.relation = relation;
 	}
-	public String getWork() {
-		return work;
+	public String getStart() {
+		return start;
 	}
-	public void setWork(String work) {
-		this.work = work;
+	public void setStart(String start) {
+		this.start = start;
 	}
-	public String getPhone() {
-		return phone;
+	public String getEnd() {
+		return end;
 	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getType() {
-		return type;
-	}
-	public void setType(int type) {
-		this.type = type;
+	public void setEnd(String end) {
+		this.end = end;
 	}
 	public String lookall() throws SQLException, IOException
 	{
@@ -82,6 +68,17 @@ public class addrelation {
 		rs=con.executeQuery(sql);
 		JSONArray json=new JSONArray();
 		JSONObject list=new JSONObject();
+		while(rs.next())
+		{
+			list.put("id",rs.getString(1));
+			list.put("name", rs.getObject(2));
+			list.put("sex", rs.getString(3));
+			list.put("work", rs.getString(4));
+			list.put("phone", rs.getString(5));
+			json.add(list);
+		}
+		sql="select * from no_register_person;";
+		rs=con.executeQuery(sql);
 		while(rs.next())
 		{
 			list.put("id",rs.getString(1));
@@ -101,13 +98,11 @@ public class addrelation {
 	    out.close();
 		return "SUCCESS";
 	}
-	public void add_Relation() throws SQLException
+	public String add_Relation() throws SQLException
 	{
-		System.out.println("----------------\n"+getWork());
-		System.out.println(getType()+"     "+getUser_id());
-		
-		String search_p="select phone from register_person where id="+getUser_id()+";"; 
-		
+		System.out.println("æ’å…¥çš„å‡½æ•°â€œ");
+		String search_p="select phone from register_person where id="+getFinal_people()+";"; 
+//		System.out.println(search_p);
 		DbUtil con=new DbUtil();
 		ResultSet rs=con.executeQuery(search_p);
 		
@@ -117,11 +112,10 @@ public class addrelation {
 			phone=rs.getString(1);
 		}
 		
-		String table_name="a"+getUser_id()+phone;
-		
-		String sql="insert into "+table_name+" values("+getUser_id()+","+getId()+","+getType()+",0,0);";
-		System.out.println(sql);
+		String table_name="a"+getFinal_people()+phone;
+		String sql="insert into "+table_name+" values("+getUser_id()+","+getUser2_id()+","+getRelation()+","+getStart()+","+getEnd()+");";
+//		System.out.println(sql);
 		con.executeUpdate(sql);
-		
+		return "SUCCESS";
 	}
 }
