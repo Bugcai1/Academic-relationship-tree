@@ -1,121 +1,175 @@
 package action;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+
 import SqlCon.DbUtil;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public class newregister {
-	private int type;//´«ËÍµÄÊÇ ²åÈëµÄÀàĞÍ
+	private int type;//æµ¼çŠ»ï¿½ä½ºæ®‘é„ï¿½ é»æ‘å†é¨å‹­è¢«é¨ï¿½
 	private String name;
-	private String nickname;
-	private String position;
-	private String birthday;
-	private String qq;
+	private String id;
 	private String sex;
-	private String introduce;
+	private String work;
 	private String phone;
 	
-	public int getType()
-	{
+	private int user_id;
+	private String start_time;
+	private String end_time;
+	private String relation;
+	private int final_people;
+	
+	
+	
+	public int getUser_id() {
+		return user_id;
+	}
+
+
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
+
+
+	public String getStart_time() {
+		return start_time;
+	}
+
+
+	public void setStart_time(String start_time) {
+		this.start_time = start_time;
+	}
+
+
+	public String getEnd_time() {
+		return end_time;
+	}
+
+
+	public void setEnd_time(String end_time) {
+		this.end_time = end_time;
+	}
+
+
+	public String getRelation() {
+		return relation;
+	}
+
+
+	public void setRelation(String relation) {
+		this.relation = relation;
+	}
+
+
+	public int getFinal_people() {
+		return final_people;
+	}
+
+
+	public void setFinal_people(int final_people) {
+		this.final_people = final_people;
+	}
+
+
+	public int getType() {
 		return type;
 	}
-	public void setType(int type)
-	{
-		this.type=type;
+
+
+	public void setType(int type) {
+		this.type = type;
 	}
+
+
 	public String getName() {
 		return name;
 	}
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getNickname() {
-		return nickname;
+
+
+	public String getId() {
+		return id;
 	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+
+
+	public void setId(String id) {
+		this.id = id;
 	}
-	public String getPosition() {
-		return position;
-	}
-	public void setPosition(String position) {
-		this.position = position;
-	}
-	public String getBirthday() {
-		return birthday;
-	}
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-	public String getQq() {
-		return qq;
-	}
-	public void setQq(String qq) {
-		this.qq = qq;
-	}
+
+
 	public String getSex() {
 		return sex;
 	}
+
+
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public String getIntroduce() {
-		return introduce;
+
+
+	public String getWork() {
+		return work;
 	}
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
+
+
+	public void setWork(String work) {
+		this.work = work;
 	}
+
+
 	public String getPhone() {
 		return phone;
 	}
+
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public int getId()
-	{
-		int id=1;
-		return id;
-	}
+
+
 	
-	public String insert_people()
-	{
-		if(getType()==1) //type==1£¬±íÊ¾²åÈë×¢²áµÄÈË
-		{
-			try {
-				insert_register_People();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else if(getType()==2)  //type==2µÄÊ±ºò£¬±íÊ¾²åÈëÃ»ÓĞ×¢²áµÄÈË
-		{
-			try {
-				insert_no_register_People();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return "SUCCESS";
-	}
 	
 
 	/*
-	 * ·µ»Ø×¢²á½çÃæµÄid
-	 * Ó¦¸ÃÊÇÏò½çÃæ·µ»Ø£¬ÈçºÎ·µ»Ø£¿£¿£¿£¿£¿£¿£¿
-	 * ÔÚÕâÀïÖ»ÊÇ·µ»Øµ±Ç°µÄĞòºÅÊı£¬idµÄÇ°×ºÔÚ½çÃæÖĞÌí¼Ó¼´¿É
+	 * æ©æ–¿æ´–å¨‰ã„¥å”½é£å²„æ½°é¨åˆ¬d
+	 * æ´æ—‡î‡šé„îˆšæ‚œé£å²„æ½°æ©æ–¿æ´–é”›å±½î›§æµ£æ›¡ç¹‘é¥çƒ‡ç´µé”›ç‡‚ç´µé”›ç‡‚ç´µé”›ç‡‚ç´µ
+	 * é¦ã„¨ç¹–é–²å±½å½§é„îˆç¹‘é¥ç‚²ç¶‹é“å¶‡æ®‘æ´å¿“å½¿éå¸®ç´idé¨å‹«å¢ ç¼‚ï¿½é¦ã„§æ™«é—ˆî­è…‘å¨£è¯²å§é—å†²å½²
 	 */
-	public int get_person_id()
+//	public static void main(String[] args) throws SQLException
+//	{
+//		System.out.println(get_person_id());
+//	}
+	public String getpersonid() throws SQLException, IOException
 	{
+		System.out.println("-----------1111111111");
 		int r=0;
 		DbUtil con=new DbUtil();
 		r=con.getID();
-		return r;
+		HttpServletResponse response=ServletActionContext.getResponse(); 
+		response.setContentType("text/html;charset=utf-8");  
+	    PrintWriter out = response.getWriter(); 
+
+	    out.println(r);
+	   
+	    out.flush();  
+	    out.close();
+		return "SUCCESS";
 	}
 	
 	/*
-	 * Î´×¢²áµÄÈËÌí¼ÓÊôÓÚ×Ô¼ºµÄ¹ØÏµ±í
+	 * éˆî…æ•éå²€æ®‘æµœçƒ˜åŠé”çŠ²ç˜æµœåº¤åšœå®¸è¾©æ®‘éå´‡éƒ´ç›ï¿½
 	 */
 	public void createPerson_Table() throws SQLException
 	{
@@ -124,26 +178,48 @@ public class newregister {
 		con.createNewPersonTable(table_Name);
 	}
 	/*
-	 * ²åÈë×¢²áµÄ³ÉÔ± Ïòregister_person±íÖĞ½øĞĞÌí¼Ó
+	 * é»æ‘å†å¨‰ã„¥å”½é¨å‹¬åšé›ï¿½ éšæ††egister_personç›ã„¤è…‘æ©æ¶œî”‘å¨£è¯²å§
 	 */
-	public int insert_register_People() throws SQLException
+	public String insert_register_People() throws SQLException
 	{
-		String insert = "insert into register_person values("+getId()+",'"+getNickname()+"','"+getName()+"','"+getPosition()+"','"+getBirthday()+"','"+getSex()+"','"+getQq()+"','"+getPhone()+"');";
+		
+		String insert = "insert into register_person values("+getId()+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
+		System.out.println("man    "+insert);
+//		return "success";
 		DbUtil con=new DbUtil();
 		con.executeUpdate(insert);
 		createPerson_Table();
-		return 1;
+//		System.out.print(insert);
+		return "SUCCESS";
 	}
 	/*
-	 * ²åÈëÃ»ÓĞ×¢²áµÄÈËÎï//Ïò  no_register_person±íÖĞÌí¼Ó
+	 * é»æ‘å†å¨Œâ„ƒæ¹å¨‰ã„¥å”½é¨å‹ªæ±‰é—ï¿½//éšï¿½  no_register_personç›ã„¤è…‘å¨£è¯²å§
 	 */
-	public int insert_no_register_People() throws SQLException
+	public String insert_nregister() throws SQLException, IOException
 	{
-		String insert = "insert into no_register_person values("+getId()+",'"+getNickname()+"','"+getName()+"','"+getPosition()+"','"+getBirthday()+"','"+getSex()+"','"+getQq()+"','"+getPhone()+"');";
+		System.out.println("å¨Œâ„ƒæ¹å¨‰ã„¥å”½é¨å‹ªæ±‰é—ï¿½");
 		DbUtil con=new DbUtil();
+		int r=con.getID();
+		String insert = "insert into no_register_person values("+r+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
 		con.executeUpdate(insert);
-		//´´½¨Ò»¸ö¹ØÏµ±í
-		return 1;
+		System.out.println("**************************\n"+insert);
+		String search_p="select phone from register_person where id="+getFinal_people()+";";
+		System.out.println("77777777777==="+search_p);
+		ResultSet rs=con.executeQuery(search_p);
+		
+		String phone="";
+		while(rs.next())
+		{
+			phone=rs.getString(1);
+		}
+		
+		String table_name="a"+getFinal_people()+phone;
+		
+		String sql="insert into "+table_name+" values("+getUser_id()+","+r+","+getRelation()+",'"+getStart_time()+"','"+getEnd_time()+"');";
+		System.out.println("é»æ‘å†é‘èŠ¥æšŸ      "+sql);
+		con.executeUpdate(sql);
+		
+		return "SUCCESS";
 	}
 	
 }

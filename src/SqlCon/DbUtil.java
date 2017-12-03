@@ -32,9 +32,24 @@ public class DbUtil {
      */
     public void createNewPersonTable(String name) throws SQLException
     {
-    	String sql="create table a"+name+"(user_id int(3),relation_id int(3),relation int(2),start_time int(20),end_time int(20);";
+    	String sql="create table "+name+"(user_id int(3),relation_id int(3),relation int(2),start_time varchar(20),end_time varchar(20));";
     	System.out.println(sql);
     	stat.execute(sql);
+    }
+    /*
+     * 查数的功能
+     */
+    public int executecount(String table_name,int id,String sql) throws SQLException
+    {
+    	int count=0;
+    	String str="select * from "+table_name+" where user_id="+id+sql+";";
+//    	System.out.println(str);
+    	rs=stat.executeQuery(str);
+    	while(rs.next())
+    	{
+    		count++;
+    	}
+    	return count;
     }
     /*
      * 创建注册函数的数据表
@@ -72,9 +87,17 @@ public class DbUtil {
     /*
      *返回id的函数（即查询注册表和未注册表表的所有数据个数之和，然后加1）
      */
-    public int getID()
+    public int getID() throws SQLException
     {
     	int count=0;
+    	String one="select count(*) from register_person;";
+    	rs=stat.executeQuery(one);
+    	while(rs.next())
+    		count=rs.getInt(1);
+    	String two="select count(*) from no_register_person;";
+    	rs=stat.executeQuery(two);
+    	while(rs.next())
+    		count=count+rs.getInt(1);
     	return count+1;
     }
 }
