@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>完善个人信息</title>
+<link type="text/css" rel="stylesheet" href="style.css" media="screen">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="index.js"></script>
+</head>
+<body>
+<section class="container">
+<form>
+	<fieldset class="alpha">
+		<legend><b>1. </b>个人信息</legend>
+
+		<div class="frow">
+        	<input id="file" class="item" type="file" name="uploadFile"></div>
+        <div class="frow">
+        	<input class="item" type="button" value="上传" onclick="shangchuan()">
+		</div>
+		<!-- 上传图片部分 -->
+
+		<div class="frow">
+        	<input id="user_id" class="item" type="text" name="ID">
+        </div>
+
+		<div class="frow">
+			<input id="uesr_name" class="item" placeholder="用户名" type="text">
+		</div>
+		<div class="frow">
+			<input id="sex" class="item" placeholder="性别" type="text">
+		</div>
+		<div class="frow">
+			<a class="next-step" href="#">下一步</a>
+		</div>
+	</fieldset>
+	<fieldset class="beta">
+		<legend><b>2. </b>社交信息</legend>
+		<div class="frow">
+			<input id="phone" class="item" placeholder="手机号" required type="text">
+		</div>
+		<div class="frow">
+			<input id="work" class="item" placeholder="工作" required type="text">
+		</div>
+		<div class="frow">
+			<a class="prev-step" href="#">上一步</a>
+		</div>
+		<div class="frow">
+			<input class="submit" type="button" value="完成">
+		</div>
+	</fieldset>
+
+	<fieldset class="charlie">
+		<legend><b>3. </b>完成</legend>
+		<div class="frow">
+			<p>您的信息已经填写完整，谢谢！</p>
+		</div>
+	</fieldset>
+</form>
+</section>
+
+</body>
+</html>
+
+<input type="radio" id="male" name="w" value="1"/>男<input type="radio" value="2" id="female" name="w">女
