@@ -58,7 +58,7 @@ pageEncoding="UTF-8"%>
 		<div class="frow">
 		
 			<p>您的信息已经填写完整，谢谢！</p>
-			<a id="aa" href="hhhh">前往自己的关系树</a>
+			<a id="aa" href="">前往自己的关系树</a>
 		</div>
 	</fieldset>
 </form>
@@ -71,7 +71,7 @@ var id="0";
 		$.post(url,{"name":"bao"},function(data,status){
 			$("#user_id").val("您的账号是："+data);
 			id=data; 
-			ad="search.jsp?cc="+id;
+			ad="search.html?cc="+id;
 			$("#aa").attr('href',ad);
 			$('#user_img').attr('src',"UserPicture/"+id+".jpeg");
 		});

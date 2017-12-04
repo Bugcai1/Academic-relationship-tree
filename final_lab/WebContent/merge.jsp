@@ -53,6 +53,14 @@
     }
     
     
+    function search()
+    {
+    	var url="search";
+    	$.post(url,{"id":"1","search_type":"100"},function(data,status){
+    		alert(data);
+    		$('#dg').datagrid('reload');
+    	});
+    }
 </script>
 </body>
 </html>

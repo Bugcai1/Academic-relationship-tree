@@ -76,8 +76,8 @@ public int workoutString(String s)
         int result ;
         String all = "";
         String temp[] = new String[3];
-        temp = s.split("-");
-//        System.out.println("s="+s+"   "+temp[0]);
+        temp = s.split("/");
+        System.out.println("s="+s+"   "+temp[0]);
         all = temp[0] +temp[1] +temp[2];
         result =Integer.parseInt(all); 
         return result ;

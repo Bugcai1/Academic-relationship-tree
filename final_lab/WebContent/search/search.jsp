@@ -111,7 +111,7 @@
             </li>
       </ol>
       <div id="div_brother" ondrop="drop_brother()" ondragover="allowDrop(event)">
-      <table border="1" id = "table1">
+      <table border="1" id = "table2">
         <tr>
             <td>姓名</td>
             <td><input id="add_name" style="border:none"></td>

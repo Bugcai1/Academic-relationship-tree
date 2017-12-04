@@ -41,6 +41,14 @@
         	<result name="SUCCESS">/search.jsp</result>
         </action>
         
+        <action name="merge_one" class="action.MergeAction" method="tryMerge">
+        	
+        </action>
+        
+         <action name="merge_two" class="action.MergeAction" method="amendMerge">
+        	
+        </action>
+        
          <action name="uploadPictrue" class="action.UploadPicture">
             <!-- 配置文件上传拦截器，用于限定上传文件的大小和类型 -->
             <interceptor-ref name="fileUpload">

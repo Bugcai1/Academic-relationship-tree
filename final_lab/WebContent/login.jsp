@@ -64,7 +64,7 @@ function post()
 	$.post(url,{"password":getval},function(data,status){
 		if(parseInt(data)==1)//成功跳转到查询页面
 		{
-			window.location.href="search.jsp?cc="+getval;
+			window.location.href="search.html?cc="+getval;
 		}	
 		else
 			alert("您还没有注册，请您先注册");//提示用户注册
