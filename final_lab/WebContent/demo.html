@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>商品详情轮播图</title>
+<style>
+body,html{ width: 100%; background-color: #2E2E2E; }
+*{padding:0; margin:0;}
+li{list-style:none;}
+img{border:none;}
+.slide{position:relative; margin:10% auto; width:280px; overflow:hidden;}
+.slide .big{ position:relative; overflow:hidden; left:0;top:0;}
+.slide a{position:absolute; top:100px; opacity:0;z-index:1000;}
+.slide .big li{float:left; width:280px;}
+.slide .big  li img{width:100%;display:block;}
+.slide .prev{left:-10px;}
+.slide .next{right:-10px;}
+.slide .small{ margin-top:5px; width:100%; position:relative;}
+.slide .small li{ float:left;margin-right:5px; width:70px; background:#000;}
+.slide .small li:last-child{ margin-right:0;}
+.slide .small li img{width:100%;display:block; opacity:0.5;}
+</style>
+<script src="singl.js"></script>
+<script src="mov1.js"></script>
+
+</head>
+
+<body>
+<div class="slide" id="single_lb">
+	<a href="javascript:;" class="prev"><img src="images2/prev.png"></a>
+    <a href="javascript:;" class="next"><img src="images2/next.png"></a>
+    <ul class="big">
+    <li><img src="images2/a1.jpg"> <div class="hot_info"> <h2 title="牙周病困扰">牙周病困扰！</h2><em></em><p title="牙周病困扰">这些痛苦，你是否也感同身受？忍无可忍，无需再忍！科瓦齿科帮你彻底gggg</p></div> </li>
+    <li> <img src="images2/a2.jpg"> <div class="hot_info"> <h2 title="牙周病困扰">牙周病困扰！</h2><em></em><p title="牙周病困扰">这些痛苦，你是否也感同身受？忍无可忍，无需再忍！科瓦齿科帮你彻底摆脱kkkk牙周病困扰</p></div></li>
+    <li> <img src="images2/a3.jpg"> <div class="hot_info"> <h2 title="牙周病困扰">牙周病困扰！</h2><em></em><p title="牙周病困扰">这些痛苦，你是否也感同身受？忍无可忍，无需再忍！科瓦齿科帮你彻底摆脱牙周gggg病困扰</p></div></li>
+    <li> <img src="images2/a4.jpg"> <div class="hot_info"> <h2 title="牙周病困扰">牙周病困扰！</h2><em></em><p title="牙周病困扰">这些痛苦，你是否也感同身受？忍无可忍，无需再忍！科瓦齿科帮你彻底摆脱bbbb牙周病困扰</p></div></li>
+    <li> <img src="images2/a5.jpg"> <div class="hot_info"> <h2 title="牙周病困扰">牙周病困扰！</h2><em></em><p title="牙周病困扰">这些痛苦，你是否也感同身受？忍无可忍，无需再忍！科瓦齿科帮你彻底摆脱牙周病困扰</p></div></li>
+     <li> <img src="images2/a5.jpg"> <div class="hot_info"> <h2 title="牙周病困扰">牙周病困扰！</h2><em></em><p title="牙周病困扰">这些痛苦，你是否也感同身受？忍无可忍，无需再忍！科瓦齿科帮你彻底摆脱牙周病困扰</p></div></li>
+    </ul>
+    <ol class="small">
+    	<li><img src="images2/a1.jpg" style="opacity:1;"><li>
+    	<li><img src="images2/a2.jpg"><li>
+    	<li><img src="images2/a3.jpg"><li>
+    	<li><img src="images2/a4.jpg"><li>
+    	<li><img src="images2/a5.jpg"><li>
+    	<li><img src="images2/a5.jpg"><li>
+    </ol>
+
+</div>
+</body>
+</html>
