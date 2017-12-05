@@ -1,75 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>search</title>
-	<script src="jquery.min.js"></script>
-	<script src="search/jtopo-0.4.8-min.js"></script>
-	<script type="text/javascript" src="home.min.js"></script>
-	<link href="kowa.css" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="bootstart/css/search.css" />
-	
-	<link rel="stylesheet" type="text/css" href="dialog/common.css" />
-	<link rel="stylesheet" type="text/css" href="dialog/modal.css" />
-	
-	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="themes/icon.css">
-	<link rel="stylesheet" type="text/css" href="demo.css">
+    <title>search</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="jquery.min.js"></script>
+    <script src="search/jtopo-0.4.8-min.js"></script>
+    <script type="text/javascript" src="home.min.js"></script>
+    <link href="kowa.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="bootstart/css/search.css" />
+    
+     <link rel="stylesheet" href="bootstrap.min.css">
+     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" type="text/css" href="dialog/common.css" />
+    <link rel="stylesheet" type="text/css" href="dialog/modal.css" />
+    
+    <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="demo.css">
 
 
-	
-	<script type="text/javascript" src="dialog/jquery.js"></script>
-	<script type="text/javascript" src="dialog/moudel.js"></script> 
-	
-	<script type="text/javascript" src="jquery.easyui.min.js"></script>
-	
+    
+    <script type="text/javascript" src="dialog/jquery.js"></script>
+    <script type="text/javascript" src="dialog/moudel.js"></script> 
+    
+    <script type="text/javascript" src="jquery.easyui.min.js"></script>
+    
 <style type="text/css">
-.grid{font:12px arial,helvetica,sans-serif;border:1px solid #8DB2E3}
-.grid td{font:100% arial,helvetica,sans-serif;height:24px;padding:5px}
-.grid{width:100%;border-collapse:collapse}.grid th{background:#E7F3FE;height:27px;line-height:27px;border:1px solid #8DB2E3;padding-left:5px}
-.grid td{border:1px solid #8DB2E3;padding-left:5px}
 </style>
+
 </head>
 <div>
-	<section class="demo" style="background:green">
-	<ol class="nav1">
-      <li><a href="login.jsp">login</a></li>
-      <li><a href="#">About Me</a></li>
-      <li><a href="search.html">search</a></li>
-    </ol>
-    </section>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="menu-nav">
+    <div class="container">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class=" one"><i class="ui-center"></i><a href="#">用户</a></li>
+                <li class="two"><i class="ui-home"></i><a href="#">我的主页</a></li>
+                <li class="three"><i class="ui-friends"></i><a href="#">好友</a></li>
+                <li class="four"><i class="ui-apply"></i><a href="#">应用</a></li>
+                <li class="five"><i class="ui-dress"></i><a href="#">装扮</a></li>
+                <li class="six"><i class="ui-music"></i><a href="#" class="music-active"></a></li>
+                <li class="seven"> <input type="text" class="form-control" placeholder="用户/应用/动态"><span class="search"></span></li>
+                <li class="eight"><img src="img/touxiang.png" alt="">&nbsp;&nbsp;用&nbsp;户&nbsp;名&nbsp;</li>
+                <li class="nine"><i class="ui-center"></i><a href="#" onclick="zhankai()">功能选择</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    
 </div>
-<body onload="commit()">
-<div id="left1"><canvas height="600" id="relation"></canvas></div>
+<body>
+<div id="left1"><canvas height="600" id="relation"></canvas>
+
+
+
+</div>
 <div id="right1" >
-	<div class="easyui-tabs" data-options="tabWidth:70" style="width:370px;height:600px">
-		<div title="search" style="padding:10px">
-			<div class="easyui-panel" title="information" style="width:100%;max-width:340px;padding:30px 60px;">
-		<form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
-			<div style="margin-bottom:20px">
-				<input id="user_id" name="user_id" class="easyui-textbox" name="" style="width:100%" data-options="label:'name:'">
-			</div>
-			<div style="margin-bottom:20px">
-			type
-				 <input type="checkbox"  name = "searchType" value = "1">teacher
+	<div style="background:white"><a onclick="hides()">你可以点击关闭此窗口</a></div>
+    <div class="easyui-tabs" data-options="tabWidth:70" style="width:370px;height:600px">
+        <div title="search" style="padding:10px" icon>
+            <div class="easyui-panel" style="width:100%;max-width:340px;padding:30px 60px;border:false">
+        <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
+            <div style="margin-bottom:20px">
+                <input id="user_id" name="user_id" class="easyui-textbox" name="" style="width:100%" data-options="label:'name:'">
+            </div>
+            <div style="margin-bottom:20px">
+            type
+                 <input type="checkbox"  name = "searchType" value = "1">teacher
                 <input type="checkbox"  name = "searchType" value= "2" >brother
                 <input type="checkbox"  name = "searchType" value= "3" >student
-			</div>
-			
-			<div style="margin-bottom:20px">
-				<input id="start_time" class="easyui-datebox" label="Start Date:" labelPosition="top" style="width:100%;">
-			</div>
-			<div style="margin-bottom:20px">
-				<input id="end_time" class="easyui-datebox" label="End Date:" labelPosition="top" style="width:100%;">
-			</div>
-		</form>
-		<div style="text-align:center;padding:5px 0">
-			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">Submit</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()" style="width:80px">Clear</a>
-		</div>
-	</div>
-		</div>
-		<div class="grid" title="change" style="padding:10px">
-			<table align="center" border="1" id = "table1">
+            </div>
+            
+            <div style="margin-bottom:20px">
+                <input id="start_time" class="easyui-datebox" label="Start Date:" labelPosition="top" style="width:100%;">
+            </div>
+            <div style="margin-bottom:20px">
+                <input id="end_time" class="easyui-datebox" label="End Date:" labelPosition="top" style="width:100%;">
+            </div>
+        </form>
+        <div style="text-align:center;padding:5px 0">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">Submit</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()" style="width:80px">Clear</a>
+        </div>
+    </div>
+        </div>
+        <div class="grid" title="change" style="padding:10px">
+            <table align="center" border="1" id = "table1">
         <tr>
             <td>No.1</td>
             <td><input id="par" style="border:none"></td>
@@ -99,14 +115,14 @@
             </td>
         </tr>
     </table>
-		</div>
-		<div title="add" style="padding:10px" id="div_brother" ondrop="drop_brother()" ondragover="allowDrop(event)">
-			<h2>The way you can choose:</h2>
-			<ul>
-				<li><a href="#">create a new !</a></li>
-				<li><a href="#">look up</a></li>
-			</ul>
-			<table border="1" id = "table2">
+        </div>
+        <div title="add" style="padding:10px" id="div_brother" ondrop="drop_brother()" ondragover="allowDrop(event)">
+            <h2>The way you can choose:</h2>
+            <ul>
+                <li><a href="#">create a new !</a></li>
+                <li><a href="#">look up</a></li>
+            </ul>
+            <table border="1" id = "table2">
         <tr>
             <td>name</td>
             <td><input id="add_name" style="border:none"></td>
@@ -124,21 +140,22 @@
             <td><input id="add_end_time" style="border-style: none"></td>
         </tr>
     </table>
-			 <div id="bottom" class="content" style="width:100%;">
-    			<ul id="da-thumbs" class="da-thumbs">
-    			</ul>
-    		</div>
-		</div>
-		
-		<div title="merge" style="padding:10px">
-		<input id="merge_ID1" name="" class="easyui-textbox" name="" style="width:100%" data-options="label:'ID1:'">
-		<input id="merge_ID2" name="" class="easyui-textbox" name="" style="width:100%" data-options="label:'ID2:'">
-			
-		<a align="center" href="javascript:void(0)" class="easyui-linkbutton" onclick="merge()" style="width:80px">Merge</a>
-		
-		</div>
-		
-	</div>
+             <div id="bottom" class="content" style="width:100%;">
+                <ul id="da-thumbs" class="da-thumbs">
+                </ul>
+            </div>
+        </div>
+        
+        <div title="merge" style="padding:10px">
+        <input id="merge_ID1" name="" class="easyui-textbox" name="" style="width:100%" data-options="label:'ID1:'">
+        <input id="merge_ID2" name="" class="easyui-textbox" name="" style="width:100%" data-options="label:'ID2:'">
+            
+        <a align="center" href="javascript:void(0)" class="easyui-linkbutton" onclick="merge()" style="width:80px">Merge</a>
+        
+        </div>
+       
+        
+    </div>
 </div>
 
 
@@ -147,8 +164,19 @@
 <div  style="display:none" id="diag" class="key-word"><a href="javascript:;" id="add-key2" data-title="The error information"></a></div>
 <!-- 对话框的隐藏界面，界面上不显示 -->
 </body>
+<script type="text/javascript">
+	function zhankai(){
+		$('#right1').show(1000);
+		$('#left1').width(screen.width*0.67);
+	}
+	function hides()
+	{
+		$('#right1').hide(1000);
+		$('#left1').width(screen.width);
+	}
+</script>
 <script type="text/javascript"> 
-var data_tmp;
+
 function merge(){ 
     //此过程完成与后台的交互
     var id1=$('#merge_ID1').val();
@@ -157,36 +185,36 @@ function merge(){
     var url='merge_one';
     alert("sss");
     $.post(url,{"ID1":id1,"ID2":id2},function(data,status){
-    	alert(status);
-    	if(parseInt(data)==0)//代表成功，直接进行查询操作
-    	{
-    		alert(data);
-        	//再次调用search函数，应该使当前的用户状态为id1,并且查询所有类型
-    		$('#ff').form('load',{
-        		user_id:id1
-        	});
-    		var names = document.getElementsByName("searchType");
-        	var type = 0;
-        	for(var i=0;i<names.length;i++){  
+        alert(status);
+        if(parseInt(data)==0)//代表成功，直接进行查询操作
+        {
+            alert(data);
+            //再次调用search函数，应该使当前的用户状态为id1,并且查询所有类型
+            $('#ff').form('load',{
+                user_id:id1
+            });
+            var names = document.getElementsByName("searchType");
+            var type = 0;
+            for(var i=0;i<names.length;i++){  
                 names[i].checked=true;
-         	}
-    		search();
-    	}
-    	else if(parseInt(data)==1)
-    	{
-    		alert("no register");	
-    	}
-    	else if(parseInt(data)==2)//应该提示用户不能合并
-    	{
-    		alert("no the jiaoji");
-    	}
-    	else{	//不成功时打印错误队列
-    	//中间进行村务信息的处理
-    	
-    	$('#add-key2').click();
-    	loadGrid();
-    	loaddata(data);
-    	}
+            }
+            search();
+        }
+        else if(parseInt(data)==1)
+        {
+            alert("no register");   
+        }
+        else if(parseInt(data)==2)//应该提示用户不能合并
+        {
+            alert("no the jiaoji");
+        }
+        else{   //不成功时打印错误队列
+        //中间进行村务信息的处理
+        
+        $('#add-key2').click();
+        loadGrid();
+        loaddata(data);
+        }
     });//加载数据，str为表格中的数据，应该是json格式的字符
 }
 $("#add-key2").click(function(){
@@ -195,195 +223,338 @@ $("#add-key2").click(function(){
         width: "1000px",//设定弹窗的宽度
         height: "500px",//设定弹窗的高度
         resizable: true,//设定弹窗是否可以拖动改变大小
-		bgClose: true,
+        bgClose: true,
         html:"<div><table id=\"tt\" data-options=\"toolbar:toolbar\"></table></div>"});
 });
 var toolbar = [{
-	text:'Save',
-	iconCls:'icon-save',
-	handler:function(){submitt();}
+    text:'Save',
+    iconCls:'icon-save',
+    handler:function(){submitt();}
 }];
 </script>
 
 <script>
 function submitt()
 {
-	var datas=$('#tt').datagrid('getData');
-	var url="merge_two";
-	
-	datas=JSON.stringify(datas);
-	alert("     "+ datas);
-	$.post(url,{"ID1":$('#merge_ID1').val(),"ID2":$('#merge_ID2').val(),"amendQue":datas},function(){
-		document.getElementById('close').click();//关闭窗口
-	});
+    var datas=$('#tt').datagrid('getData');
+    var url="merge_two";
+    
+    datas=JSON.stringify(datas);
+    alert("     "+ datas);
+    $.post(url,{"ID1":$('#merge_ID1').val(),"ID2":$('#merge_ID2').val(),"amendQue":datas},function(){
+        document.getElementById('close').click();//关闭窗口
+    });
 }
 function loaddata(d){
-	alert(d);
-	$('#tt').datagrid('loadData',JSON.parse(d));
+    alert(d);
+    $('#tt').datagrid('loadData',JSON.parse(d));
 }
-		function loadGrid(){
-			$('#tt').datagrid({
-				title:'sure the relation',
-				iconCls:'icon-edit',
-				width:990,
-				height:250,
-				singleSelect:true,
-				columns:[[
-					{field:'user_1',title:'name',width:180,editor:'text'},
-					{field:'user_2',title:'name',width:180,editor:'text'},
-					{field:'type',title:'type',width:180,editor:'text'},
-					{field:'start_time',title:'start_time',width:180,editor:'text'},
-					{field:'end_time',title:'end_time',width:180,editor:'text'},
-					
-					{field:'action',title:'Action',width:80,align:'center',
-						formatter:function(value,row,index){
-							if (row.editing){
-								var s = '<a href="#" onclick="saverow(this)">Save</a> ';
-								var c = '<a href="#" onclick="cancelrow(this)">Cancel</a>';
-								return s+c;
-							} else {
-								var e = '<a href="#" onclick="editrow(this)">Edit</a> ';
-								var d = '<a href="#" onclick="deleterow(this)">Delete</a>';
-								return e+d;
-							}
-						}
-					}
-				]],
-				onBeforeEdit:function(index,row){
-					row.editing = true;
-					updateActions(index);
-				},
-				onAfterEdit:function(index,row){
-					row.editing = false;
-					updateActions(index);
-				},
-				onCancelEdit:function(index,row){
-					row.editing = false;
-					updateActions(index);
-				}
-			});
-		}
-		
-		function updateActions(index){
-			$('#tt').datagrid('updateRow',{
-				index: index,
-				row:{}
-			});
-		}
-		function getRowIndex(target){
-			var tr = $(target).closest('tr.datagrid-row');
-			return parseInt(tr.attr('datagrid-row-index'));
-		}
-		function editrow(target){
-			$('#tt').datagrid('beginEdit', getRowIndex(target));
-		}
-		function deleterow(target){
-			$.messager.confirm('Confirm','Are you sure?',function(r){
-				if (r){
-					$('#tt').datagrid('deleteRow', getRowIndex(target));
-				}
-			});
-		}
-		function saverow(target){
-			$('#tt').datagrid('endEdit', getRowIndex(target));
-		}
-		function cancelrow(target){
-			$('#tt').datagrid('cancelEdit', getRowIndex(target));
-		}
-	</script>
+        function loadGrid(){
+            $('#tt').datagrid({
+                title:'sure the relation',
+                iconCls:'icon-edit',
+                width:990,
+                height:250,
+                singleSelect:true,
+                columns:[[
+                    {field:'user_1',title:'name',width:180,editor:'text'},
+                    {field:'user_2',title:'name',width:180,editor:'text'},
+                    {field:'type',title:'type',width:180,editor:'text'},
+                    {field:'start_time',title:'start_time',width:180,editor:'text'},
+                    {field:'end_time',title:'end_time',width:180,editor:'text'},
+                    
+                    {field:'action',title:'Action',width:80,align:'center',
+                        formatter:function(value,row,index){
+                            if (row.editing){
+                                var s = '<a href="#" onclick="saverow(this)">Save</a> ';
+                                var c = '<a href="#" onclick="cancelrow(this)">Cancel</a>';
+                                return s+c;
+                            } else {
+                                var e = '<a href="#" onclick="editrow(this)">Edit</a> ';
+                                var d = '<a href="#" onclick="deleterow(this)">Delete</a>';
+                                return e+d;
+                            }
+                        }
+                    }
+                ]],
+                
+                onAfterEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                },
+                onCancelEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                }
+            });
+        }
+        
+        function updateActions(index){
+            $('#tt').datagrid('updateRow',{
+                index: index,
+                row:{}
+            });
+        }
+        function getRowIndex(target){
+            var tr = $(target).closest('tr.datagrid-row');
+            return parseInt(tr.attr('datagrid-row-index'));
+        }
+        function editrow(target){
+            $('#tt').datagrid('beginEdit', getRowIndex(target));
+        }
+        function deleterow(target){
+            $.messager.confirm('Confirm','Are you sure?',function(r){
+                if (r){
+                    $('#tt').datagrid('deleteRow', getRowIndex(target));
+                }
+            });
+        }
+        function saverow(target){
+            $('#tt').datagrid('endEdit', getRowIndex(target));
+        }
+        function cancelrow(target){
+            $('#tt').datagrid('cancelEdit', getRowIndex(target));
+        }
+    </script>
 
 
-
+<script type="text/javascript">
+/*画人物的关系图*/
+</script>
 <script type="text/javascript">//页面加载的时候加载候选人
+var canvas = document.getElementById('relation');
+var stage = new JTopo.Stage(canvas); // 创建一个舞台对象
+var nodes=[];
+var links=[];
     window.onload=function(){
-    	
-    	var thisURL = document.URL;  
-    	var  getval =thisURL.split('?')[1];  
-    	var showval= getval.split("=")[1];
-    	$('#ff').form('load',{
-    		user_id:showval
-    	});
-    	var url="lookup";
-    	$.post(url,{"name":"bao"},function(data){
-    		var num=data.length;
-    		var text="";
-    		for(var i=0;i<num;i++)
-    		{
-    		 text=text+"<li>"+
-    		      "<a target=\"_blank\"> <img src=\"photo/1.png\" height=\"70px\" width=\"70px\" draggable=\"true\" ondragstart=\"drag(this)\">"+
-    		      "<div class=\"hot_info\">"+
-    		          "<p>姓名："+data[i].name+"</p>"+
-    		          "<input type=\"button\" value=\"添加\" onclick=\"drag(this)\">"+
-    		          "<input type=\"hidden\" id=\"inp_name\" value="+data[i].name+">"+
-    	              "<input type=\"hidden\" id=\"inp_sex\" value="+data[i].sex+">"+
-    	              "<input type=\"hidden\" id=\"inp_work\" value="+data[i].work+">"+
-    	              "<input type=\"hidden\" id=\"inp_phone\" value="+data[i].phone+">"+
-    	              "<input type=\"hidden\" id=\"pid\" value="+data[i].id+">"+   
-    		        "</div>"+
-    		        "</a>"+
-    		      "</li>";
-    		}
-    		
-    		$("#da-thumbs").append(text);
-    		
-    		var jsElem = document.createElement('script');
-    		jsElem.src='home.min.js';
-    		document.getElementsByTagName('head')[0].appendChild(jsElem);
-    		
-    		
-    		},'json');
-    	
-    	var names = document.getElementsByName("searchType");
-    	var type = 0;
-    	for(var i=0;i<names.length;i++){  
+    	hides();
+        var thisURL = document.URL;  
+        var  getval =thisURL.split('?')[1];  
+        var showval= getval.split("=")[1];
+        $('#ff').form('load',{
+            user_id:showval
+        });
+        var url="lookup";
+        $.post(url,{"name":"bao"},function(data){
+            var num=data.length;
+            var text="";
+            for(var i=0;i<num;i++)
+            {
+             text=text+"<li>"+
+                  "<a target=\"_blank\"> <img src=\"photo/1.png\" height=\"70px\" width=\"70px\" draggable=\"true\" ondragstart=\"drag(this)\">"+
+                  "<div class=\"hot_info\">"+
+                      "<p>姓名："+data[i].name+"</p>"+
+                      "<input type=\"button\" value=\"添加\" onclick=\"drag(this)\">"+
+                      "<input type=\"hidden\" id=\"inp_name\" value="+data[i].name+">"+
+                      "<input type=\"hidden\" id=\"inp_sex\" value="+data[i].sex+">"+
+                      "<input type=\"hidden\" id=\"inp_work\" value="+data[i].work+">"+
+                      "<input type=\"hidden\" id=\"inp_phone\" value="+data[i].phone+">"+
+                      "<input type=\"hidden\" id=\"pid\" value="+data[i].id+">"+   
+                    "</div>"+
+                    "</a>"+
+                  "</li>";
+            }
+            
+            $("#da-thumbs").append(text);
+            
+            var jsElem = document.createElement('script');
+            jsElem.src='home.min.js';
+            document.getElementsByTagName('head')[0].appendChild(jsElem);
+            
+            
+            },'json');
+        
+        var names = document.getElementsByName("searchType");
+        var type = 0;
+        for(var i=0;i<names.length;i++){  
             names[i].checked=true;
-     	}
-    	
-		search();
-	};
-	
-	function drag(t){
-		
-		   name=$(t).siblings("#inp_name").val();
-		   alert("name"+name);
-		   sex=$(t).siblings("#inp_sex").val();
-		   work=$(t).siblings("#inp_work").val();
-	    	phone=$(t).siblings("#inp_phone").val();
-		   id=$(t).siblings("#pid").val();
-		   addJson(data_brother,name,sex,work,phone,start,end,id);
-		   addHtml_brother();
-	    }
+        }
+        var url="search";
+        $.post(url,{"flaag":1,"Id":$('#user_id').val(),"relationType":type,"beginTime":start,"endTime":end},function(data,status){
+        	 var dataa=eval('('+data+')');
+        	$('.eight').append('<p>'+dataa[0].parent_name+'</p>');
+        });
+        search();
+    };
+    
+    function search()
+    {
+        
+        var names = document.getElementsByName("searchType");
+        var type = "";
+        var start="";
+        var end="";
+        for(var i=0;i<names.length;i++){  
+            if(names[i].checked==true){
+                type=type+"1";
+            }
+            else
+                type=type+"0";
+        }
+        if(type == "000"){
+            alert("您的查询条件有误，请确认！");
+            return;
+        }
+        if($('#start_time').datetimebox('getValue')==''){
+            start="00/00/0000";
+        }
+        else
+            start=$('#start_time').val();
+        if($('#end_time').datetimebox('getValue')==''){
+            end="99/99/9999";
+        }
+        else
+            end=$("#end_time").val();
+        
+        var url="search";
+        
+        
+        $.post(url,{"flaag":0,"Id":$('#user_id').val(),"relationType":type,"beginTime":start,"endTime":end},function(data,status){
+            canvas.width=screen.width*0.69;
+            create(data);
+        });
+    }
+    function create(data1){
+        stage.clear();
+        var scene = new JTopo.Scene();
+        stage.add(scene);
+        var data=eval('('+data1+')');
+        var num=data.length;
+        
+        for (var i=0;i<num;i++)
+        {
+            
+            if(isHave(parseInt(data[i].parent_id)))
+            {
+                var x = Math.ceil(Math.random() * 600);
+                var y = Math.ceil(Math.random() * 400);
+                var node = new JTopo.Node();
+                node.radius = 40;
+                node.id=data[i].parent_id;
+                node.fillColor = JTopo.util.randomColor();
+                node.setImage('photo/1.png');
+                node.setLocation(x, y);
+                node.click(function(){
+                    alert(this.id);
+                });
+                node.mouseover(function(){
+                    this.text = this.id;
+                });
+                node.mouseout(function(){
+                    this.text = null;
+                });
+                scene.add(node);
+                nodes.push(node);
+            }
+            if(isHave(data[i].child_id))
+            {
+                var x = Math.ceil(Math.random() * 600);
+                var y = Math.ceil(Math.random() * 400);
+                var node = new JTopo.Node();
+                node.radius = 40;
+                node.fillColor = JTopo.util.randomColor();
+                node.setImage('photo/1.png');
+                node.setLocation(x, y);  
+                node.id=data[i].child_id;
+                node.click(function(){
+                    alert(this.id);
+                });
+                node.mouseover(function(){
+                    this.text = this.id;
+                });
+                node.mouseout(function(){
+                    this.text = null;
+                });
+                scene.add(node);
+                
+                nodes.push(node);
+            }
+        }
+        
+        var effect = JTopo.Effect.spring({
+            minLength: 200 // 节点之间最短距离
+        });
+        for(var i=0;i<num;i++)
+        {
+            var num1=Ldex(data[i].parent_id);
+            var num2=Ldex(data[i].child_id);
+            var link = new JTopo.Link(nodes[num1], nodes[num2],data[i].relation+"-->");
+            
+            link.strokeColor = JTopo.util.randomColor();
+            link.lineWidth = Math.ceil(15 * Math.random()) + 1;
+            scene.add(link);
+            links.push(link);
+            effect.addNode(nodes[num1], nodes[num2]);
+            effect.addNode(nodes[num2], nodes[num1]);
+        }    
+        effect.play();
+    }
+    function isHave(id)
+    {
+        for(var j=0;j<nodes.length;j++)
+        {
+            if(parseInt(id)==parseInt(nodes[j].id))
+            {
+                
+                return false;
+            }
+        }
+        return true;
+    }
+    function Ldex(num)
+    {
+        var result=-1;
+        for(var i=0;i<nodes.length;i++)
+        {
+            if(parseInt(nodes[i].id)==parseInt(num))
+            {   
+                return i;
+            }
+        }
+        return result;
+    }
+    function drag(t){
+        
+           name=$(t).siblings("#inp_name").val();
+           alert("name"+name);
+           sex=$(t).siblings("#inp_sex").val();
+           work=$(t).siblings("#inp_work").val();
+            phone=$(t).siblings("#inp_phone").val();
+           id=$(t).siblings("#pid").val();
+           addJson(data_brother,name,sex,work,phone,start,end,id);
+           addHtml_brother();
+        }
 </script>
 <script type="text/javascript">
-	function submitForm()
-	{
-		search();
-	}
-	
-	function clearForm(){
-		$('#ff').form('clear');
-	}
+    function submitForm()
+    {
+        search();
+    }
+    
+    function clearForm(){
+        $('#ff').form('clear');
+    }
 </script>
 
 <script type="text/javascript">//删除操作
     function deleteRelation()
     {
-	   var url = "deleteRelation";
-	   var ID1=$('#par_id').val();
-	   var ID2=$('#chi_id').val();
+       var url = "deleteRelation";
+       var ID1=$('#par_id').val();
+       var ID2=$('#chi_id').val();
        
-	   $.post(url,{"user_id":$('#user_id').val(),"ID1":ID1,"ID2":ID2},function(data,status){
-			search();
-	   });
+       $.post(url,{"user_id":$('#user_id').val(),"ID1":ID1,"ID2":ID2},function(data,status){
+            search();
+       });
     }
     function changeRelation()
     {
-    	var url="changeRelation";
-    	$.post(url,{"user_id":$("#user_id").val(),"ID1":$("#par_id").val(),"ID2":$("#chi_id").val(),"par_name":$("#par").val(),"chi_name":$("#chi").val(),"relation":$("#relation_1").val(),"start":$("#start_time1").val(),"end":$("#end_time1").val()},function(data,status){
-    		alert("fanhui");
-				  		
-    	});
-    	search(); 
+        var url="changeRelation";
+        $.post(url,{"user_id":$("#user_id").val(),"ID1":$("#par_id").val(),"ID2":$("#chi_id").val(),"par_name":$("#par").val(),"chi_name":$("#chi").val(),"relation":$("#relation_1").val(),"start":$("#start_time1").val(),"end":$("#end_time1").val()},function(data,status){
+            alert("fanhui");
+                        
+        });
+        search(); 
     }
 </script>
 
@@ -397,193 +568,39 @@ function loaddata(d){
     var end="";
     var data_brother=[];
     function allowDrop(e){
-	e.preventDefault();
+    e.preventDefault();
     }
 /*点击图片时就执行*/
    
 /*将添加的人的信息加入数组中，检擦时使用*/
     function addJson(data,name,sex,work,phone,start,end,id){
-	alert("nnn");
-	   for(var j=0;j<data.length;j++){
-		  if(data[j].id==id){
-			return;
-		  }
-    	}
-	   alert("name"+name);
-	   data.push({
+    alert("nnn");
+       for(var j=0;j<data.length;j++){
+          if(data[j].id==id){
+            return;
+          }
+        }
+       alert("name"+name);
+       data.push({
           id:id,
-		    name:name,
-    	   sex:sex,
-	       work:work,
-	 	phone:phone,
-	 	start:start,
-	 	end:end,
-	   });
+            name:name,
+           sex:sex,
+           work:work,
+        phone:phone,
+        start:start,
+        end:end,
+       });
     }
 /**/
     function drop_brother(){
-	   addJson(data_brother,name,sex,work,phone,start,end,id);
-	   addHtml_brother();
+       addJson(data_brother,name,sex,work,phone,start,end,id);
+       addHtml_brother();
     }
     /*在页面显示添加人的名字信息*/
     function addHtml_brother(){
-	  $('#add_name').val(data_brother[data_brother.length-1].name);
+      $('#add_name').val(data_brother[data_brother.length-1].name);
     }
 </script>
-<script type="text/javascript">
-var canvas = document.getElementById('relation');
-var stage = new JTopo.Stage(canvas); // 创建一个舞台对象
-var ctx=canvas.getContext("2d");
-function search()
-{
-	
-	var names = document.getElementsByName("searchType");
-	var type = "";
-	var start="";
-	var end="";
-	for(var i=0;i<names.length;i++){  
-        if(names[i].checked==true){
-        	type=type+"1";
-        }
-        else
-        	type=type+"0";
- 	}
-	if(type == "000"){
-		alert("您的查询条件有误，请确认！");
-		return;
-	}
-	if($('#start_time').datetimebox('getValue')==''){
-		start="00/00/0000";
-	}
-	else
-		start=$('#start_time').val();
-	if($('#end_time').datetimebox('getValue')==''){
-		end="99/99/9999";
-	}
-	else
-		end=$("#end_time").val();
-	
-	var url="search";
-	
-	
-	$.post(url,{"flaag":0,"Id":$('#user_id').val(),"relationType":type,"beginTime":start,"endTime":end},function(data,status){
-		data_tmp=data;
-	    canvas.width=screen.width*0.69;
-	 	create(data);
-	});
-	
-}
 
-/*画人物的关系图*/
-function create(data1){
-	stage.clear();
-	var data_tmp=eval('('+data1+')');
-	
-    var i=0;
-    var k=0;
-    var num=data_tmp.length;
-    if(num==0)
-    {
-    	var url="search";
-    	$.post(url,{"flaag":1,"Id":$('#user_id').val()},function(data,status){
-    		
-    		data_tmp=eval('('+data+')');
-    		var parent=data_tmp[0].parent_id;
-    		var scene = new JTopo.Scene(stage); // 创建一个场景对象
-    	    scene.backgroundColor="#f1f1f1";
-    	    var userNode = new JTopo.Node(); // 创建一个节点
-    	    userNode.setBound(250, 200, 66, 66); // 同时设置大小及位置
-    	    userNode.showSelected = true; // 不显示选中矩形
-    	    userNode.setImage('photo/1.png'); // 设置图片
-    	    userNode.id=parent;
-    	    userNode.mouseover(function(){
-    	    	
-    	    });
-    	    scene.add(userNode); // 放入到场景中
-    	});
-    	return;
-    }
-    
-    var data=data_tmp;
-    var parent=data[0].parent_id;
-    var scene = new JTopo.Scene(stage); // 创建一个场景对象
-    scene.backgroundColor="#f1f1f1";
-    var userNode = new JTopo.Node(); // 创建一个节点
-    userNode.setBound(250, 200, 66, 66); // 同时设置大小及位置
-    userNode.showSelected = true; // 不显示选中矩形
-    userNode.setImage('photo/1.png'); // 设置图片
-    userNode.id=parent;
-    
-    userNode.mouseover(function(){
-    	
-    });
-    scene.add(userNode); // 放入到场景中
-    var jr=true,py=true,ts=true;
-    var link_all=new Array();
-    var otherNode_z=new Array(num);
-    while(i<num)
-    {
-        var temp=data[i].parent_id;
-        while(parseInt(parent)==parseInt(temp))
-        {
-            var otherNode = new JTopo.Node(); // 创建一个节点
-            otherNode.setBound(250+data[i].x, 200+data[i].y,50, 50); // 同时设置大小及位置
-            otherNode.borderRadius = 50; // 圆角
-            otherNode.setImage('photo/1.png', false); // 设置图片
-            otherNode.showSelected = true; // 不显示选中矩形
-            scene.add(otherNode); // 放入到场景中
-            otherNode.url='#';
-            otherNode.id=data[i].child_id;
-           	otherNode.click(function(event){
-            });
-           	
-            otherNode_z[i]=otherNode;
-            var link;
-            if(parseInt(data[i].relation)==1){
-            	link = new JTopo.Link(userNode, otherNode); // 增加连线
-            	link.strokeColor ='235, 175, 66';
-        	}
-            else if(parseInt(data[i].relation)==2){
-            	link = new JTopo.Link(userNode, otherNode); // 增加连线
-            	link.strokeColor ='242, 75, 74';
-        	}
-            else if(parseInt(data[i].relation)==3){
-            	link = new JTopo.Link(userNode, otherNode); // 增加连线
-            	link.strokeColor ="61, 124, 201";
-        	}
-            i++;
-            link.par=userNode.id;
-            link.child=otherNode.id;
-            link.ps=i-1;
-            link.click(function(){
-            	$('#par').val(data[this.ps].parent_name);
-            	$('#par_id').val(this.par);
-            	$('#chi_id').val(this.child);
-            	$('#chi').val(data[this.ps].child_name);
-            	
-                $("#relation_1").val(data[this.ps].relation);
-           
-                $('#start_time1').datebox('setValue',data[this.ps].start_time);
-                $('#end_time1').datebox('setValue',data[this.ps].end_time);
-                
-            });
-            scene.add(link);
-            temp=data[i].parent_id;
-        }
-        
-        var j=0;
-        while(j<i)
-        {
-            if(parseInt(data[j].child_id)==parseInt(data[i].parent_id))
-            {
-                break;
-            }
-            j=j+1;
-        }
-        userNode=otherNode_z[j];
-        parent=data[i].parent_id;
-    }
-}
-</script>
 
 </html>

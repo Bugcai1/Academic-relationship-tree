@@ -1,0 +1,134 @@
+@charset "utf-8";
+
+nav {
+  opacity: 1;
+  z-index: 1000;
+}
+nav div.container div.navbar-header a {
+  line-height: 35px;
+}
+nav div.container div.navbar-header a i.logo {
+  display: inline-block;
+  width: 30px;
+  height: 35px;
+  background-image: url("../img/icon.png");
+}
+nav div.container ul li {
+  margin-right: 20px;
+}
+nav div.container ul li i {
+  display: inline-block;
+  background-image: url("../img/icon1.png");
+  width: 25px;
+  height: 25px;
+  margin-right: -15px;
+}
+nav div.container ul li i.ui-center {
+  background-position-x: 260px;
+  background-position-y: 225px;
+}
+nav div.container ul li i.ui-home {
+  background-position-x: 157px;
+  background-position-y: 199px;
+}
+nav div.container ul li i.ui-friends {
+  background-position-x: 260px;
+  background-position-y: 278px;
+}
+nav div.container ul li i.ui-apply {
+  background-position-x: 105px;
+  background-position-y: 304px;
+}
+nav div.container ul li i.ui-dress {
+  background-position-x: 155px;
+  background-position-y: 147px;
+}
+nav div.container ul li i.ui-music {
+  background-position-x: 161px;
+  background-position-y: 95px;
+  background-color: #D18B00;
+  width: 30px;
+  height: 30px;
+  border-right: 1px solid #eee;
+}
+nav div.container ul li.one a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #EF9618;
+}
+nav div.container ul li.nine a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #EF9618;
+}
+nav div.container ul li.two a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #0986E2;
+}
+nav div.container ul li.three a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #E34200;
+}
+nav div.container ul li.four a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #00974A;
+}
+nav div.container ul li.five a {
+  display: inline-block;
+  line-height: 50px;
+  font-family: "Adobe Caslon Pro";
+  font-size: 18px;
+  font-weight: 600;
+  color: #3E207A;
+}
+nav div.container ul li.six a.music-active {
+  display: inline-block;
+  background-image: url("../img/2-music-sonic.gif");
+  background-color: #D18B00;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  background-position: center;
+  width: 25px;
+  height: 20px;
+  margin-left: 15px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+nav div.container ul li.seven {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+nav div.container ul li.seven span.search {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-image: url("../img/search3.png");
+  background-repeat: no-repeat;
+  left: 85%;
+  top: 10px;
+}
+nav div.container ul li.eight {
+  margin-top: 22px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #3E207A;
+  margin-left: 30px;
+}
