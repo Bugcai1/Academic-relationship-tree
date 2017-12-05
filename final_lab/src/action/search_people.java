@@ -15,22 +15,22 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class search_people {
-    
     private String relationType;
     private String endTime;
     private String beginTime;
     private int Id;
     private int flaag;
+    
     public int getFlaag()
     {
     	return flaag;
     }
     public void setFlaag(int flaag)
     {
-    	System.out.println("³õÊ¼»¯£¡");
+    	System.out.println("ï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ");
     	this.flaag=flaag;
     }
-//    DbUtil connect = new DbUtil();
+    
     public int getId()
     {
         return Id;
@@ -39,40 +39,31 @@ public class search_people {
     {
         this.Id = Id;
     }
+    
     public String getRelationType() {
         return relationType;
     }
     public void setRelationType(String relationType) {
         this.relationType = relationType;
     }
+    
     public String getEndTime() {
         return endTime;
     }
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+    
     public String getBeginTime() {
         return beginTime;
     }
     public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
     }
- /*
-  * ²ÉÓÃ²»Í¬µÄ·½Ê½Ïò½çÃæ·µ»Øjson½á¹ûÖµ£¬ÒªÇóÕÆÎÕ¶ÔÓ¦µÄjs½ÓÊÕ·½Ê½
-  */
- 
- /*
-  * °´ÕÕid²éÕÒÄ³¸öÈËµÄ¹ØÏµÊ÷
-  * ÊÇÐÂÂß¼­£¬Ê×ÏÈ¸ù¾ÝidÔÚregister_person±íÖÐ²éÕÒÊÖ»úºÅ£¬È·¶¨¸öÈËµÄ¹ØÏµ±íËùÔÚµÄµØ·½
-  * ²éÑ¯¹ØÏµ±íÖÐµÄÊý¾Ýid£¬È»ºóµ½register_person£¬no_register_person±íÖÐ½øÐÐÏêÏ¸Êý¾ÝµÄ²éÑ¯
-  */
-//    public static void main(String[] args) throws SQLException
-//    {
-//        search_id();
-//    }
     
-public int workoutString(String s)
-    {
+
+    //æ ¼å¼åŒ–å¾—åˆ°çš„æ•°æ®åº“æ—¶é—´
+    public int workoutString(String s) {
         int result ;
         String all = "";
         String temp[] = new String[3];
@@ -83,30 +74,28 @@ public int workoutString(String s)
         return result ;
     }
 
-     public boolean isrelation(int data_start,int data_end)
-    {
-//    	 System.out.println("ispeople"+getEndTime());
-    	 System.out.println(data_start+" time  "+data_end);
-        if(workoutString(getEndTime())==99999999&&workoutString(getBeginTime())==0)
-        {
+    //åˆ¤æ–­å…³ç³»æ—¶é—´æ˜¯å¦åœ¨ç”¨æˆ·çš„æœç´¢èŒƒå›´
+    public boolean isrelation(int data_start,int data_end) {
+    	//System.out.println("ispeople"+getEndTime());
+    	System.out.println(data_start+" time  "+data_end);
+        if(workoutString(getEndTime())==99999999 && workoutString(getBeginTime())==0) {
         	System.out.println(workoutString(getEndTime())+"  1  "+workoutString(getBeginTime()));
             return true;
         }
-        if(data_start>=workoutString(getBeginTime()) &&data_end<=workoutString(getEndTime()))
-        {
+        if(data_start>=workoutString(getBeginTime()) &&data_end<=workoutString(getEndTime())) {
         	System.out.println(workoutString(getEndTime())+"  2  "+workoutString(getBeginTime()));
             return true;
         }
         System.out.println(workoutString(getEndTime())+"  3  "+workoutString(getBeginTime()));
         return false;
-    }
- public String sureSql()
- {
-    String relationType=getRelationType();
-     String sql = " and (relation=" ;
-//     System.out.println("relation"+relationType);
-        switch (relationType)
-        {
+     }
+     
+    //å¾—åˆ°SQLçš„æ¡ä»¶åˆ¤æ–­è¯­å¥
+     public String sureSql() {
+    	 String relationType=getRelationType();
+    	 String sql = " where (relation=" ;
+    	 // System.out.println("relation"+relationType);
+        switch (relationType) {
             case "111":
                 sql = sql + "1 or relation = 2 or relation = 3) ;";
                 break;
@@ -131,169 +120,116 @@ public int workoutString(String s)
                 sql = null;
                 break;
         }
-    return sql;
- }
- public void search() throws SQLException, IOException
- {
-	 System.out.println("okokokookokokokokokokookoko"+getFlaag());
-     JSONArray json=new JSONArray();
-     JSONObject list=new JSONObject();
-     DbUtil con=new DbUtil();
-     DbUtil conn=new DbUtil();
-     ResultSet rs=null;
-     ResultSet rpar=null;
-     String search_p="select * from register_person where id="+getId()+";";
-     rs=con.executeQuery(search_p);//²éÑ¯ÊÖ»úºÅ
-     String phone="";
-     if(getFlaag()==1)
-     {
-     	 System.out.println("------------------£¡£¡£¡£¡");
-     	 while(rs.next())
-         {
-     		 list.put("parent_id",rs.getString(1));
-             list.put("parent_name", rs.getString(2));
-             list.put("parent_sex",rs.getString(3));
-             list.put("parent_work",rs.getString(4));
-             list.put("parent_phone",rs.getString(5));
-             json.add(list);
-         }
-     	 HttpServletResponse response=ServletActionContext.getResponse(); 
-         response.setContentType("text/html;charset=utf-8");  
-         PrintWriter out = response.getWriter();
-     	 out.println(json);
-         out.flush();  
-         out.close();
-     	 return;
+        return sql;
      }
-     while(rs.next())
-     {
-         phone=rs.getString(5);
-     }
-//        json.add(list);
-     /*
-      * ÒÔÉÏ·µ»ØµÄÊ±²éÑ¯ÕßµÄÏà¹ØÐÅÏ¢
-      */
-//        System.out.println("haode "+list);
      
-      //»ñµÃÊÖ»úºÅ£¨²éÑ¯½á¹ûÐèÒªÑéÖ¤ÊÇ²»ÊÇÕýÈ·£©
-     String table_name="a"+getId()+phone;//È·¶¨¸öÈËÐÅÏ¢±íµÄÃû×Ö£»
-//        System.out.println("tablename  "+table_name);
-     /*
-      * °´ÕÕÊ÷µÄ²ã´Î±éÀúµÄË¼Ïë£¬½«Êý¾Ý±íÖÐµÄÐÅÏ¢£¬Ò»¸öÒ»¸öµÄ²é³öÀ´¡£
-      */
-//     System.out.println("table"+table_name);
-     int Q[]=new int[1000];
-     int front=0;
-     int end=0;
-     int kk=0;
-     int pk=-1;
-     int dex[]=new int[100];
-     int dey[]=new int[100];
-     Q[end++]=getId();/*Ê×ÏÈ½«×Ô¼ºÑ¹Èë*/
-     while(front!=end)
-     {
-    	 System.out.println("YYYYYYY");
-         int id=Q[front++];
-         String search_relation="select * from "+table_name+" where user_id="+id+sureSql();
-         System.out.println("search"+search_relation);
-         rs=con.executeQuery(search_relation);//´ËÊ±rs°üº¬µÄÄÚÈÝºÜÖØÒª£ºÒ»²¿·ÖÊÇÒª·µ»ØµÄÊý¾Ý£¬Ò»²¿·ÖÒªÈ¡ÔÚÑ°ÕÒ£»
-         int count=conn.executecount(table_name, id,sureSql());         
-         int length=120;
-         int k=0;
-         pk++;
-         
-         while(rs.next())
-         {
-        	 System.out.println("lllllllllll");
-//        	 System.out.println("search");
-             if(isrelation(workoutString(rs.getString(4)),workoutString(rs.getString(5)))!=true)
-                continue;
-//                System.out.println("id="+rs.getString(1) + " "+"kk=   "+kk);
-             k++;
-             Q[end++]=rs.getInt(2);
-             System.out.println("end"+rs.getInt(2));
-             int par=rs.getInt(1);
-             int chi=rs.getInt(2);
-             int relation=rs.getInt(3);
-             String start=rs.getString(4);
-             String end_t=rs.getString(5);
-             
-
-            System.out.println("ÐÅÏ¢£º"+par+"  "+chi+"  "+relation+" "+start+" "+end_t);
-             
-             String search_information="select * from register_person where id="+par+";";
-             rpar=conn.executeQuery(search_information);
-             int flag=0;
-             if(!rpar.next())//¼ÙÉè²»´æÔÚµÄÊ±ºòÊÇnull
-             {
-                 flag=1;
-                 search_information="select * from no_register_person where id="+par+";";
-                 rpar=conn.executeQuery(search_information);
-             }
-             if(flag==0)
-                 rpar.previous();
-             while(rpar.next())
-             {
-                list.put("parent_id",rpar.getString(1));
-                list.put("parent_name", rpar.getString(2));
-                list.put("parent_sex",rpar.getString(3));
-                list.put("parent_work",rpar.getString(4));
-                list.put("parent_phone",rpar.getString(5));
-             }
-
-             search_information="select * from register_person where id="+chi+";";
-             rpar=conn.executeQuery(search_information);
-             flag=0;
-             if(!rpar.next())//¼ÙÉè²»´æÔÚµÄÊ±ºòÊÇnull
-             {
-                 flag=1;
-                 search_information="select * from no_register_person where id="+chi+";";
-                 rpar=conn.executeQuery(search_information);
-             }
-             if(flag==0)
-                 rpar.previous();
-             while(rpar.next())
-             {
-                 list.put("child_id",rpar.getString(1));
-                 list.put("child_name", rpar.getString(2));
-                 list.put("child_sex",rpar.getString(3));
-                 list.put("child_work",rpar.getString(4));
-                 list.put("child_phone",rpar.getString(5));
-             }
-             
-             list.put("relation",relation);
-             list.put("start_time", start);
-             list.put("end_time",end_t);
-             
-             int x=0;
-             int y=0;
-             
-             
-//             System.out.println(k+"  ×ø±ê  "+(Math.sin(k*2.0/count*Math.PI))+"   "+dex[pk]);
-//             System.out.println((Math.cos(k*2.0/count*Math.PI))+"   "+dey[pk]);
-             x=(int)(Math.sin(k*2.0/count*Math.PI)*length+dex[pk]);
-             y=(int)(Math.cos(k*2.0/count*Math.PI)*length+dey[pk]);
-             dex[++kk]=x;
-             dey[kk]=y;
-//             System.out.println("x="+x+"  y="+y);
-             
-             list.put("x",x);
-             list.put("y", y);
-             json.add(list);
-         }   
+     public void search() throws SQLException, IOException {
+	     JSONArray json=new JSONArray();
+	     JSONObject list=new JSONObject();
+	     DbUtil con=new DbUtil();
+	     DbUtil conn=new DbUtil();
+	     ResultSet rs=null;
+	     ResultSet rpar=null;
+	     String search_p="select * from register_person where id="+getId()+";";
+	     rs=con.executeQuery(search_p);
+	     String phone="";
+	     if(getFlaag()==1) {
+	     	 while(rs.next()) {
+	     		 list.put("parent_id",rs.getString(1));
+	             list.put("parent_name", rs.getString(2));
+	             list.put("parent_sex",rs.getString(3));
+	             list.put("parent_work",rs.getString(4));
+	             list.put("parent_phone",rs.getString(5));
+	             json.add(list);
+	         }
+	     	 HttpServletResponse response=ServletActionContext.getResponse(); 
+	         response.setContentType("text/html;charset=utf-8");  
+	         PrintWriter out = response.getWriter();
+	     	 out.println(json);
+	         out.flush();  
+	         out.close();
+	     	 return;
+	     }
+	     
+	     while(rs.next()) {
+	         phone=rs.getString(5);
+	     }
+	     String table_name="a"+getId()+phone;
+	     
+	     //---------------------------------------------------------------------------------
+	     //æ¸…é™¤å…³ç³»è¡¨ä¸­åˆ†ç¦»çš„æ ‘
+	     ClearUpTable.clear(table_name, getId());
+	     //---------------------------------------------------------------------------------
+	     
+	     String search_relation="select * from "+table_name+sureSql();
+	     rs=con.executeQuery(search_relation);
+	     
+	     while(rs.next()) {
+	    	 if(isrelation(workoutString(rs.getString(4)),workoutString(rs.getString(5)))!=true) {
+	             continue;
+	    	 }
+	    	 
+	    	 int par=rs.getInt(1);
+	         int chi=rs.getInt(2);
+	         int relation=rs.getInt(3);
+	         String start=rs.getString(4);
+	         String end_t=rs.getString(5);
+	         
+	         String search_information="select * from register_person where id="+par+";";
+	         rpar=conn.executeQuery(search_information);
+	         int flag=0;
+	         if(!rpar.next())
+	         {
+	             flag=1;
+	             search_information="select * from no_register_person where id="+par+";";
+	             rpar=conn.executeQuery(search_information);
+	         }
+	         if(flag==0)
+	             rpar.previous();
+	         while(rpar.next())
+	         {
+	            list.put("parent_id",rpar.getString(1));
+	            list.put("parent_name", rpar.getString(2));
+	            list.put("parent_sex",rpar.getString(3));
+	            list.put("parent_work",rpar.getString(4));
+	            list.put("parent_phone",rpar.getString(5));
+	         }
+	
+	         search_information="select * from register_person where id="+chi+";";
+	         rpar=conn.executeQuery(search_information);
+	         flag=0;
+	         if(!rpar.next())
+	         {
+	             flag=1;
+	             search_information="select * from no_register_person where id="+chi+";";
+	             rpar=conn.executeQuery(search_information);
+	         }
+	         if(flag==0)
+	             rpar.previous();
+	         while(rpar.next())
+	         {
+	             list.put("child_id",rpar.getString(1));
+	             list.put("child_name", rpar.getString(2));
+	             list.put("child_sex",rpar.getString(3));
+	             list.put("child_work",rpar.getString(4));
+	             list.put("child_phone",rpar.getString(5));
+	         }
+	         
+	         list.put("relation",relation);
+	         list.put("start_time", start);
+	         list.put("end_time",end_t);
+	         
+	         json.add(list);
+	     }
+	     
+	     System.out.println("ï¼JSONï¼š"+json);
+	    
+	     HttpServletResponse response=ServletActionContext.getResponse(); 
+	     response.setContentType("text/html;charset=utf-8");  
+	     PrintWriter out = response.getWriter();
+	     
+	     out.println(json);
+	     out.flush();  
+	     out.close();
      }
-//        json.add(list);
-     System.out.println("json"+json);
-    
-     HttpServletResponse response=ServletActionContext.getResponse(); 
-     response.setContentType("text/html;charset=utf-8");  
-     PrintWriter out = response.getWriter();
-     
-     out.println(json);
-     out.flush();  
-     out.close();
-     /*
-      * Ñ°ÕÒÃ¿¸öÈËµÄÏà¹ØÐÅÏ¢£¬È»ºóÒÔjsonµÄ¸ñÊ½½øÐÐ·µ»Ø
-      */
- }
 }
