@@ -7,7 +7,8 @@
     <script src="search/jtopo-0.4.8-min.js"></script>
     <script type="text/javascript" src="home.min.js"></script>
     <link href="kowa.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="bootstart/css/search.css" />
+    <link rel="stylesheet" href="search.css" />
+   
     
      <link rel="stylesheet" href="bootstrap.min.css">
      <link rel="stylesheet" href="index.css">
@@ -18,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="themes/icon.css">
     <link rel="stylesheet" type="text/css" href="demo.css">
 
-
+ 
     
     <script type="text/javascript" src="dialog/jquery.js"></script>
     <script type="text/javascript" src="dialog/moudel.js"></script> 
@@ -26,33 +27,39 @@
     <script type="text/javascript" src="jquery.easyui.min.js"></script>
     
 <style type="text/css">
+.div01{  position:absolute; overflow-y:scroll;}
 </style>
-
+<script type="text/javascript">
+</script>
 </head>
 <div>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="menu-nav">
     <div class="container">
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class=" one"><i class="ui-center"></i><a href="#">用户</a></li>
-                <li class="two"><i class="ui-home"></i><a href="#">我的主页</a></li>
+                <li class=" one"><i class="ui-center"></i><a href="login.jsp">用户</a></li>
+                <li class="two"><i class="ui-home"></i><a href="log.html">我的主页</a></li>
                 <li class="three"><i class="ui-friends"></i><a href="#">好友</a></li>
-                <li class="four"><i class="ui-apply"></i><a href="#">应用</a></li>
+                <li class="four"><i class="ui-apply"></i><a href="#" onclick="zhankai()">应用</a></li>
                 <li class="five"><i class="ui-dress"></i><a href="#">装扮</a></li>
-                <li class="six"><i class="ui-music"></i><a href="#" class="music-active"></a></li>
-                <li class="seven"> <input type="text" class="form-control" placeholder="用户/应用/动态"><span class="search"></span></li>
-                <li class="eight"><img src="img/touxiang.png" alt="">&nbsp;&nbsp;用&nbsp;户&nbsp;名&nbsp;</li>
-                <li class="nine"><i class="ui-center"></i><a href="#" onclick="zhankai()">功能选择</a></li>
-            </ul>
+                <li class="eight">&nbsp;&nbsp;用&nbsp;户&nbsp;<img id="user_img" height="40px" width="40px" src="" alt=""></li>
+             
+         </ul>        
+                
         </div>
     </div>
 </nav>
-    
 </div>
+           	
 <body>
 <div id="left1"><canvas height="600" id="relation"></canvas>
 
-
+                      
+ <input type="hidden" id="par_id">
+ <input type="hidden" id="chi_id">
+ <input type="hidden" id="add_user_id"><!-- 被添加得人得id -->
+ <input type="hidden" id="add_user"><!-- 主动填机啊得人 -->
+ 
 
 </div>
 <div id="right1" >
@@ -117,10 +124,13 @@
     </table>
         </div>
         <div title="add" style="padding:10px" id="div_brother" ondrop="drop_brother()" ondragover="allowDrop(event)">
+           
+           
+           <div id="">
             <h2>The way you can choose:</h2>
             <ul>
-                <li><a href="#">create a new !</a></li>
-                <li><a href="#">look up</a></li>
+                <li><a href="#">创建新得人物</a></li>
+                <li><a href="#">从以下人物添加或者直接输入用户得账号</a></li>
             </ul>
             <table border="1" id = "table2">
         <tr>
@@ -129,41 +139,78 @@
         </tr>
         <tr>
             <td>relation</td>
-            <td><select id="add_relation" style="border-style: none"><option value="0">--please choose--</option><option value="1">teacher</option><option value="2">brother</option><option value="3">student</option></select></td>
+            <td><select id="add_relation" style="border-style: none"><option value="0">--选择关系--</option><option value="1">teacher</option><option value="2">brother</option><option value="3">student</option></select></td>
         </tr>
         <tr>
             <td>start time</td>
-            <td><input id="add_start_time" style="border:none"></td>
+            <td><input id="add_start_time" type="text" class="easyui-datebox" style="width:100%;"></td>
         </tr>
         <tr>
             <td>end time</td>
-            <td><input id="add_end_time" style="border-style: none"></td>
+            <td><input id="add_end_time" type="text" class="easyui-datebox" style="width:100%;"></td>
+        </tr>
+        <tr>
+        <td></td>
+            <td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitAddForm()" style="width:80px">OK!</a>
+            </td>
         </tr>
     </table>
-             <div id="bottom" class="content" style="width:100%;">
+    </div>
+    
+    
+             <div id="bottom" class="content div01" style="width:30%;height:380px;">
                 <ul id="da-thumbs" class="da-thumbs">
+                
                 </ul>
             </div>
         </div>
         
         <div title="merge" style="padding:10px">
-        <input id="merge_ID1" name="" class="easyui-textbox" name="" style="width:100%" data-options="label:'ID1:'">
-        <input id="merge_ID2" name="" class="easyui-textbox" name="" style="width:100%" data-options="label:'ID2:'">
-            
+          
+        <input id="merge_ID1" name="" class="easyui-textbox" name="" style="width:50%" data-options="label:'ID1:'">
+       
+    <br>
+        <input id="merge_ID2" name="" class="easyui-textbox" name="" style="width:50%" data-options="label:'ID2:'">
+   
+           <br> 
         <a align="center" href="javascript:void(0)" class="easyui-linkbutton" onclick="merge()" style="width:80px">Merge</a>
-        
+
         </div>
        
         
     </div>
+  
 </div>
-
-
 <input type="hidden" id="par_id">
 <input type="hidden" id="chi_id">
 <div  style="display:none" id="diag" class="key-word"><a href="javascript:;" id="add-key2" data-title="The error information"></a></div>
 <!-- 对话框的隐藏界面，界面上不显示 -->
 </body>
+<script type="text/javascript">
+	function submitAddForm()
+	{
+		var user_id=$('#add_user').val();
+		var user2_id=$('#add_user_id').val();
+		var final_people=$('#user_id').val();
+		
+		var start=$('#add_start_time').textbox('getValue');
+		var end=$('#add_end_time').textbox('getValue');
+		var relation=$('#add_relation').val();
+		
+		$.messager.confirm('Confirm','您正在向'+user_id+"添加节点！",function(r){
+			if (r){
+				var url="insertRelation";
+				$.post(url,{"user_id":user_id,"user2_id":user2_id,"final_people":final_people,"start":start,"end":end,"relation":relation},function(){
+					if(parseInt(data)==0)
+					{
+						alert("你添加的人物关系重复");
+					}
+					search();
+				});
+			}
+		});
+	}
+</script>
 <script type="text/javascript">
 	function zhankai(){
 		$('#right1').show(1000);
@@ -224,7 +271,7 @@ $("#add-key2").click(function(){
         height: "500px",//设定弹窗的高度
         resizable: true,//设定弹窗是否可以拖动改变大小
         bgClose: true,
-        html:"<div><table id=\"tt\" data-options=\"toolbar:toolbar\"></table></div>"});
+        html:"<div><table id=\"dg\" data-options=\"toolbar:toolbar\"></table></div>"});
 });
 var toolbar = [{
     text:'Save',
@@ -236,85 +283,94 @@ var toolbar = [{
 <script>
 function submitt()
 {
-    var datas=$('#tt').datagrid('getData');
+    var datas=$('#dg').datagrid('getData');
     var url="merge_two";
     
     datas=JSON.stringify(datas);
     alert("     "+ datas);
     $.post(url,{"ID1":$('#merge_ID1').val(),"ID2":$('#merge_ID2').val(),"amendQue":datas},function(){
         document.getElementById('close').click();//关闭窗口
+        search();
     });
 }
 function loaddata(d){
     alert(d);
-    $('#tt').datagrid('loadData',JSON.parse(d));
+    $('#dg').datagrid('loadData',JSON.parse(d));
 }
         function loadGrid(){
-            $('#tt').datagrid({
+       // $(function(){
+    $('#dg').datagrid({
                 title:'sure the relation',
                 iconCls:'icon-edit',
                 width:990,
                 height:250,
-                singleSelect:true,
+               
                 columns:[[
                     {field:'user_1',title:'name',width:180,editor:'text'},
                     {field:'user_2',title:'name',width:180,editor:'text'},
                     {field:'type',title:'type',width:180,editor:'text'},
                     {field:'start_time',title:'start_time',width:180,editor:'text'},
                     {field:'end_time',title:'end_time',width:180,editor:'text'},
-                    
-                    {field:'action',title:'Action',width:80,align:'center',
-                        formatter:function(value,row,index){
-                            if (row.editing){
-                                var s = '<a href="#" onclick="saverow(this)">Save</a> ';
-                                var c = '<a href="#" onclick="cancelrow(this)">Cancel</a>';
-                                return s+c;
-                            } else {
-                                var e = '<a href="#" onclick="editrow(this)">Edit</a> ';
-                                var d = '<a href="#" onclick="deleterow(this)">Delete</a>';
-                                return e+d;
-                            }
+                    {field:'status',title:'status',width:180,editor:{type:'checkbox',options:{on:'P',off:''}}}
+                   
+                ]],
+               
+                
+                
+            });
+    $('#dg').datagrid().datagrid('enableCellEditing');
+        }
+        $.extend($.fn.datagrid.methods, {
+			editCell: function(jq,param){
+				return jq.each(function(){
+					var opts = $(this).datagrid('options');
+					var fields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
+					for(var i=0; i<fields.length; i++){
+						var col = $(this).datagrid('getColumnOption', fields[i]);
+						col.editor1 = col.editor;
+						if (fields[i] != param.field){
+							col.editor = null;
+						}
+					}
+					$(this).datagrid('beginEdit', param.index);
+                    var ed = $(this).datagrid('getEditor', param);
+                    if (ed){
+                        if ($(ed.target).hasClass('textbox-f')){
+                            $(ed.target).textbox('textbox').focus();
+                        } else {
+                            $(ed.target).focus();
                         }
                     }
-                ]],
-                
-                onAfterEdit:function(index,row){
-                    row.editing = false;
-                    updateActions(index);
-                },
-                onCancelEdit:function(index,row){
-                    row.editing = false;
-                    updateActions(index);
-                }
-            });
-        }
-        
-        function updateActions(index){
-            $('#tt').datagrid('updateRow',{
-                index: index,
-                row:{}
-            });
-        }
-        function getRowIndex(target){
-            var tr = $(target).closest('tr.datagrid-row');
-            return parseInt(tr.attr('datagrid-row-index'));
-        }
-        function editrow(target){
-            $('#tt').datagrid('beginEdit', getRowIndex(target));
-        }
-        function deleterow(target){
-            $.messager.confirm('Confirm','Are you sure?',function(r){
-                if (r){
-                    $('#tt').datagrid('deleteRow', getRowIndex(target));
-                }
-            });
-        }
-        function saverow(target){
-            $('#tt').datagrid('endEdit', getRowIndex(target));
-        }
-        function cancelrow(target){
-            $('#tt').datagrid('cancelEdit', getRowIndex(target));
-        }
+					for(var i=0; i<fields.length; i++){
+						var col = $(this).datagrid('getColumnOption', fields[i]);
+						col.editor = col.editor1;
+					}
+				});
+			},
+            enableCellEditing: function(jq){
+                return jq.each(function(){
+                    var dg = $(this);
+                    var opts = dg.datagrid('options');
+                    opts.oldOnClickCell = opts.onClickCell;
+                    opts.onClickCell = function(index, field){
+                        if (opts.editIndex != undefined){
+                            if (dg.datagrid('validateRow', opts.editIndex)){
+                                dg.datagrid('endEdit', opts.editIndex);
+                                opts.editIndex = undefined;
+                            } else {
+                                return;
+                            }
+                        }
+                        dg.datagrid('selectRow', index).datagrid('editCell', {
+                            index: index,
+                            field: field
+                        });
+                        opts.editIndex = index;
+                        opts.oldOnClickCell.call(this, index, field);
+                    }
+                });
+            }
+		});
     </script>
 
 
@@ -334,6 +390,8 @@ var links=[];
         $('#ff').form('load',{
             user_id:showval
         });
+        $('#user_img').attr('src',"UserPicture/"+30+".jpeg");
+       
         var url="lookup";
         $.post(url,{"name":"bao"},function(data){
             var num=data.length;
@@ -341,7 +399,7 @@ var links=[];
             for(var i=0;i<num;i++)
             {
              text=text+"<li>"+
-                  "<a target=\"_blank\"> <img src=\"photo/1.png\" height=\"70px\" width=\"70px\" draggable=\"true\" ondragstart=\"drag(this)\">"+
+                  "<a target=\"_blank\"> <img src=\"photo/1.png\" height=\"70px\" width=\"70px\" draggable=\"true\">"+
                   "<div class=\"hot_info\">"+
                       "<p>姓名："+data[i].name+"</p>"+
                       "<input type=\"button\" value=\"添加\" onclick=\"drag(this)\">"+
@@ -364,12 +422,14 @@ var links=[];
             
             },'json');
         
+        
         var names = document.getElementsByName("searchType");
         var type = 0;
         for(var i=0;i<names.length;i++){  
             names[i].checked=true;
         }
         var url="search";
+        
         $.post(url,{"flaag":1,"Id":$('#user_id').val(),"relationType":type,"beginTime":start,"endTime":end},function(data,status){
         	 var dataa=eval('('+data+')');
         	$('.eight').append('<p>'+dataa[0].parent_name+'</p>');
@@ -379,7 +439,8 @@ var links=[];
     
     function search()
     {
-        
+    	nodes=[];
+    	links=[];
         var names = document.getElementsByName("searchType");
         var type = "";
         var start="";
@@ -431,14 +492,16 @@ var links=[];
                 var node = new JTopo.Node();
                 node.radius = 40;
                 node.id=data[i].parent_id;
+                node.name=data[i].parent_name;
                 node.fillColor = JTopo.util.randomColor();
                 node.setImage('photo/1.png');
                 node.setLocation(x, y);
                 node.click(function(){
-                    alert(this.id);
+                	$('#add_user').val(this.id);
+                    
                 });
                 node.mouseover(function(){
-                    this.text = this.id;
+                    this.text = this.name;
                 });
                 node.mouseout(function(){
                     this.text = null;
@@ -456,11 +519,12 @@ var links=[];
                 node.setImage('photo/1.png');
                 node.setLocation(x, y);  
                 node.id=data[i].child_id;
+                node.name=data[i].child_name;
                 node.click(function(){
-                    alert(this.id);
+                	$('#add_user').val(this.id);
                 });
                 node.mouseover(function(){
-                    this.text = this.id;
+                    this.text = this.name;
                 });
                 node.mouseout(function(){
                     this.text = null;
@@ -478,10 +542,20 @@ var links=[];
         {
             var num1=Ldex(data[i].parent_id);
             var num2=Ldex(data[i].child_id);
-            var link = new JTopo.Link(nodes[num1], nodes[num2],data[i].relation+"-->");
+            var link = new JTopo.Link(nodes[num1], nodes[num2],data[i].relation);
             
             link.strokeColor = JTopo.util.randomColor();
             link.lineWidth = Math.ceil(15 * Math.random()) + 1;
+            link.ps=i;
+            link.click(function(){
+            	$("#par").val(data[this.ps].parent_name);
+            	$("#chi").val(data[this.ps].child_name);
+            	$("#relation_1").val(data[this.ps].relation);
+            	$("#start_time1").textbox('setValue',data[this.ps].start_time)
+            	$("#end_time1").textbox('setValue',data[this.ps].end_time);
+            	$("#par_id").val(data[this.ps].parent_id);
+            	$("#chi_id").val(data[this.ps].child_id);
+            });
             scene.add(link);
             links.push(link);
             effect.addNode(nodes[num1], nodes[num2]);
@@ -521,6 +595,7 @@ var links=[];
            work=$(t).siblings("#inp_work").val();
             phone=$(t).siblings("#inp_phone").val();
            id=$(t).siblings("#pid").val();
+           $("#add_user_id").val(id);
            addJson(data_brother,name,sex,work,phone,start,end,id);
            addHtml_brother();
         }
@@ -550,11 +625,15 @@ var links=[];
     function changeRelation()
     {
         var url="changeRelation";
-        $.post(url,{"user_id":$("#user_id").val(),"ID1":$("#par_id").val(),"ID2":$("#chi_id").val(),"par_name":$("#par").val(),"chi_name":$("#chi").val(),"relation":$("#relation_1").val(),"start":$("#start_time1").val(),"end":$("#end_time1").val()},function(data,status){
-            alert("fanhui");
+     
+        var start1=$("#start_time1").textbox('getValue');
+        var end1=$("#end_time1").textbox('getValue');
+        
+        $.post(url,{"user_id":$("#user_id").val(),"ID1":$("#par_id").val(),"ID2":$("#chi_id").val(),"par_name":$("#par").val(),"chi_name":$("#chi").val(),"relation":$("#relation_1").val(),"start":start1,"end":end1},function(data,status){
+        	alert("change");
+        	search(); 
                         
         });
-        search(); 
     }
 </script>
 
@@ -573,14 +652,12 @@ var links=[];
 /*点击图片时就执行*/
    
 /*将添加的人的信息加入数组中，检擦时使用*/
-    function addJson(data,name,sex,work,phone,start,end,id){
-    alert("nnn");
-       for(var j=0;j<data.length;j++){
-          if(data[j].id==id){
-            return;
+function addJson(data,name,sex,work,phone,start,end,id){
+   for(var j=0;j<data.length;j++){
+     if(data[j].id==id){
+          return;
           }
-        }
-       alert("name"+name);
+     }
        data.push({
           id:id,
             name:name,

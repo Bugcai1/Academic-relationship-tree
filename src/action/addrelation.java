@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -99,11 +101,11 @@ public class addrelation {
 	    out.close();
 		return "SUCCESS";
 	}
-	public String add_Relation() throws SQLException
+	public String add_Relation() throws SQLException, IOException
 	{
-		System.out.println("鎻掑叆鐨勫嚱鏁扳��");
+		System.out.println("添加关系");
 		String search_p="select phone from register_person where id="+getFinal_people()+";"; 
-//		System.out.println(search_p);
+		System.out.println("查询语句1："+search_p);
 		DbUtil con=new DbUtil();
 		ResultSet rs=con.executeQuery(search_p);
 		
@@ -114,9 +116,63 @@ public class addrelation {
 		}
 		
 		String table_name="a"+getFinal_people()+phone;
-		String sql="insert into "+table_name+" values("+getUser_id()+","+getUser2_id()+","+getRelation()+","+getStart()+","+getEnd()+");";
-//		System.out.println(sql);
+		
+		//----------------------------------------------------------------------------------------------------------
+		search_p = "select * from " + table_name + " where (user_id="+getUser_id()+" and relation_id="+getUser2_id() + ") or ("
+				+ "user_id="+getUser2_id()+" and relation_id="+getUser_id()+");"; 
+		rs = con.executeQuery(search_p);
+		if(rs.next()) {
+			HttpServletResponse response=ServletActionContext.getResponse(); 
+			response.setContentType("text/html;charset=utf-8");  
+		    PrintWriter out = response.getWriter(); 
+		    out.println(0);
+		    out.flush();  
+		    out.close();
+		    return "SUCCESS";
+		}
+		//----------------------------------------------------------------------------------------------------------
+
+		/*
+		*插入提醒语句，当作历史纪录
+		*向被添加与添加得人都增添
+		*数据表得形式：
+		*表的命名方式：time+id;
+		*id1 id2 relation time(添加的时间，年月日) type(标记是主动添加0还是被动添加1)
+		*返回的形式：您的朋友id在什么时间将您添加为+某某+关系好友，请您注意查看。//您添加某某为好友
+		*/
+		//主动添加别人
+		String sql="select * from register_person where id="+getFinal_people()+";";
+		ResultSet rst=con.executeQuery(sql);
+		if(rst.next())
+		{
+			String time_table1="time"+getFinal_people();
+			String time_sql="insert into "+time_table1+" values("+getFinal_people()+","+getUser2_id()+","+getRelation()+","+getTime()+");";
+//			con.executeUpdate(time_sql);
+			System.out.println(time_sql);
+		}
+		
+		sql="select * from register_person where id="+getUser2_id()+";";
+		rst=con.executeQuery(sql);
+		if(rst.next())
+		{
+			String time_table2="time"+getUser2_id();
+			String time_sql="insert into "+time_table2+" values("+getFinal_people()+","+getUser2_id()+","+getRelation()+","+getTime()+");";
+//			con.executeUpdate(time_sql);
+			System.out.println(time_sql);
+		}
+		
+		sql="insert into "+table_name+" values("+getUser_id()+","+getUser2_id()+","+getRelation()+","+getStart()+","+getEnd()+");";
+		System.out.println("添加语句："+sql);
 		con.executeUpdate(sql);
+		
 		return "SUCCESS";
+	}
+	public static String getTime()
+	{
+		String time="";
+		Date day=new Date();    
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		System.out.println("tiem   "+df.format(day));   
+		return df.format(day);
 	}
 }

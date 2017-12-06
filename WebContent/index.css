@@ -60,8 +60,8 @@ nav div.container ul li.one a {
   color: #EF9618;
 }
 nav div.container ul li.nine a {
-  display: inline-block;
-  line-height: 50px;
+ display: inline-block;
+  line-height: 10px;
   font-family: "Adobe Caslon Pro";
   font-size: 18px;
   font-weight: 600;

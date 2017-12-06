@@ -139,18 +139,6 @@ public class newregister {
 	}
 
 
-	
-	
-
-	/*
-	 * 杩斿洖娉ㄥ唽鐣岄潰鐨刬d
-	 * 搴旇鏄悜鐣岄潰杩斿洖锛屽浣曡繑鍥烇紵锛燂紵锛燂紵锛燂紵
-	 * 鍦ㄨ繖閲屽彧鏄繑鍥炲綋鍓嶇殑搴忓彿鏁帮紝id鐨勫墠缂�鍦ㄧ晫闈腑娣诲姞鍗冲彲
-	 */
-//	public static void main(String[] args) throws SQLException
-//	{
-//		System.out.println(get_person_id());
-//	}
 	public String getpersonid() throws SQLException, IOException
 	{
 		System.out.println("-----------1111111111");
@@ -176,6 +164,8 @@ public class newregister {
 		String table_Name="a"+getId()+getPhone();
 		DbUtil con=new DbUtil();
 		con.createNewPersonTable(table_Name);
+		table_Name="time"+getId();
+		con.createNewTimeTable(table_Name);
 	}
 	/*
 	 * 鎻掑叆娉ㄥ唽鐨勬垚鍛� 鍚憆egister_person琛ㄤ腑杩涜娣诲姞
