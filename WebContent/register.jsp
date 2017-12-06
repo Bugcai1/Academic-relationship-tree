@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
 	<fieldset class="charlie">
 		<legend><b>3. </b>完成</legend>
 		<div class="frow">
-		
+
 			<p>您的信息已经填写完整，谢谢！</p>
 			<a id="aa" href="">前往自己的关系树</a>
 		</div>

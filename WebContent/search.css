@@ -8,19 +8,23 @@
 	margin-top:65px;
 	transition:width 0.6s;
 }
+#center{
+	background:red;
+	width:2%;
+	margin-top:0px;
+	float:left;
+	height:600px;
+}
+#center_panel{
+	float:left;
+}
 #right1{
 	height:600px;
 	width:28%;
 	background:white;
-	margin-left:20px;
 	float:left;
 	transition:width 0.6s;
 	margin-top:65px;
-}
-
-
-body{
-  background: #ebebeb;
 }
 .nav1{
 	width:100%;
