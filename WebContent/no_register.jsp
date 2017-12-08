@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <link type="text/css" rel="stylesheet" href="register/style.css" media="screen">
 <script type="text/javascript" src="register/jquery.js"></script>
 <script type="text/javascript" src="register/index.js"></script>
-<title>头像上传</title>
+<title>用户注册</title>
 </head>
 <body>
     <section class="container">
@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 			<img id="user_img" style="margin-left:40%;border-radius:25px"  alt="" width="50px" height="50px">
 		</div>
 		<div style="margin-top:10px" class="frow">
-			<a href="uploadPicture.jsp"><input id="" class="item" type="button" value="上传头像"></a>
+			<a href="nopicture.jsp"><input id="" class="item" type="button" value="上传头像"></a>
 		</div>
 		
 		<div style="margin-top:10px" class="frow">
@@ -52,33 +52,31 @@ pageEncoding="UTF-8"%>
 			<input class="submit" type="submit" value="完成" onclick="submitl()">
 		</div>
 	</fieldset>
-
-	<fieldset class="charlie">
-		<legend><b>3. </b>完成</legend>
-		<div class="frow">
-
-			<p>您的信息已经填写完整，谢谢！</p>
-			<a id="aa" href="">前往自己的关系树</a>
-		</div>
-	</fieldset>
 </form>
 </section>
 
 <script type="text/javascript">
 var id="0";
+var user_id="0";
+
 	window.onload=function(){
+		
+		var thisURL = document.URL;  
+	    var  getval =thisURL.split('?')[1];  
+	    var showval= getval.split("=")[1];
+	    user_id=parseInt(showval);
+	    
+	    
 		var form=document.forms[0];
 		form.onsubmit=function(){
 			return false;
 		};
 		var url="getid";
 		$.post(url,{"name":"bao"},function(data,status){
-			$("#user_id").val("您的账号是："+data);
-			id=data; 
-			ad="search.jsp?cc="+id;
-			$("#aa").attr('href',ad);
-			$('#user_img').attr('src',"UserPicture/"+id+".jpeg");
+			id=data;
+			$("#user_id").val("您朋友的账号是："+data);
 		});
+		
 		
 	};
 
@@ -97,8 +95,9 @@ function submitl(){
 		alert("请选择性别！！");
 		return;
 	}
-	var url="insert";
+	var url="insert_no_register_people";
 	$.post(url,{"id":parseInt(id),"name":$("#uname").val(),"sex":wsex,"work":$("#work").val(),"phone":$("#phone").val()},function(data,status){
+		window.location.href="search.jsp?cc="+user_id+"?flag=0"+"?name="+$("#uname").val()+"?id="+parseInt(id);
 	});
 }
 </script>

@@ -3,24 +3,15 @@
 #left1{
 	height:600px;
 	width:70%;
-	background:url(photo/bg.jpg);
+	background:url(bg.jpg);
 	float:left;
 	margin-top:65px;
 	transition:width 0.6s;
 }
-#center{
-	background:red;
-	width:2%;
-	margin-top:0px;
-	float:left;
-	height:600px;
-}
-#center_panel{
-	float:left;
-}
 #right1{
 	height:600px;
 	width:28%;
+	margin-left:20px;
 	background:white;
 	float:left;
 	transition:width 0.6s;
@@ -111,6 +102,30 @@
 
 /* Padding and font style */
 #table1 td, #table1 th {
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: Verdana;
+	font-weight: bold;
+}
+#table2 thead th {
+	background-color: rgb(81, 130, 187);
+	color: #fff;
+	border-bottom-width: 0;
+}
+
+/* Column Style */
+#table2 td {
+	color: #111;
+}
+/* Heading and Column Style */
+#table2 tr, #table2 th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(81, 130, 187);
+}
+
+/* Padding and font style */
+#table2 td, #table2 th {
 	padding: 5px 10px;
 	font-size: 12px;
 	font-family: Verdana;
