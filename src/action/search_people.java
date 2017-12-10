@@ -27,7 +27,6 @@ public class search_people {
     }
     public void setFlaag(int flaag)
     {
-    	System.out.println("初始化！");
     	this.flaag=flaag;
     }
 //    DbUtil connect = new DbUtil();
@@ -58,19 +57,19 @@ public class search_people {
         this.beginTime = beginTime;
     }
  /*
-  * 采用不同的方式向界面返回json结果值，要求掌握对应的js接收方式
+  * 锟斤拷锟矫诧拷同锟侥凤拷式锟斤拷锟斤拷娣碉拷锟絡son锟斤拷锟街碉拷锟揭拷锟斤拷锟斤拷斩锟接︼拷锟絡s锟斤拷锟秸凤拷式
   */
  
  /*
-  * 按照id查找某个人的关系树
-  * 是新逻辑，首先根据id在register_person表中查找手机号，确定个人的关系表所在的地方
-  * 查询关系表中的数据id，然后到register_person，no_register_person表中进行详细数据的查询
+  * 锟斤拷锟斤拷id锟斤拷锟斤拷某锟斤拷锟剿的癸拷系锟斤拷
+  * 锟斤拷锟斤拷锟竭硷拷锟斤拷锟斤拷锟饺革拷锟斤拷id锟斤拷register_person锟斤拷锟叫诧拷锟斤拷锟街伙拷锟脚ｏ拷确锟斤拷锟斤拷锟剿的癸拷系锟斤拷锟斤拷锟节的地凤拷
+  * 锟斤拷询锟斤拷系锟斤拷锟叫碉拷锟斤拷锟斤拷id锟斤拷然锟斤拷register_person锟斤拷no_register_person锟斤拷锟叫斤拷锟斤拷锟斤拷细锟斤拷锟捷的诧拷询
   */
 //    public static void main(String[] args) throws SQLException
 //    {
 //        search_id();
 //    }
-    
+
 public int workoutString(String s)
     {
         int result ;
@@ -78,7 +77,7 @@ public int workoutString(String s)
         String temp[] = new String[3];
         temp = s.split("/");
         System.out.println("s="+s+"   "+temp[0]);
-        all = temp[0] +temp[1] +temp[2];
+        all = temp[2] +temp[0] +temp[1];
         result =Integer.parseInt(all); 
         return result ;
     }
@@ -103,7 +102,7 @@ public int workoutString(String s)
  public String sureSql()
  {
     String relationType=getRelationType();
-     String sql = " and (relation=" ;
+     String sql = " where (relation=" ;
 //     System.out.println("relation"+relationType);
         switch (relationType)
         {
@@ -135,7 +134,6 @@ public int workoutString(String s)
  }
  public void search() throws SQLException, IOException
  {
-	 System.out.println("okokokookokokokokokokookoko"+getFlaag());
      JSONArray json=new JSONArray();
      JSONObject list=new JSONObject();
      DbUtil con=new DbUtil();
@@ -143,11 +141,10 @@ public int workoutString(String s)
      ResultSet rs=null;
      ResultSet rpar=null;
      String search_p="select * from register_person where id="+getId()+";";
-     rs=con.executeQuery(search_p);//查询手机号
+     rs=con.executeQuery(search_p);
      String phone="";
      if(getFlaag()==1)
      {
-     	 System.out.println("------------------！！！！");
      	 while(rs.next())
          {
      		 list.put("parent_id",rs.getString(1));
@@ -165,124 +162,76 @@ public int workoutString(String s)
          out.close();
      	 return;
      }
+     
      while(rs.next())
      {
          phone=rs.getString(5);
      }
-//        json.add(list);
-     /*
-      * 以上返回的时查询者的相关信息
-      */
-//        System.out.println("haode "+list);
+     String table_name="a"+getId()+phone;
      
-      //获得手机号（查询结果需要验证是不是正确）
-     String table_name="a"+getId()+phone;//确定个人信息表的名字；
-//        System.out.println("tablename  "+table_name);
-     /*
-      * 按照树的层次遍历的思想，将数据表中的信息，一个一个的查出来。
-      */
-//     System.out.println("table"+table_name);
-     int Q[]=new int[1000];
-     int front=0;
-     int end=0;
-     int kk=0;
-     int pk=-1;
-     int dex[]=new int[100];
-     int dey[]=new int[100];
-     Q[end++]=getId();/*首先将自己压入*/
-     while(front!=end)
+     ClearUpTable.clear(table_name, getId());
+     String search_relation="select * from "+table_name+sureSql();
+     rs=con.executeQuery(search_relation);
+     System.out.println(search_relation);
+     
+     while(rs.next())
      {
-    	 System.out.println("YYYYYYY");
-         int id=Q[front++];
-         String search_relation="select * from "+table_name+" where user_id="+id+sureSql();
-         System.out.println("search"+search_relation);
-         rs=con.executeQuery(search_relation);//此时rs包含的内容很重要：一部分是要返回的数据，一部分要取在寻找；
-         int count=conn.executecount(table_name, id,sureSql());         
-         int length=120;
-         int k=0;
-         pk++;
+    	 if(isrelation(workoutString(rs.getString(4)),workoutString(rs.getString(5)))!=true)
+             continue;
+    	 
+    	 int par=rs.getInt(1);
+         int chi=rs.getInt(2);
+         int relation=rs.getInt(3);
+         String start=rs.getString(4);
+         String end_t=rs.getString(5);
          
-         while(rs.next())
+         String search_information="select * from register_person where id="+par+";";
+         rpar=conn.executeQuery(search_information);
+         int flag=0;
+         if(!rpar.next())
          {
-        	 System.out.println("lllllllllll");
-//        	 System.out.println("search");
-             if(isrelation(workoutString(rs.getString(4)),workoutString(rs.getString(5)))!=true)
-                continue;
-//                System.out.println("id="+rs.getString(1) + " "+"kk=   "+kk);
-             k++;
-             Q[end++]=rs.getInt(2);
-             System.out.println("end"+rs.getInt(2));
-             int par=rs.getInt(1);
-             int chi=rs.getInt(2);
-             int relation=rs.getInt(3);
-             String start=rs.getString(4);
-             String end_t=rs.getString(5);
-             
-
-            System.out.println("信息："+par+"  "+chi+"  "+relation+" "+start+" "+end_t);
-             
-             String search_information="select * from register_person where id="+par+";";
+             flag=1;
+             search_information="select * from no_register_person where id="+par+";";
              rpar=conn.executeQuery(search_information);
-             int flag=0;
-             if(!rpar.next())//假设不存在的时候是null
-             {
-                 flag=1;
-                 search_information="select * from no_register_person where id="+par+";";
-                 rpar=conn.executeQuery(search_information);
-             }
-             if(flag==0)
-                 rpar.previous();
-             while(rpar.next())
-             {
-                list.put("parent_id",rpar.getString(1));
-                list.put("parent_name", rpar.getString(2));
-                list.put("parent_sex",rpar.getString(3));
-                list.put("parent_work",rpar.getString(4));
-                list.put("parent_phone",rpar.getString(5));
-             }
+         }
+         if(flag==0)
+             rpar.previous();
+         while(rpar.next())
+         {
+            list.put("parent_id",rpar.getString(1));
+            list.put("parent_name", rpar.getString(2));
+            list.put("parent_sex",rpar.getString(3));
+            list.put("parent_work",rpar.getString(4));
+            list.put("parent_phone",rpar.getString(5));
+         }
 
-             search_information="select * from register_person where id="+chi+";";
+         search_information="select * from register_person where id="+chi+";";
+         rpar=conn.executeQuery(search_information);
+         flag=0;
+         if(!rpar.next())
+         {
+             flag=1;
+             search_information="select * from no_register_person where id="+chi+";";
              rpar=conn.executeQuery(search_information);
-             flag=0;
-             if(!rpar.next())//假设不存在的时候是null
-             {
-                 flag=1;
-                 search_information="select * from no_register_person where id="+chi+";";
-                 rpar=conn.executeQuery(search_information);
-             }
-             if(flag==0)
-                 rpar.previous();
-             while(rpar.next())
-             {
-                 list.put("child_id",rpar.getString(1));
-                 list.put("child_name", rpar.getString(2));
-                 list.put("child_sex",rpar.getString(3));
-                 list.put("child_work",rpar.getString(4));
-                 list.put("child_phone",rpar.getString(5));
-             }
-             
-             list.put("relation",relation);
-             list.put("start_time", start);
-             list.put("end_time",end_t);
-             
-             int x=0;
-             int y=0;
-             
-             
-//             System.out.println(k+"  坐标  "+(Math.sin(k*2.0/count*Math.PI))+"   "+dex[pk]);
-//             System.out.println((Math.cos(k*2.0/count*Math.PI))+"   "+dey[pk]);
-             x=(int)(Math.sin(k*2.0/count*Math.PI)*length+dex[pk]);
-             y=(int)(Math.cos(k*2.0/count*Math.PI)*length+dey[pk]);
-             dex[++kk]=x;
-             dey[kk]=y;
-//             System.out.println("x="+x+"  y="+y);
-             
-             list.put("x",x);
-             list.put("y", y);
-             json.add(list);
-         }   
+         }
+         if(flag==0)
+             rpar.previous();
+         while(rpar.next())
+         {
+             list.put("child_id",rpar.getString(1));
+             list.put("child_name", rpar.getString(2));
+             list.put("child_sex",rpar.getString(3));
+             list.put("child_work",rpar.getString(4));
+             list.put("child_phone",rpar.getString(5));
+         }
+         
+         list.put("relation",relation);
+         list.put("start_time", start);
+         list.put("end_time",end_t);
+         
+         json.add(list);
      }
-//        json.add(list);
+     
      System.out.println("json"+json);
     
      HttpServletResponse response=ServletActionContext.getResponse(); 
@@ -290,10 +239,8 @@ public int workoutString(String s)
      PrintWriter out = response.getWriter();
      
      out.println(json);
+     System.out.println("json");
      out.flush();  
      out.close();
-     /*
-      * 寻找每个人的相关信息，然后以json的格式进行返回
-      */
  }
 }

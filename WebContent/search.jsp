@@ -22,13 +22,14 @@
     <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="themes/icon.css">
     <link rel="stylesheet" type="text/css" href="demo.css">
-
+	<link rel="stylesheet" type="text/css" href="layer-animate.css">
  
-    
+    <link rel="stylesheet" href="demo/style.css">
     <script type="text/javascript" src="dialog/jquery.js"></script>
     <script type="text/javascript" src="dialog/moudel.js"></script> 
-    
+    <script src="demo/index.js"></script>
     <script type="text/javascript" src="jquery.easyui.min.js"></script>
+    
     
 <style type="text/css">
 .div01{  position:absolute; overflow-y:scroll;}
@@ -39,6 +40,39 @@
 a.buttons:hover{background:#86b8b4;border-bottom:solid #FF0000 4px;}
 #body{font-size:13px;text-align:justify;overflow:hidden;color:#fff;padding:20px;-moz-border-radius: 1em 4em 1em 4em;border-radius: 1em 4em 1em 4em;	height:550px;width:100%;margin:10px 0 0 0;}
 
+
+label {
+	width:100%;
+	height:100%;
+	
+}
+
+.file {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
 </style>
 <script type="text/javascript">
 </script>
@@ -166,11 +200,29 @@ function navigate_tabs(container, tab){
 	
 	<div class="c" style="height:350px;">
 	 <div id="" style="width:300px">
-            <h2>The way you can choose:</h2>
-            <ul>
-                <li><a id="noregister" onclick="add_no()"  href="#">创建新得人物</a></li>
-                <li><a href="#">从以下人物添加或者直接输入用户得账号</a></li>
-            </ul>
+	 	
+	 	<div id="add_p">
+	 	
+          <div class="cont_ba_opcitiy">
+            <button class="btn_login" onClick="cambiar_login()">LOGIN</button>
+          </div>
+      
+      
+      <div class="cont_forms" >
+        <div  class="cont_form_login"> <a href="#" onClick="ocultar_login_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
+          <div id="div2"></div>
+      <form enctype="multipart/form-data" id="uploadForm">
+       <a style="margin-top:10px;" href="javascript:;" class="file">选择文件<input class="" type="file" name="uploadFile" id="upload_file" onchange="c()" style="margin-bottom:10px;"></a>
+      </form>
+      <input id="friend_name" placeholder="姓名" required type="text">
+      <select id="friend_sex"><option>--请选择性别--</option><option value="1">男</option><option value="2">女</option></select>
+      <input id="friend_phone" class="item" placeholder="手机号" required type="text">
+      <input id="friend_work" class="item" placeholder="工作" required type="text">
+      <button class="btn_login" onClick="upload_friend_picture()">LOGIN</button>
+      <button class="btn_login" onClick="ocultar_login_sign_up()()">EXIT</button>
+       </div>
+      </div>
+	 </div>
         <table border="1" id = "table2" align="center">
         <tr>
             <td>name</td>
@@ -227,10 +279,16 @@ function navigate_tabs(container, tab){
 	function postlog(){	
 		window.location.href="log.jsp?cc="+log_people;
 	}
-</script>
-<script type="text/javascript">
-	function add_no(){
-		
+	
+	function c () {
+		$('#div2').find('img').remove();
+		var r= new FileReader();
+		f=document.getElementById('upload_file').files[0];
+		r.readAsDataURL(f);
+		r.onload=function  (e) {
+        	var text="<img src="+this.result+" height=\"70px\" width=\"70px\" style=\"border-radius:25px;\">";
+        	$('#div2').append(text);	
+		};
 	}
 </script>
 <script type="text/javascript">
@@ -243,10 +301,24 @@ function navigate_tabs(container, tab){
 		var start=$('#add_start_time').textbox('getValue');
 		var end=$('#add_end_time').textbox('getValue');
 		var relation=$('#add_relation').val();
+		
+		
+		
 		if(start=="")
 			start="00/01/0000";
 		if(end=="")
-			end="99/98/9999"
+			end="99/98/9999";
+			
+		if(!time_problem(start,end))
+        {
+        	$.messager.confirm('Confirm','时间错误，请更改！',function(r){
+    			if (r){
+    				return;
+    			}
+    		});
+        	return;
+        }
+			
 		
 		if(user_id=="")
 		{
@@ -269,22 +341,26 @@ function navigate_tabs(container, tab){
 		
 		$.messager.confirm('Confirm','您正在向账号为：'+user_id+"的用户添加节点！",function(r){
 			if (r){
-				var url="insertRelation";
-				$.ajax({
-		               type: "POST",
-		               url: "insertRelation",
-		               data: {"user_id":user_id,"user2_id":user2_id,"final_people":final_people,"start":start,"end":end,"relation":relation},
-		               success: function(data){
-		            	   alert("jjjj");
-							alert(data);
-							if(parseInt(data[0].flag)==1)
-							{
-								alert("你添加的人物关系重复");
-								return;
-							}
-							search();
-		                  }
-		            });
+			    var fdd = new FormData();
+			    fdd.append('user_id', user_id);
+			    fdd.append('user2_id',user2_id);
+			    fdd.append('final_people',final_people);
+			    fdd.append('start',start);
+			    fdd.append('end',end);
+			    fdd.append('relation',relation);
+			    $.ajax({
+			        url:"insertRelation",
+			        type:"post",
+			        // Form数据
+			        data: fdd,
+			        cache: false,
+			        contentType: false,
+			        processData: false,
+			        success:function(data){
+			        	search();
+			        	
+			        }
+			    });
 			}
 		});
 	}
@@ -363,6 +439,91 @@ var toolbar = [{
     iconCls:'icon-save',
     handler:function(){submitt();}
 }];
+</script>
+
+<script>
+	//这个是控制新加人物的弹出层的一个script区
+	var friendID;
+    function upload_friend_picture(){
+    	var f_name=$("#friend_name").val();
+        var fd = new FormData();
+        fd.append('id', parseInt(friendID));
+        fd.append('name',$("#friend_name").val());
+	fd.append('sex',$("#friend_sex").val());
+        fd.append('work',$("#friend_work").val());
+	fd.append('phone',$("#friend_phone").val());
+	
+	var pic = $('#upload_file')[0].files[0];
+    var fdd = new FormData();
+    fdd.append('uploadFile', pic);
+    fdd.append('ID',friendID); 
+    $.ajax({
+        url:"no_register_picture",
+        type:"post",
+        // Form数据
+        data: fdd,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success:function(data){
+        	
+        	
+        	$.ajax({
+                url:"insert_no",
+                type:"post",
+                // Form数据
+                data: fd,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success:function(data){
+                    ocultar_login_sign_up();
+                    reload_friend();
+                    $("#add_name").val(f_name);
+                    $("#add_user_id").val(friendID);
+                }
+            });   
+        	
+        	
+        	
+        }
+    });              
+    
+}
+
+
+    function reload_friend(){
+	var url="lookup";
+        $.post(url,{"name":"bao"},function(data){
+            var num=data.length;
+            var text="";
+            for(var i=0;i<num;i++)
+            {
+             text=text+"<li style=\"margin-top:5px\">"+
+                  "<a target=\"_blank\"> <img src="+"\"UserPicture/"+data[i].id+".jpeg\""+"height=\"70px\" width=\"70px\" draggable=\"true\">"+
+                  "<div class=\"hot_info\">"+
+                      "<p>姓名："+data[i].name+"</p>"+
+              
+                      "<input type=\"button\" value=\"添加\" onclick=\"drag(this)\">"+
+                      
+                      "<input type=\"hidden\" id=\"inp_name\" value="+data[i].name+">"+
+                      "<input type=\"hidden\" id=\"inp_sex\" value="+data[i].sex+">"+
+                      "<input type=\"hidden\" id=\"inp_work\" value="+data[i].work+">"+
+                      "<input type=\"hidden\" id=\"inp_phone\" value="+data[i].phone+">"+
+                      "<input type=\"hidden\" id=\"pid\" value="+data[i].id+">"+   
+                    "</div>"+
+                    "</a>"+
+                  "</li>";
+            }
+            
+		$("#da-thumbs").empty();
+            $("#da-thumbs").append(text);
+            
+            var jsElem = document.createElement('script');
+            jsElem.src='home.min.js';
+            document.getElementsByTagName('head')[0].appendChild(jsElem);
+            },'json');
+	}
 </script>
 
 <script>
@@ -460,7 +621,22 @@ function loaddata(d){
 
 
 <script type="text/javascript">
-/*画人物的关系图*/
+function time_problem(start,end){
+	var start_s=start.split("/");
+	var end_s=end.split("/");
+	
+	var s=start_s[2]+start_s[0]+start_s[1];
+	var e=end_s[2]+end_s[0]+end_s[1];
+	
+	if(parseInt(s)<parseInt(e))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 </script>
 <script type="text/javascript">//页面加载的时候加载候选人
 var canvas = document.getElementById('relation');
@@ -563,9 +739,7 @@ var links=[];
         }
         else
             end=$("#end_time").val();
-        var endt=end.split("/");
-        var startt=start.split("/");
-        if((parseInt(startt[2])+parseInt(startt[0])+parseInt(startt[1]))>=(parseInt(endt[2])+parseInt(endt[0])+parseInt(endt[1])))
+        if(!time_problem(start,end))
         {
         	$.messager.confirm('Confirm','查寻时间有错，请更改！',function(r){
     			if (r){
@@ -777,6 +951,15 @@ var links=[];
      
         var start1=$("#start_time1").textbox('getValue');
         var end1=$("#end_time1").textbox('getValue');
+        if(!time_problem(start1,end1))
+        {
+        	$.messager.confirm('Confirm','修改时间有错，请更改！',function(r){
+    			if (r){
+    				return;
+    			}
+    		});
+        	return;
+        }
         
         $.post(url,{"user_id":$("#user_id").val(),"ID1":$("#par_id").val(),"ID2":$("#chi_id").val(),"par_name":$("#par").val(),"chi_name":$("#chi").val(),"relation":$("#relation_1").val(),"start":start1,"end":end1},function(data,status){
         	search(); 
