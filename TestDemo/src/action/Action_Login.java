@@ -1,7 +1,5 @@
 package action;
 
-import com.opensymphony.xwork2.ActionContext;
-
 public class Action_Login {
 
 	 private String username;

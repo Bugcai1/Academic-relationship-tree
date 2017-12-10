@@ -18,18 +18,28 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class MergeAction {
-	private int ID1;               //Ç°¶ËµÄÃüÃû£ºID1
-	private int ID2;               //Ç°¶ËµÄÃüÃû£ºID2
+	private int ID1;               //å‰ç«¯çš„å‘½åï¼šID1
+	private int ID2;               //å‰ç«¯çš„å‘½åï¼šID2
 	
 	///////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////ÓÃ»§±»ÌáÊ¾´íÎóĞŞ¸ÄºóµÄ¹ØÏµ¶ÓÁĞ»ñÈ¡£¬ĞŞ¸ÄµÄ¹ØÏµ»¹ÊÇ°´ÕÕÔ­ÏÈµÄ1ºÅºÍ2ºÅµÄË³Ğò£¬·½±ã¸üĞÂ¹ØÏµ±í¡£¡£¡£¡£¡£¡£¡£
-	private ArrayList<Relation> amendQue;                  //Ç°¶ËµÄÃüÃû£ºamendQue
+	///////////////////////////////////////////////////ç”¨æˆ·è¢«æç¤ºé”™è¯¯ä¿®æ”¹åçš„å…³ç³»é˜Ÿåˆ—è·å–ï¼Œä¿®æ”¹çš„å…³ç³»è¿˜æ˜¯æŒ‰ç…§åŸå…ˆçš„1å·å’Œ2å·çš„é¡ºåºï¼Œæ–¹ä¾¿æ›´æ–°å…³ç³»è¡¨ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚
+	private ArrayList<Relation> amendQueFinal = new ArrayList<Relation>();                  
+	private String amendQue;
 	
-	public ArrayList<Relation> getAmendQue() {
+	public String getAmendQue() {
 		return amendQue;
 	}
-	public void setAmendQue(ArrayList<Relation> amendQue) {
-		this.amendQue = amendQue;
+	public void setAmendQue(String amendQue) {
+		this.amendQue=amendQue;
+	}
+	
+	public void editAmendQueFinal(JSONArray jsonArray) {
+		Relation rltTmp = null;
+		for(int i = 0 ;i<jsonArray.size();i++) {
+		    JSONObject jsonObject=JSONObject.fromObject(jsonArray.get(i));
+		    rltTmp = new Relation(jsonObject.getInt("no1"),jsonObject.getInt("no2"),jsonObject.getInt("type"),jsonObject.getString("start_time"),jsonObject.getString("end_time"));
+		    amendQueFinal.add(rltTmp);
+		}
 	}
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////
@@ -48,6 +58,7 @@ public class MergeAction {
 		this.ID2 = ID2;
 	}
 	
+
 	public void tryMerge() throws SQLException, IOException{
 		
 		HttpServletResponse response=ServletActionContext.getResponse(); 
@@ -60,7 +71,7 @@ public class MergeAction {
 		ResultSet rst2=null;
 		
 		String ID1InfoSQL="select * from register_person where id="+ID1+";";
-		rst1=con1.executeQuery(ID1InfoSQL);      //²éÑ¯ÓÃ»§µÄĞÅÏ¢£¬»ñµÃÊÖ»úºÅ
+		rst1=con1.executeQuery(ID1InfoSQL);      //æŸ¥è¯¢ç”¨æˆ·çš„ä¿¡æ¯ï¼Œè·å¾—æ‰‹æœºå·
 		String ID1Phone = null;
 		if(rst1.next()){
 			ID1Phone=rst1.getString(5);
@@ -69,13 +80,13 @@ public class MergeAction {
 		}
 		
 		String ID2InfoSQL="select * from register_person where id="+ID2+";";
-		rst2=con2.executeQuery(ID2InfoSQL);          //²éÑ¯ÓÃ»§µÄĞÅÏ¢£¬»ñµÃÊÖ»úºÅ
+		rst2=con2.executeQuery(ID2InfoSQL);          //æŸ¥è¯¢ç”¨æˆ·çš„ä¿¡æ¯ï¼Œè·å¾—æ‰‹æœºå·
 		String ID2Phone = null;
 		if(rst2.next()){
 			ID2Phone=rst2.getString(5);
 		}else {
-			System.out.println("1±íÊ¾ID2µÄ±í²»´æÔÚ");
-			out.println(1);                            //£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡   1±íÊ¾ID2µÄ±í²»´æÔÚ
+			System.out.println("1è¡¨ç¤ºID2çš„è¡¨ä¸å­˜åœ¨");
+			out.println(1);                            //ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼   1è¡¨ç¤ºID2çš„è¡¨ä¸å­˜åœ¨
 			out.flush();  
 		    out.close();
 		    return;
@@ -89,29 +100,32 @@ public class MergeAction {
 		rst2 = con2.executeQuery(ID2TableSQL);
 		RelationQue ID1Que = new RelationQue(rst1);
 		RelationQue ID2Que = new RelationQue(rst2);
+		ID1Que.rltQue.add(new Relation(ID1,ID1,1,"01/01/2017","01/01/2017"));
+
 		
 		if(Other.MixRelation(ID1Que, ID2Que)) {
 			Other.cmpRltQue(ID1Que, ID2Que);
 			if(ID1Que.rltMllQue.isEmpty()) {
-				//½«rltAddQueµÄÊı¾İ¼ÓÈëÊı¾İ¿âÖĞ
+				//å°†rltAddQueçš„æ•°æ®åŠ å…¥æ•°æ®åº“ä¸­
 				Other.addRltAddQue(ID1Que.rltAddQue, ID1Table);
-				System.out.println("0±íÊ¾ºÏ²¢³É¹¦");
+				System.out.println("0è¡¨ç¤ºåˆå¹¶æˆåŠŸ");
 				out.println(0);
 				out.flush();  
 			    out.close();
 			    return;
-			    //ÒÔÏÂÎªµ÷ÓÃsearchº¯Êı½øĞĞ²éÑ¯ºÏ²¢ºóµÄ½á¹û£¬²¢ÇÒË¢ĞÂÇ°¶ËµÄData
-			    //½»¸øÇ°¶Ë,¶¯Ì¬Ë¢ĞÂµÄ·½Ê½                              //£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡   0±íÊ¾ºÏ²¢³É¹¦
+			    //ä»¥ä¸‹ä¸ºè°ƒç”¨searchå‡½æ•°è¿›è¡ŒæŸ¥è¯¢åˆå¹¶åçš„ç»“æœï¼Œå¹¶ä¸”åˆ·æ–°å‰ç«¯çš„Data
+			    //äº¤ç»™å‰ç«¯,åŠ¨æ€åˆ·æ–°çš„æ–¹å¼                              //ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼   0è¡¨ç¤ºåˆå¹¶æˆåŠŸ
 			}else {
-				//½«´íÎóµÄ¶ÓÁĞ·¢ËÍµ½Ç°¶Ë£¬ÒÔJSONArray¸ñÊ½
-				out.println(Other.sendError(ID1Que.rltMllQue));
+				//å°†é”™è¯¯çš„é˜Ÿåˆ—å‘é€åˆ°å‰ç«¯ï¼Œä»¥JSONArrayæ ¼å¼
+
+				out.println(Other.sendError(ID1Que.rltMllQue,ID1,ID2));
 				out.flush();  
 			    out.close();
 			    return;
 			}
 		}else {
-			System.out.println("2±íÊ¾Ã»ÓĞ½»¼¯");
-			out.println(2);                           //£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡   2±íÊ¾Ã»ÓĞ½»¼¯
+			System.out.println("2è¡¨ç¤ºæ²¡æœ‰äº¤é›†");
+			out.println(2);                           //ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼   2è¡¨ç¤ºæ²¡æœ‰äº¤é›†
 			out.flush();  
 		    out.close();
 		    return;
@@ -119,12 +133,30 @@ public class MergeAction {
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////ÓÃ»§±»ÌáÊ¾ºóµÄĞŞ¸Ä³åÍ»ºóµÄºÏ²¢£¬ÒÔÓÃ»§µÄĞŞ¸Ä±íºÍ×ÔÉí±íÎª×¼
+	/////////////////////////////////////////////////////////ç”¨æˆ·è¢«æç¤ºåçš„ä¿®æ”¹å†²çªåçš„åˆå¹¶ï¼Œä»¥ç”¨æˆ·çš„ä¿®æ”¹è¡¨å’Œè‡ªèº«è¡¨ä¸ºå‡†
 	public void amendMerge() throws SQLException, IOException{
 		
 		HttpServletResponse response=ServletActionContext.getResponse(); 
 		response.setContentType("text/html;charset=utf-8");
 	    PrintWriter out = response.getWriter();
+	    
+	    //Just print the amend .........................................................................
+	    System.out.println("========================================");
+	    System.out.println(amendQue);
+	    
+	    JSONObject jsonObject=JSONObject.fromObject(amendQue);
+	    JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
+	    editAmendQueFinal(jsonArray);
+	    
+	    for(Relation rltTmp : amendQueFinal) {
+	    	System.out.println(rltTmp.no1);
+	    	System.out.println(rltTmp.no2);
+	    	System.out.println(rltTmp.relationType);
+	    	System.out.println(rltTmp.startTime);
+	    	System.out.println(rltTmp.endTime);
+	    	System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+	    }
+	    //................................................................
 	    
 		DbUtil con1=new DbUtil();
 		DbUtil con2=new DbUtil();
@@ -132,7 +164,7 @@ public class MergeAction {
 		ResultSet rst2=null;
 		
 		String ID1InfoSQL="select * from register_person where id="+ID1+";";
-		rst1=con1.executeQuery(ID1InfoSQL);      //²éÑ¯ÓÃ»§µÄĞÅÏ¢£¬»ñµÃÊÖ»úºÅ
+		rst1=con1.executeQuery(ID1InfoSQL);      //æŸ¥è¯¢ç”¨æˆ·çš„ä¿¡æ¯ï¼Œè·å¾—æ‰‹æœºå·
 		String ID1Phone = null;
 		if(rst1.next()){
 			ID1Phone=rst1.getString(5);
@@ -141,7 +173,7 @@ public class MergeAction {
 		}
 		
 		String ID2InfoSQL="select * from register_person where id="+ID2+";";
-		rst2=con2.executeQuery(ID2InfoSQL);          //²éÑ¯ÓÃ»§µÄĞÅÏ¢£¬»ñµÃÊÖ»úºÅ
+		rst2=con2.executeQuery(ID2InfoSQL);          //æŸ¥è¯¢ç”¨æˆ·çš„ä¿¡æ¯ï¼Œè·å¾—æ‰‹æœºå·
 		String ID2Phone = null;
 		if(rst2.next()){
 			ID2Phone=rst2.getString(5);
@@ -161,11 +193,11 @@ public class MergeAction {
 		if(Other.MixRelation(ID1Que, ID2Que)) {
 			Other.cmpRltQue(ID1Que, ID2Que);
 			
-			//½«rltAddQueµÄÊı¾İ¼ÓÈëÊı¾İ¿âÖĞ
+			//å°†rltAddQueçš„æ•°æ®åŠ å…¥æ•°æ®åº“ä¸­
 			Other.addRltAddQue(ID1Que.rltAddQue, ID1Table);
 			
-			//½«ÓÃ»§Ìá½»µÄĞŞ¸ÄºóµÄ¹ØÏµ±í¶ÔID1±í½øĞĞÇ¿ÖÆ¸üĞÂ	
-			for(Relation rltTmp:this.amendQue) {
+			//å°†ç”¨æˆ·æäº¤çš„ä¿®æ”¹åçš„å…³ç³»è¡¨å¯¹ID1è¡¨è¿›è¡Œå¼ºåˆ¶æ›´æ–°	
+			for(Relation rltTmp:this.amendQueFinal) {
 				String updateSQL = "update "+ID1Table+" set relation="+rltTmp.relationType+",start_time='"+rltTmp.startTime+"',end_time='"+rltTmp.endTime
 						+"' where user_id="+rltTmp.no1+" and relation_id="+rltTmp.no2+";";
 				con1.executeUpdate(updateSQL);
@@ -175,8 +207,8 @@ public class MergeAction {
 			out.flush();  
 			out.close();
 			    
-			//ÒÔÏÂÎªµ÷ÓÃsearchº¯Êı½øĞĞ²éÑ¯ºÏ²¢ºóµÄ½á¹û£¬²¢ÇÒË¢ĞÂÇ°¶ËµÄData
-			//½»¸øÇ°¶Ë,µ÷ÓÃsearch()µÄ·½Ê½                              //£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡   0±íÊ¾ºÏ²¢³É¹¦
+			//ä»¥ä¸‹ä¸ºè°ƒç”¨searchå‡½æ•°è¿›è¡ŒæŸ¥è¯¢åˆå¹¶åçš„ç»“æœï¼Œå¹¶ä¸”åˆ·æ–°å‰ç«¯çš„Data
+			//äº¤ç»™å‰ç«¯,è°ƒç”¨search()çš„æ–¹å¼                              //ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼   0è¡¨ç¤ºåˆå¹¶æˆåŠŸ
 		}
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,15 +217,15 @@ public class MergeAction {
 
 
 
-//¹ØÏµ±íÖĞµÄ¹ØÏµÔªËØ
+//å…³ç³»è¡¨ä¸­çš„å…³ç³»å…ƒç´ 
 class Relation{
 	public int no1;
 	public int no2;
 	public int relationType;
-	public int startTime;
-	public int endTime;
+	public String startTime;
+	public String endTime;
 	
-	public Relation(int no1, int no2, int relationType, int startTime, int endTime) {
+	public Relation(int no1, int no2, int relationType, String startTime, String endTime) {
 		this.no1=no1;
 		this.no2=no2;
 		this.relationType=relationType;
@@ -201,7 +233,7 @@ class Relation{
 		this.endTime=endTime;
 	}
 	
-	//ÅĞ¶ÏÊÇ·ñÊÇ½»¼¯¹ØÏµ
+	//åˆ¤æ–­æ˜¯å¦æ˜¯äº¤é›†å…³ç³»
 	public boolean mixRelation(Relation obj) {
 		if(no1 == obj.no1 || no1 == obj.no2 || no2 == obj.no1 || no2 == obj.no2) {
 			return true;
@@ -209,20 +241,20 @@ class Relation{
 		return false;
 	}
 	
-	//»ñµÃÕâÁ½¸ö¹ØÏµµÄ³åÍ»£º-1.ÕâÁ½¸ö¹ØÏµÖ¸µÄ²»ÊÇÁ½¸öÏàÍ¬µÄÈË  0.ÎŞ³åÍ»   1.·½Ïò³åÍ»         2:¹ØÏµÀàĞÍ³åÍ»,¹ØÏµÊ±¼ä³åÍ»¶¼ÓĞ£¬3£ºÖ»ÓĞ¹ØÏµÀàĞÍ³åÍ»´æÔÚ,4£ºÖ»ÓĞ¹ØÏµÊ±¼ä³åÍ»         5.ÕâÁ½¸ö¹ØÏµ¶ÔÏóÃ»ÓĞ¹ØÏµ
+	//è·å¾—è¿™ä¸¤ä¸ªå…³ç³»çš„å†²çªï¼š-1.è¿™ä¸¤ä¸ªå…³ç³»æŒ‡çš„ä¸æ˜¯ä¸¤ä¸ªç›¸åŒçš„äºº  0.æ— å†²çª   1.æ–¹å‘å†²çª         2:å…³ç³»ç±»å‹å†²çª,å…³ç³»æ—¶é—´å†²çªéƒ½æœ‰ï¼Œ3ï¼šåªæœ‰å…³ç³»ç±»å‹å†²çªå­˜åœ¨,4ï¼šåªæœ‰å…³ç³»æ—¶é—´å†²çª         5.è¿™ä¸¤ä¸ªå…³ç³»å¯¹è±¡æ²¡æœ‰å…³ç³»
 	public int getRelationClash(Relation obj) {
 		int clash = -1;
-		//ÎŞ·½Ïò³åÍ»
+		//æ— æ–¹å‘å†²çª
 		if(no1 == obj.no1) {
 			if(no2 == obj.no2) {
 				if(relationType == obj.relationType) {
-					if(startTime == obj.startTime && endTime==obj.endTime) {
+					if(startTime.equals(obj.startTime) && endTime.equals(obj.endTime)) {
 						clash =  0;
 					}else {
 						clash = 4;
 					}
 				}else {
-						if(startTime == obj.startTime && endTime==obj.endTime) {
+					if(startTime.equals(obj.startTime) && endTime.equals(obj.endTime)) {
 						clash = 3;
 					}else {
 						clash = 2;
@@ -234,17 +266,17 @@ class Relation{
 			return clash;
 		}
 		
-		//¿ÉÄÜÊÇ·½Ïò³åÍ»
+		//å¯èƒ½æ˜¯æ–¹å‘å†²çª
 		if(no1 == obj.no2) {
 			if(no2 == obj.no1) {
 				if(relationType + obj.relationType == 4) {
-					if(startTime == obj.startTime && endTime==obj.endTime) {
+					if(startTime.equals(obj.startTime) && endTime.equals(obj.endTime)) {
 						clash =  1;
 					}else {
 						clash = 4;
 					}
 				}else {
-						if(startTime == obj.startTime && endTime==obj.endTime) {
+					if(startTime.equals(obj.startTime) && endTime.equals(obj.endTime)) {
 						clash = 3;
 					}else {
 						clash = 2;
@@ -260,12 +292,12 @@ class Relation{
 	}
 }
 
-//±£´æ¹ØÏµ³åÍ»µÄÀà£¬ÓÃÓÚ½¨Á¢³åÍ»µÄ¹ØÏµ¶ÓÁĞ
+//ä¿å­˜å…³ç³»å†²çªçš„ç±»ï¼Œç”¨äºå»ºç«‹å†²çªçš„å…³ç³»é˜Ÿåˆ—
 class ClashRelation{
 	public int no1;
 	public int no2;
-	public int RltTypeClash;          //¹ØÏµÀàĞÍ³åÍ»£¬1Îª´æÔÚ£¬0Îª²»´æÔÚ
-	public int RltTimeClash;		//Ê±¼ä³åÍ»£¬Í¬ÉÏ
+	public int RltTypeClash;          //å…³ç³»ç±»å‹å†²çªï¼Œ1ä¸ºå­˜åœ¨ï¼Œ0ä¸ºä¸å­˜åœ¨
+	public int RltTimeClash;		//æ—¶é—´å†²çªï¼ŒåŒä¸Š
 	
 	public ClashRelation(int a,int b, int c , int d) {
 		no1=a;
@@ -275,26 +307,26 @@ class ClashRelation{
 	}
 }
 
-//¹ØÏµ¶ÓÁĞ£¬¶ÔÓ¦ÓÚÒ»¸ö¹ØÏµ±í
+//å…³ç³»é˜Ÿåˆ—ï¼Œå¯¹åº”äºä¸€ä¸ªå…³ç³»è¡¨
 class RelationQue{
-	//±£´æÔ­±¾µÄ¹ØÏµ¶ÓÁĞ
+	//ä¿å­˜åŸæœ¬çš„å…³ç³»é˜Ÿåˆ—
 	public Queue<Relation> rltQue= new LinkedList<Relation>();
-	//±£´æ´ı¼ÓÈëµÄ¹ØÏµ¶ÓÁĞ
+	//ä¿å­˜å¾…åŠ å…¥çš„å…³ç³»é˜Ÿåˆ—
 	public Queue<Relation> rltAddQue = new LinkedList<Relation>();
-	//±£´æ³åÍ»µÄ¹ØÏµ¶ÓÁĞ
+	//ä¿å­˜å†²çªçš„å…³ç³»é˜Ÿåˆ—
 	public Queue<ClashRelation> rltMllQue = new LinkedList<ClashRelation>();
 	
 	public RelationQue(ResultSet rst) throws SQLException {
 		while(rst.next()) {
-			Relation tmp = new Relation(rst.getInt(1), rst.getInt(2), rst.getInt(3), rst.getInt(4), rst.getInt(5));
+			Relation tmp = new Relation(rst.getInt(1), rst.getInt(2), rst.getInt(3), rst.getString(4), rst.getString(5));
 			rltQue.add(tmp);
 		}
 	}
 }
 
-//Õâ¸öÀàÓÃÀ´±£´æ¸¨Öú²Ù×÷
+//è¿™ä¸ªç±»ç”¨æ¥ä¿å­˜è¾…åŠ©æ“ä½œ
 class Other {
-	//ÅĞ¶ÏÁ½¸ö¹ØÏµ¶ÓÁĞÊÇ·ñÓĞ½»¼¯
+	//åˆ¤æ–­ä¸¤ä¸ªå…³ç³»é˜Ÿåˆ—æ˜¯å¦æœ‰äº¤é›†
 	public static boolean MixRelation(RelationQue obj1, RelationQue obj2) {
 		for(Relation rltTmp1 : obj1.rltQue) {
 			for(Relation rltTmp2 : obj2.rltQue) {
@@ -306,8 +338,8 @@ class Other {
 		return false;
 	}
 	
-	//±È½ÏÕâÁ½¸ö¹ØÏµ¶ÓÁĞ£¬»ñµÃ´ıÌí¼Ó¹ØÏµ¶ÓÁĞrltQue£¬ºÍÃ¬¶Ü¹ØÏµ¶ÓÁĞrltMllQue
-	//³åÍ»£º-1.ÕâÁ½¸ö¹ØÏµÖ¸µÄ²»ÊÇÁ½¸öÏàÍ¬µÄÈË  0.ÎŞ³åÍ»   1.·½Ïò³åÍ»         2:¹ØÏµÀàĞÍ³åÍ»,¹ØÏµÊ±¼ä³åÍ»¶¼ÓĞ£¬3£ºÖ»ÓĞ¹ØÏµÀàĞÍ³åÍ»´æÔÚ,4£ºÖ»ÓĞ¹ØÏµÊ±¼ä³åÍ»
+	//æ¯”è¾ƒè¿™ä¸¤ä¸ªå…³ç³»é˜Ÿåˆ—ï¼Œè·å¾—å¾…æ·»åŠ å…³ç³»é˜Ÿåˆ—rltQueï¼Œå’ŒçŸ›ç›¾å…³ç³»é˜Ÿåˆ—rltMllQue
+	//å†²çªï¼š-1.è¿™ä¸¤ä¸ªå…³ç³»æŒ‡çš„ä¸æ˜¯ä¸¤ä¸ªç›¸åŒçš„äºº  0.æ— å†²çª   1.æ–¹å‘å†²çª         2:å…³ç³»ç±»å‹å†²çª,å…³ç³»æ—¶é—´å†²çªéƒ½æœ‰ï¼Œ3ï¼šåªæœ‰å…³ç³»ç±»å‹å†²çªå­˜åœ¨,4ï¼šåªæœ‰å…³ç³»æ—¶é—´å†²çª
 	public static void cmpRltQue(RelationQue obj1, RelationQue obj2) {
 		for(Relation rltTmp2 : obj2.rltQue) {
 			int clash = -1;
@@ -334,35 +366,81 @@ class Other {
 		}
 	}
 	
-	//½«¹ØÏµ¶ÓÁĞÖĞµÄ´ı¼ÓÈë¶ÓÁĞ¼ÓÈëÊı¾İ¿âÖĞ
+	//å°†å…³ç³»é˜Ÿåˆ—ä¸­çš„å¾…åŠ å…¥é˜Ÿåˆ—åŠ å…¥æ•°æ®åº“ä¸­
 	public static void addRltAddQue(Queue<Relation> rltAddQue, String Table) {
 		String AddSQL= null;
 		DbUtil con=new DbUtil();
 		for(Relation rltTmp : rltAddQue) {
-			AddSQL="insert into "+Table+" values("+rltTmp.no1+","+rltTmp.no2+","+rltTmp.relationType+","+rltTmp.startTime+","+rltTmp.endTime+");";
+			AddSQL="insert into "+Table+" values("+rltTmp.no1+","+rltTmp.no2+","+rltTmp.relationType+",'"+rltTmp.startTime+"','"+rltTmp.endTime+"');";
+			System.out.println(AddSQL+"+++++++++++++++++++++++++++++++++++++++++++++");
 			con.executeUpdate(AddSQL);
 		}
 	}
 	
-	//½«´íÎó¶ÓÁĞÒÔJsonArrayµÄ¸ñÊ½·¢ËÍ¸øÇ°¶Ë
-	public static JSONArray sendError(Queue<ClashRelation> rltMllQue) throws IOException {
+	//å°†é”™è¯¯é˜Ÿåˆ—ä»¥JsonArrayçš„æ ¼å¼å‘é€ç»™å‰ç«¯
+	public static JSONArray sendError(Queue<ClashRelation> rltMllQue,int ID1,int ID2) throws IOException, SQLException {
 		JSONArray jsonArray=new JSONArray();
 		JSONObject jsonObject=new JSONObject();
 		
+		DbUtil con=new DbUtil();
+		ResultSet rst=null;
+
 		for(ClashRelation rltTmp : rltMllQue) {
 			jsonObject = new JSONObject();
+			/*æŸ¥ä¸¤äººçš„ç›¸å…³ä¿¡æ¯*/
+			//å§“åï¼š
+			
+			String sql="select * from register_person where id="+rltTmp.no1+";";
+			rst=con.executeQuery(sql);
+			if(rst.next()){
+				jsonObject.put("user_1",rst.getString("name"));
+			}else{
+				sql="select * from no_register_person where id="+rltTmp.no1+";";
+				rst=con.executeQuery(sql);
+				if(rst.next()) {
+					jsonObject.put("user_1",rst.getString("name"));
+				}
+			}
+			
+			sql="select * from register_person where id="+rltTmp.no2+";";
+			rst=con.executeQuery(sql);
+			if(rst.next()){
+				jsonObject.put("user_2",rst.getString("name"));
+			}else
+			{
+				sql="select * from no_register_person where id="+rltTmp.no2+";";
+				rst=con.executeQuery(sql);
+				if(rst.next()) {
+					jsonObject.put("user_2",rst.getString("name"));
+				}
+			}
+			
 			jsonObject.put("no1",rltTmp.no1);
 			jsonObject.put("no2", rltTmp.no2);
-			jsonObject.put("rltTypeClash",rltTmp.RltTypeClash);
-			jsonObject.put("rltTimeClash",rltTmp.RltTimeClash);
+
+			sql="select * from register_person where id="+ID1+";";
+			rst=con.executeQuery(sql);
+			String phone="";
+			if(rst.next()){
+			  phone=rst.getString(5);
+			}
+			String ID1Tablename="a"+ID1+phone;
+			sql="select * from "+ID1Tablename+" where user_id="+rltTmp.no1+" and relation_id="+rltTmp.no2+";";
+			rst=con.executeQuery(sql);
+			while(rst.next()){
+				jsonObject.put("type",rst.getString(3));
+				jsonObject.put("start_time",rst.getString(4));
+				jsonObject.put("end_time",rst.getString(5));
+			}
+
+			// jsonObject.put("rltTypeClash",rltTmp.RltTypeClash);
+			// jsonObject.put("rltTimeClash",rltTmp.RltTimeClash);//1è¡¨ç¤ºå†²çª
 			jsonArray.add(jsonObject);
 		}
-		System.out.println("----------------´íÎó¶ÓÁĞ-------------------");
+		System.out.println("----------------é”™è¯¯é˜Ÿåˆ—-------------------");
 		System.out.println(jsonArray);
 		System.out.println("------------------------------------------");
 		
 		return jsonArray;
 	}
 }
-
-
