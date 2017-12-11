@@ -5,10 +5,13 @@ pageEncoding="UTF-8"%>
 <html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" style="" lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 	<link rel="stylesheet" href="allUser_files/reset.css"> <!-- CSS reset -->
 	<link rel="stylesheet" href="allUser_files/style.css"> <!-- Resource style -->
+	<link rel="stylesheet" href="allUser_files/stars.css"> <!-- Resource style -->
+	
+	
 	<script src="allUser_files/modernizr.js"></script> <!-- Modernizr -->
   	<title>queryAll</title>
 	<style>
@@ -16,7 +19,9 @@ pageEncoding="UTF-8"%>
 	</style>
 </head>
 <body>
-	
+	<div id='stars'></div>
+	<div id='stars2'></div>
+	<div id='stars3'></div>
 	<ul id="itemList" class="cd-items cd-container">
 		
 	</ul> <!-- cd-items -->
@@ -46,14 +51,14 @@ pageEncoding="UTF-8"%>
 			    
 	    		for(var i=0;i<num;i++) {
 					text=text+"<li class=\"cd-item\">"
-						+"<img src=\""+"UserPicture/"+data[i].ID+".png\" alt=\""+data[i].name+"\">"
+						+"<img src=\""+"UserPicture/"+data[i].ID+".jpeg\" alt=\""+data[i].name+"\">"
 						+"<a href=\"#0\" id=\""+data[i].ID+"\" class=\"cd-trigger\">"+data[i].name+"</a>"
 						+"</li>";
 	
 					viewText=viewText+"<div id=\""+data[i].ID+"View\" class=\"cd-quick-view\">"
 						+"<div class=\"cd-slider-wrapper\">"
 						+"<ul class=\"cd-slider\">"
-						+"<li class=\"selected\"><img src=\""+"UserPicture/"+data[i].ID+".png\" alt=\""+data[i].name+"\"></li>"
+						+"<li class=\"selected\"><img src=\""+"UserPicture/"+data[i].ID+".jpeg\" alt=\""+data[i].name+"\"></li>"
 						+"</ul>"
 						+"</div>"
 						+"<div class=\"cd-item-info\">"

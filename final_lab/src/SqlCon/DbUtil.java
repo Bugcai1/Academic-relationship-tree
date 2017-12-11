@@ -18,8 +18,8 @@ public class DbUtil {
     {
         try
         {
-            Class.forName("com.mysql.jdbc.Driver");//Á¬½ÓÇý¶¯
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/lab","root","123456");//Á¬½ÓÊý¾Ý¿â
+            Class.forName("com.mysql.jdbc.Driver");//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/lab","root","123456");//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½
             stat=con.createStatement(); 
         }catch(Exception e)
         {
@@ -27,7 +27,7 @@ public class DbUtil {
         }
     }
     /*
-     * ´´½¨Ò»¸öÈËµÄ¹ØÏµ±í£»ÃüÃû·½Ê½ a+id+ÊÖ»úºÅ
+     * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ËµÄ¹ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ a+id+ï¿½Ö»ï¿½ï¿½ï¿½
      * 
      */
     public void createNewPersonTable(String name) throws SQLException
@@ -36,8 +36,14 @@ public class DbUtil {
     	System.out.println(sql);
     	stat.execute(sql);
     }
+    public void createNewTimeTable(String name) throws SQLException
+    {
+    	String sql="create table "+name+"(id1 int(3),id2 int(3),time varchar(20));";
+    	System.out.println(sql);
+    	stat.execute(sql);
+    }
     /*
-     * ²éÊýµÄ¹¦ÄÜ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½
      */
     public int executecount(String table_name,int id,String sql) throws SQLException
     {
@@ -52,30 +58,34 @@ public class DbUtil {
     	return count;
     }
     /*
-     * ´´½¨×¢²áº¯ÊýµÄÊý¾Ý±í
+     * ï¿½ï¿½ï¿½ï¿½×¢ï¿½áº¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý±ï¿½
      */
     /*
-     * ·µ»Ø²éÑ¯½á¹û¼¯µÄÓï¾ä
+     * ï¿½ï¿½ï¿½Ø²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     public ResultSet executeQuery(String sql)
     {
         try
         { 
+        	
             rs=stat.executeQuery(sql);
+            System.out.println("æ­£å¸¸æŸ¥è¯¢");
         }
         catch(Exception e)
         {
-            rs=null;
+        	System.out.println("å‡ºé—®é¢˜äº†");
+            //rs=null;
         }
         return rs;
     }
     /*
-     * Ö´ÐÐ¸üÐÂÓï¾ä£¬É¾³ý/ÐÞ¸Ä/Ìí¼ÓµÈ
+     * Ö´ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½ï¿½ä£¬É¾ï¿½ï¿½/ï¿½Þ¸ï¿½/ï¿½ï¿½Óµï¿½
      */
     public int executeUpdate(String sql)
     {
         try
         {
+        	System.out.println("sql+"+sql);
         	stat.executeUpdate(sql);
             return 0;
         }
@@ -85,7 +95,7 @@ public class DbUtil {
         }
     }
     /*
-     *·µ»ØidµÄº¯Êý£¨¼´²éÑ¯×¢²á±íºÍÎ´×¢²á±í±íµÄËùÓÐÊý¾Ý¸öÊýÖ®ºÍ£¬È»ºó¼Ó1£©
+     *ï¿½ï¿½ï¿½ï¿½idï¿½Äºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯×¢ï¿½ï¿½ï¿½ï¿½Î´×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½Ö®ï¿½Í£ï¿½È»ï¿½ï¿½ï¿½1ï¿½ï¿½
      */
     public int getID() throws SQLException
     {

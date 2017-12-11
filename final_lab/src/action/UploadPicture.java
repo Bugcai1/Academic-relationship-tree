@@ -13,10 +13,10 @@ import com.opensymphony.xwork2.ActionSupport;
 @SuppressWarnings("serial")
 public class UploadPicture extends ActionSupport {
 
-	private int ID;            //ÓÃ»§µÄID
-    private File uploadFile; // ÉÏ´«µÄÎÄ¼þ
-    private String uploadFileContentType; // ÎÄ¼þÀàÐÍ
-    private String uploadFileFileName; // ÎÄ¼þÃû×Ö
+	private int ID;            //ï¿½Ã»ï¿½ï¿½ï¿½ID
+    private File uploadFile; // ï¿½Ï´ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+    private String uploadFileContentType; // ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+    private String uploadFileFileName; // ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 
     public int getID() {
     	return ID;
@@ -57,7 +57,7 @@ public class UploadPicture extends ActionSupport {
         		break;
         	}
         }
-        this.uploadFileFileName=fileName.toString();
+        this.uploadFileFileName=ID+".jpeg";
         System.out.println("------------------------------------------------");
         System.out.println(this.uploadFileFileName);
     }
@@ -65,40 +65,40 @@ public class UploadPicture extends ActionSupport {
     @Override
     public String execute() throws Exception {
    
-        //ÅÐ¶ÏUserPictureÎÄ¼þ¼ÐÊÇ·ñ´æÔÚ
+        //ï¿½Ð¶ï¿½UserPictureï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
     	System.out.println("ID"+getUploadFile());
     	 File dir =new File(ServletActionContext.getServletContext().getRealPath("/UserPicture"));    
-    	//Èç¹ûÎÄ¼þ¼Ð²»´æÔÚÔò´´½¨    
+    	//ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò´´½ï¿½    
     	if  (!dir .exists()  && !dir .isDirectory()){       
-    	    System.out.println("//²»´æÔÚ");  
+//    	    System.out.println("");  
     	    dir.mkdir();    
     	} else{  
-    	    System.out.println("//Ä¿Â¼´æÔÚ");  
+    	    System.out.println("åˆ é™¤å­˜åœ¨çš„å›¾ç‰‡");  
     	} 
     	
     	
-        InputStream is = new FileInputStream(uploadFile); // ÊäÈëÁ÷
-        String uploadPath = ServletActionContext.getServletContext().getRealPath("/UserPicture"); // ÉÏ´«ÎÄ¼þÄ¿Â¼
+        InputStream is = new FileInputStream(uploadFile); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        String uploadPath = ServletActionContext.getServletContext().getRealPath("/UserPicture"); // ï¿½Ï´ï¿½ï¿½Ä¼ï¿½Ä¿Â¼
         File file=new File(uploadPath+"/"+uploadFileFileName);
-        System.out.println("ÎÄ¼þÃû"+uploadFileFileName);
+        System.out.println("ï¿½Ä¼ï¿½ï¿½ï¿½"+uploadFileFileName);
         System.out.println(file.getPath());
-        //ÎÄ¼þ´æÔÚ¾ÍÉ¾³ý
+        //ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½É¾ï¿½ï¿½
         if(file.exists()){
         	if(file.delete()) {
-        		System.out.println("É¾³ýÎÄ¼þ³É¹¦");
+        		System.out.println("É¾ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½É¹ï¿½");
         	};
         }
-        OutputStream os = new FileOutputStream(file); // Êä³öÁ÷
+        OutputStream os = new FileOutputStream(file); // ï¿½ï¿½ï¿½ï¿½ï¿½
         
-        byte[] buffer = new byte[1024];// ÉèÖÃ»º´æ
+        byte[] buffer = new byte[1024];// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½
         int length = 0;
-        // ¶ÁÈ¡uploadFileÎÄ¼þÊä³öµ½toFileÎÄ¼þÖÐ
+        // ï¿½ï¿½È¡uploadFileï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½toFileï¿½Ä¼ï¿½ï¿½ï¿½
         while ((length = is.read(buffer)) > 0) {
             os.write(buffer, 0, length);
         }
         
-        is.close(); // ¹Ø±ÕÊäÈëÁ÷
-        os.close(); // ¹Ø±ÕÊä³öÁ÷
+        is.close(); // ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        os.close(); // ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         return "SUCCESS";
         
     }

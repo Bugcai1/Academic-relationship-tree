@@ -100,6 +100,8 @@ public class MergeAction {
 		rst2 = con2.executeQuery(ID2TableSQL);
 		RelationQue ID1Que = new RelationQue(rst1);
 		RelationQue ID2Que = new RelationQue(rst2);
+		ID1Que.rltQue.add(new Relation(ID1,ID1,1,"01/01/2017","01/01/2017"));
+
 		
 		if(Other.MixRelation(ID1Que, ID2Que)) {
 			Other.cmpRltQue(ID1Que, ID2Que);
@@ -133,13 +135,12 @@ public class MergeAction {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////用户被提示后的修改冲突后的合并，以用户的修改表和自身表为准
 	public void amendMerge() throws SQLException, IOException{
-		//对于用户提交修改后的合并强制进行
 		
 		HttpServletResponse response=ServletActionContext.getResponse(); 
 		response.setContentType("text/html;charset=utf-8");
 	    PrintWriter out = response.getWriter();
 	    
-	    //Just print the amendQue .........................................................................
+	    //Just print the amend .........................................................................
 	    System.out.println("========================================");
 	    System.out.println(amendQue);
 	    
@@ -192,16 +193,14 @@ public class MergeAction {
 		if(Other.MixRelation(ID1Que, ID2Que)) {
 			Other.cmpRltQue(ID1Que, ID2Que);
 			
-			//删除冲突队列读应的关系
-			Other.deleteMllQue(ID1Que.rltMllQue, ID1Table);
-			
 			//将rltAddQue的数据加入数据库中
 			Other.addRltAddQue(ID1Que.rltAddQue, ID1Table);
 			
-			//将用户提交的修改后的关系表对ID1表进行加入	
+			//将用户提交的修改后的关系表对ID1表进行强制更新	
 			for(Relation rltTmp:this.amendQueFinal) {
-				String addSQL = "insert into "+ID1Table+" values("+rltTmp.no1+","+rltTmp.no2+","+rltTmp.relationType+",'"+rltTmp.startTime+"','"+rltTmp.endTime+"');";
-				con1.executeUpdate(addSQL);
+				String updateSQL = "update "+ID1Table+" set relation="+rltTmp.relationType+",start_time='"+rltTmp.startTime+"',end_time='"+rltTmp.endTime
+						+"' where user_id="+rltTmp.no1+" and relation_id="+rltTmp.no2+";";
+				con1.executeUpdate(updateSQL);
 			}
 				
 			out.println(0);
@@ -368,11 +367,11 @@ class Other {
 	}
 	
 	//将关系队列中的待加入队列加入数据库中
-	public static void addRltAddQue(Queue<Relation> rltAddQue, String tableName) {
+	public static void addRltAddQue(Queue<Relation> rltAddQue, String Table) {
 		String AddSQL= null;
 		DbUtil con=new DbUtil();
 		for(Relation rltTmp : rltAddQue) {
-			AddSQL="insert into "+tableName+" values("+rltTmp.no1+","+rltTmp.no2+","+rltTmp.relationType+",'"+rltTmp.startTime+"','"+rltTmp.endTime+"');";
+			AddSQL="insert into "+Table+" values("+rltTmp.no1+","+rltTmp.no2+","+rltTmp.relationType+",'"+rltTmp.startTime+"','"+rltTmp.endTime+"');";
 			System.out.println(AddSQL+"+++++++++++++++++++++++++++++++++++++++++++++");
 			con.executeUpdate(AddSQL);
 		}
@@ -407,7 +406,8 @@ class Other {
 			rst=con.executeQuery(sql);
 			if(rst.next()){
 				jsonObject.put("user_2",rst.getString("name"));
-			}else {
+			}else
+			{
 				sql="select * from no_register_person where id="+rltTmp.no2+";";
 				rst=con.executeQuery(sql);
 				if(rst.next()) {
@@ -421,13 +421,13 @@ class Other {
 			sql="select * from register_person where id="+ID1+";";
 			rst=con.executeQuery(sql);
 			String phone="";
-			if(rst.next()) {
+			if(rst.next()){
 			  phone=rst.getString(5);
 			}
 			String ID1Tablename="a"+ID1+phone;
 			sql="select * from "+ID1Tablename+" where user_id="+rltTmp.no1+" and relation_id="+rltTmp.no2+";";
 			rst=con.executeQuery(sql);
-			while(rst.next()) {
+			while(rst.next()){
 				jsonObject.put("type",rst.getString(3));
 				jsonObject.put("start_time",rst.getString(4));
 				jsonObject.put("end_time",rst.getString(5));
@@ -443,15 +443,4 @@ class Other {
 		
 		return jsonArray;
 	}
-	
-	//用户提交修改后的关系表后，进行原数据表中冲突的关系进行删除
-	public static void deleteMllQue(Queue<ClashRelation> MllQue,String tableName) throws SQLException{
-		DbUtil con=new DbUtil();
-		String deleteSQL = null;
-		for(ClashRelation cRltTmp : MllQue) {
-			deleteSQL="delete from "+tableName+" where user_id="+cRltTmp.no1+" and relation_id="+cRltTmp.no2+";";
-			con.executeUpdate(deleteSQL);
-		}
-	}
-	
 }

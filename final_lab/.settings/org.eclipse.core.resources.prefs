@@ -1,6 +1,8 @@
 eclipse.preferences.version=1
 encoding//WebContent/kowa.css=UTF-8
+encoding//WebContent/login.jsp=UTF-8
 encoding//WebContent/merge.jsp=UTF-8
-encoding//WebContent/search.html=UTF-8
+encoding//WebContent/search.jsp=UTF-8
+encoding//WebContent/uploadPicture.jsp=UTF-8
 encoding//src/action/addrelation.java=UTF-8
 encoding//src/action/newregister.java=UTF-8

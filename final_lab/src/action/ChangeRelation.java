@@ -1,7 +1,14 @@
 package action;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+
 import SqlCon.DbUtil;
 
 public class ChangeRelation {
@@ -62,7 +69,7 @@ public class ChangeRelation {
 	public void setEnd(String end) {
 		this.end = end;
 	}
-	public String deleteAction() throws SQLException
+	public String deleteAction() throws SQLException, IOException
     {
     	DbUtil connects = new DbUtil();
     	ResultSet phoneset = null;
@@ -77,13 +84,20 @@ public class ChangeRelation {
         
         String sql="delete from "+table_name+" where user_id="+getID1()+" and relation_id="+getID2()+";";
         
-        System.out.println("É¾³ýÓï¾ä£º"+sql);
+        System.out.println("É¾ï¿½ï¿½ï¿½ï¿½ä£º"+sql);
         connects.executeUpdate(sql);
+        
+        HttpServletResponse response=ServletActionContext.getResponse(); 
+        response.setContentType("text/html;charset=utf-8");  
+        PrintWriter out = response.getWriter();
+    	 out.println("ok");
+        out.flush();  
+        out.close();
     	return "SUCCESS";
     }
-    public String changeAction() throws SQLException
+    public String changeAction() throws SQLException, IOException
     {
-    	System.out.println("-----------------------Ë¨³ý²Ù×÷---------------------------");
+    	System.out.println("-----------------------Ë¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½---------------------------");
     	DbUtil connects = new DbUtil();
     	int pre;
         int now;
@@ -100,7 +114,7 @@ public class ChangeRelation {
         String table_name="a"+getUser_id()+phone;
         
         String sql="update "+table_name+" set relation="+now+",start_time='"+getStart()+"',end_time='"+getEnd()+"' where user_id="+getID1()+" and relation_id="+getID2()+";";
-        System.out.println("¸üÐÂµÄÓï¾ä£º   "+sql+" "+getPar_name()+"  "+getChi_name());
+        System.out.println("ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ä£º   "+sql+" "+getPar_name()+"  "+getChi_name());
         
         connects.executeUpdate(sql);
         String change="update register_person set name='"+getPar_name()+"' where id="+getID1()+";";
@@ -117,7 +131,13 @@ public class ChangeRelation {
         
         connects.executeUpdate(change_n);
         connects.executeUpdate(change);
-        
+        System.out.println("ok!");
+        HttpServletResponse response=ServletActionContext.getResponse(); 
+        response.setContentType("text/html;charset=utf-8");  
+        PrintWriter out = response.getWriter();
+    	 out.println("ok");
+        out.flush();  
+        out.close();
         return "SUCCESS";
     }
 }

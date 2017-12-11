@@ -10,16 +10,15 @@ pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <title>上传头像</title>
-
-<link rel="stylesheet" href="css/style.css" type="text/css" />
-
+<link rel="stylesheet" href="style.css"/>
 </head>
+
 
 <body>
 
-<script type="text/javascript" src="js/jquery.min.js"></script> 
+<script type="text/javascript" src="jquery.min.js"></script> 
 
-<script type="text/javascript" src="js/cropbox.js"></script>
+<script type="text/javascript" src="cropbox.js"></script>
 <script type="text/javascript">
 	window.onload=function(){
 		var url="getid";
@@ -69,7 +68,6 @@ pageEncoding="UTF-8"%>
 
 <script type="text/javascript">
 $("#btn").click(function(){
-	alert("btn");
 	$('#sub').click();
 	
 	

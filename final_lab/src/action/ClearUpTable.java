@@ -37,6 +37,10 @@ class ClearUpTable {
 			edgeTmp = new Edge(IDToIndex.get(no1Tmp),IDToIndex.get(no2Tmp));
 			edgeList.add(edgeTmp);
 		}
+		if(!IDToIndex.containsKey(ID)) {
+			IDToIndex.put(ID, new Integer(tail));
+			tail++;
+		}
 		int IDindex = IDToIndex.get(ID);
 		int[] parArray = new int[tail];
 		for(int i = 0; i<tail; i++) {

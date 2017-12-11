@@ -17,7 +17,7 @@ body {
   font-size: 100%;
   font-family: "PT Sans", sans-serif;
   color: #3e585f;
-  background-color: #47374e;
+  background-color: #022452;
 }
 body::after {
   /* dark overlay layer - visible when we fire .cd-quick-view */
