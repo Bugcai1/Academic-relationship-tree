@@ -18,6 +18,7 @@ body {
   font-family: "PT Sans", sans-serif;
   color: #3e585f;
   background-color: #022452;
+  
 }
 body::after {
   /* dark overlay layer - visible when we fire .cd-quick-view */
@@ -137,7 +138,7 @@ html, body {
   position: absolute;
   height: 50px;
   line-height: 50px;
-  width: 100%;
+  width: 150px;
   bottom: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.1);

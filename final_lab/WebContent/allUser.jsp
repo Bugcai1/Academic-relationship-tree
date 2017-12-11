@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 	<script src="allUser_files/modernizr.js"></script> <!-- Modernizr -->
   	<title>queryAll</title>
 	<style>
-		body{ font-family: "microsoft yahei";}
+		body{ font-family: "microsoft yahei";overflow:scroll;}
 	</style>
 </head>
 <body>
@@ -51,8 +51,9 @@ pageEncoding="UTF-8"%>
 			    
 	    		for(var i=0;i<num;i++) {
 					text=text+"<li class=\"cd-item\">"
-						+"<img src=\""+"UserPicture/"+data[i].ID+".jpeg\" alt=\""+data[i].name+"\">"
-						+"<a href=\"#0\" id=\""+data[i].ID+"\" class=\"cd-trigger\">"+data[i].name+"</a>"
+						+"<img src=\""+"UserPicture/"+data[i].ID+".jpeg\" alt=\""+data[i].name+"\" style=\"height:150px;width:150px\">"
+						//+"<img src=\"photo/1.png\" alt=\""+data[i].name+"\" style=\"\">"
+						+"<a href=\"#0\" id=\""+data[i].ID+"\" class=\"cd-trigger\" style=\"width:150px\">"+data[i].name+"</a>"
 						+"</li>";
 	
 					viewText=viewText+"<div id=\""+data[i].ID+"View\" class=\"cd-quick-view\">"

@@ -210,7 +210,7 @@ function navigate_tabs(container, tab){
       
       <div class="cont_forms" >
         <div  class="cont_form_login"> <a href="#" onClick="ocultar_login_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
-          <div id="div2"></div>
+          <div style="margin-top:55px" id="div2"></div>
       <form enctype="multipart/form-data" id="uploadForm">
        <a style="margin-top:10px;" href="javascript:;" class="file">选择文件<input class="" type="file" name="uploadFile" id="upload_file" onchange="c()" style="margin-bottom:10px;"></a>
       </form>
@@ -303,7 +303,15 @@ function navigate_tabs(container, tab){
 		var relation=$('#add_relation').val();
 		
 		
-		
+		if(parseInt(user_id)==parseInt(user2_id))
+		{
+			$.messager.confirm('Confirm','您选择的两个节点相同，请重新选择！',function(r){
+    			if (r){
+    				return;
+    			}
+    		});
+        	return;
+		}
 		if(start=="")
 			start="00/01/0000";
 		if(end=="")
@@ -357,6 +365,12 @@ function navigate_tabs(container, tab){
 			        contentType: false,
 			        processData: false,
 			        success:function(data){
+			        	if(parseInt(data)==1)
+			        	{
+			        		alert("您添加的关系已经存在！");
+			        		return;
+			        	}
+			        	alert("data"+data);
 			        	search();
 			        	
 			        }
@@ -502,7 +516,7 @@ var toolbar = [{
              text=text+"<li style=\"margin-top:5px\">"+
                   "<a target=\"_blank\"> <img src="+"\"UserPicture/"+data[i].id+".jpeg\""+"height=\"70px\" width=\"70px\" draggable=\"true\">"+
                   "<div class=\"hot_info\">"+
-                      "<p>姓名："+data[i].name+"</p>"+
+                      "<p>姓名：</br>"+data[i].name+"</p>"+
               
                       "<input type=\"button\" value=\"添加\" onclick=\"drag(this)\">"+
                       
