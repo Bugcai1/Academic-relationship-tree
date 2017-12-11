@@ -30,6 +30,15 @@ public class search_log{
 		JSONArray json=new JSONArray();
 	     JSONObject list=new JSONObject();
 		int id=getUser_id();
+		
+		String sqls="select * from register_person where id="+id+";";
+		DbUtil conn=new DbUtil();
+		ResultSet rs=conn.executeQuery(sqls);
+		while(rs.next())
+		{
+			list.put("flag", rs.getString(6));
+			json.add(list);
+		}
 		String table="time"+id;
 		String sql="select * from "+table;
 		DbUtil con=new DbUtil();
@@ -42,7 +51,7 @@ public class search_log{
 				result="您添加账户为"+rst.getInt(2)+"的用户";
 			}
 			else {
-				result="您被账户为"+rst.getInt(2)+"的添加";
+				result="您被账户为"+rst.getInt(2)+"的用户添加";
 			}
 			list.put("result",result);
 			list.put("time", rst.getString(3));

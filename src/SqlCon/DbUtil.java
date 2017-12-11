@@ -67,11 +67,14 @@ public class DbUtil {
     {
         try
         { 
+        	
             rs=stat.executeQuery(sql);
+            System.out.println("正常查询");
         }
         catch(Exception e)
         {
-            rs=null;
+        	System.out.println("出问题了");
+            //rs=null;
         }
         return rs;
     }
@@ -82,6 +85,7 @@ public class DbUtil {
     {
         try
         {
+        	System.out.println("sql+"+sql);
         	stat.executeUpdate(sql);
             return 0;
         }

@@ -27,7 +27,6 @@ public class search_people {
     }
     public void setFlaag(int flaag)
     {
-    	System.out.println("��ʼ����");
     	this.flaag=flaag;
     }
 //    DbUtil connect = new DbUtil();
@@ -170,9 +169,10 @@ public int workoutString(String s)
      }
      String table_name="a"+getId()+phone;
      
-     
+     ClearUpTable.clear(table_name, getId());
      String search_relation="select * from "+table_name+sureSql();
      rs=con.executeQuery(search_relation);
+     System.out.println(search_relation);
      
      while(rs.next())
      {

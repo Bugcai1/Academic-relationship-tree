@@ -20,6 +20,7 @@ public class newregister {
 	private String sex;
 	private String work;
 	private String phone;
+	private String flag;
 	
 	private int user_id;
 	private String start_time;
@@ -28,7 +29,13 @@ public class newregister {
 	private int final_people;
 	
 	
-	
+	public void setFlag(String flag)
+	{
+		this.flag=flag;
+	}
+	public String getFlag() {
+		return flag;
+	}
 	public int getUser_id() {
 		return user_id;
 	}
@@ -173,7 +180,7 @@ public class newregister {
 	public String insert_register_People() throws SQLException
 	{
 		
-		String insert = "insert into register_person values("+getId()+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
+		String insert = "insert into register_person values("+getId()+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"','"+getFlag()+"');";
 		System.out.println("man    "+insert);
 //		return "success";
 		DbUtil con=new DbUtil();
@@ -187,27 +194,21 @@ public class newregister {
 	 */
 	public String insert_nregister() throws SQLException, IOException
 	{
-		System.out.println("娌℃湁娉ㄥ唽鐨勪汉鐗�");
+		String insert = "insert into no_register_person values("+getId()+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
+		System.out.println("man    "+insert);
+//		return "success";
 		DbUtil con=new DbUtil();
-		int r=con.getID();
-		String insert = "insert into no_register_person values("+r+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
 		con.executeUpdate(insert);
-		System.out.println("**************************\n"+insert);
-		String search_p="select phone from register_person where id="+getFinal_people()+";";
-		System.out.println("77777777777==="+search_p);
-		ResultSet rs=con.executeQuery(search_p);
-		
-		String phone="";
-		while(rs.next())
-		{
-			phone=rs.getString(1);
-		}
-		
-		String table_name="a"+getFinal_people()+phone;
-		
-		String sql="insert into "+table_name+" values("+getUser_id()+","+r+","+getRelation()+",'"+getStart_time()+"','"+getEnd_time()+"');";
-		System.out.println("鎻掑叆鍑芥暟      "+sql);
-		con.executeUpdate(sql);
+		createPerson_Table();
+//		System.out.print(insert);
+		HttpServletResponse response=ServletActionContext.getResponse(); 
+		response.setContentType("text/html;charset=utf-8");  
+	    PrintWriter out = response.getWriter(); 
+
+	    out.println("r");
+	   
+	    out.flush();  
+	    out.close();
 		
 		return "SUCCESS";
 	}

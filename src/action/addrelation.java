@@ -102,13 +102,16 @@ public class addrelation {
 		return "SUCCESS";
 	}
 	public String add_Relation() throws SQLException, IOException
-	{
+	{ 
+		JSONArray jsonArray=new JSONArray();
+		JSONObject jsonObject=new JSONObject();
+		
 		System.out.println("添加关系");
 		String search_p="select phone from register_person where id="+getFinal_people()+";"; 
 		System.out.println("查询语句1："+search_p);
 		DbUtil con=new DbUtil();
 		ResultSet rs=con.executeQuery(search_p);
-		
+		int flag=0;
 		String phone="";
 		while(rs.next())
 		{
@@ -122,14 +125,27 @@ public class addrelation {
 				+ "user_id="+getUser2_id()+" and relation_id="+getUser_id()+");"; 
 		rs = con.executeQuery(search_p);
 		if(rs.next()) {
-			HttpServletResponse response=ServletActionContext.getResponse(); 
-			response.setContentType("text/html;charset=utf-8");  
-		    PrintWriter out = response.getWriter(); 
-		    out.println(0);
-		    out.flush();  
-		    out.close();
-		    return "SUCCESS";
+			flag=1;
 		}
+		
+		System.out.println("回掉了"+flag);
+		
+		HttpServletResponse response=ServletActionContext.getResponse(); 
+		response.setContentType("text/html;charset=utf-8");  
+	    PrintWriter out = response.getWriter();
+	   int i=0;
+	    while(i<5)
+	    {
+	    	jsonObject.put("flag"+i, flag+"");
+		    jsonArray.add(jsonObject);
+		    i++;
+		    System.out.println("回掉了");
+	    }
+	    System.out.println("回掉了"+flag);
+	    out.println(jsonArray);
+	    out.flush();  
+        out.close();
+	    System.out.println("回掉了"+flag);
 		//----------------------------------------------------------------------------------------------------------
 
 		/*
@@ -141,13 +157,15 @@ public class addrelation {
 		*返回的形式：您的朋友id在什么时间将您添加为+某某+关系好友，请您注意查看。//您添加某某为好友
 		*/
 		//主动添加别人
-		String sql="select * from register_person where id="+getFinal_people()+";";
+		if(flag!=1)
+		{
+			String sql="select * from register_person where id="+getFinal_people()+";";
 		ResultSet rst=con.executeQuery(sql);
 		if(rst.next())
 		{
 			String time_table1="time"+getFinal_people();
-			String time_sql="insert into "+time_table1+" values("+getFinal_people()+","+getUser2_id()+","+getRelation()+","+getTime()+");";
-//			con.executeUpdate(time_sql);
+			String time_sql="insert into "+time_table1+" values("+getFinal_people()+","+getUser2_id()+",'"+getTime()+"');";
+			con.executeUpdate(time_sql);
 			System.out.println(time_sql);
 		}
 		
@@ -156,15 +174,21 @@ public class addrelation {
 		if(rst.next())
 		{
 			String time_table2="time"+getUser2_id();
-			String time_sql="insert into "+time_table2+" values("+getFinal_people()+","+getUser2_id()+","+getRelation()+","+getTime()+");";
-//			con.executeUpdate(time_sql);
+			String time_sql="insert into "+time_table2+" values("+getFinal_people()+","+getUser2_id()+",'"+getTime()+"');";
+			con.executeUpdate(time_sql);
 			System.out.println(time_sql);
 		}
 		
-		sql="insert into "+table_name+" values("+getUser_id()+","+getUser2_id()+","+getRelation()+","+getStart()+","+getEnd()+");";
-		System.out.println("添加语句："+sql);
-		con.executeUpdate(sql);
+			sql="insert into "+table_name+" values("+getUser_id()+","+getUser2_id()+","+getRelation()+",'"+getStart()+"','"+getEnd()+"');";
+			System.out.println("添加语句："+sql);
+			con.executeUpdate(sql);
+		}
 		
+	    
+	   
+	    
+		System.out.println("flag="+jsonArray);
+	    System.out.println("flag="+flag);
 		return "SUCCESS";
 	}
 	public static String getTime()

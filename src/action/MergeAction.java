@@ -100,6 +100,8 @@ public class MergeAction {
 		rst2 = con2.executeQuery(ID2TableSQL);
 		RelationQue ID1Que = new RelationQue(rst1);
 		RelationQue ID2Que = new RelationQue(rst2);
+		ID1Que.rltQue.add(new Relation(ID1,ID1,1,"01/01/2017","01/01/2017"));
+
 		
 		if(Other.MixRelation(ID1Que, ID2Que)) {
 			Other.cmpRltQue(ID1Que, ID2Que);

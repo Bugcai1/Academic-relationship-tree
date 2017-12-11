@@ -27,26 +27,28 @@ public class person_login {
 		this.password = password;
 	}
 	
-	public void login() throws SQLException, IOException
+	
+	public String login() throws SQLException, IOException
 	{
+		HttpServletResponse response=ServletActionContext.getResponse(); 
+		response.setContentType("text/html;charset=utf-8");  
+	    PrintWriter out = response.getWriter(); 
+		
 		String phone=getUserName();
 		String id=getPassword();
 		
 		DbUtil con=new DbUtil();
 		String sql="select * from register_person where id="+id+";";
-		
-		ResultSet rs=con.executeQuery(sql);
-		HttpServletResponse response=ServletActionContext.getResponse(); 
-		response.setContentType("text/html;charset=utf-8");  
-	    PrintWriter out = response.getWriter(); 
+		System.out.println(sql);
+		ResultSet rs=null;
+		rs=con.executeQuery(sql);
+		System.out.println(rs);
+		int flag=0;
 		if(rs.first())
-		{
-			out.println("1");
-			return;
-		}
-	    out.println(0);
+			flag=1;
+	    out.println(flag);
 	    out.flush();  
 	    out.close();
-		return;
+		return "SUCCESS";
 	}
 }

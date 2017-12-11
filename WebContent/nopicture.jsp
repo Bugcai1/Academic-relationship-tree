@@ -47,7 +47,7 @@ pageEncoding="UTF-8"%>
       <label for="upload-file">请先选择图片...</label>
 
       </a>
-      <form action="uploadPictrue" enctype="multipart/form-data" method="post">
+      <form action="nuploadPictrue" enctype="multipart/form-data" method="post">
       <input type="file" class="" name="uploadFile" id="upload-file" />
       <input type="hidden" name="ID" value="" id="user_id"/>
       <input type="submit" id="sub" style="display:none"></input>

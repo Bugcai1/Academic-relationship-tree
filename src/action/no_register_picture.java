@@ -1,22 +1,26 @@
 package action;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 @SuppressWarnings("serial")
-public class UploadPicture extends ActionSupport {
+public class no_register_picture extends ActionSupport {
 
-	private int ID;            //�û���ID
-    private File uploadFile; // �ϴ����ļ�
-    private String uploadFileContentType; // �ļ�����
-    private String uploadFileFileName; // �ļ�����
+	private int ID;   
+    private File uploadFile;
+    private String uploadFileContentType;
+    private String uploadFileFileName; 
 
     public int getID() {
     	return ID;
@@ -62,44 +66,47 @@ public class UploadPicture extends ActionSupport {
         System.out.println(this.uploadFileFileName);
     }
 
-    @Override
-    public String execute() throws Exception {
+    public void write() throws Exception {
    
-        //�ж�UserPicture�ļ����Ƿ����
+        
     	System.out.println("ID"+getUploadFile());
     	 File dir =new File(ServletActionContext.getServletContext().getRealPath("/UserPicture"));    
-//    	//����ļ��в������򴴽�    
-//    	if  (!dir .exists()  && !dir .isDirectory()){       
-////    	    System.out.println("");  
-//    	    dir.mkdir();    
-//    	} else{  
-//    	    System.out.println("删除存在的图片");  
-//    	} 
+    	
+    	if  (!dir .exists()  && !dir .isDirectory()){       
+//    	    System.out.println("");  
+    	    dir.mkdir();    
+    	} else{  
+    	    System.out.println("删除存在的图片");  
+    	} 
     	
     	
-        InputStream is = new FileInputStream(uploadFile); // ������
-        String uploadPath = ServletActionContext.getServletContext().getRealPath("/UserPicture"); // �ϴ��ļ�Ŀ¼
+        InputStream is = new FileInputStream(uploadFile);
+        String uploadPath = ServletActionContext.getServletContext().getRealPath("/UserPicture"); 
         File file=new File(uploadPath+"/"+uploadFileFileName);
-        System.out.println("�ļ���"+uploadFileFileName);
+        System.out.println(uploadFileFileName);
         System.out.println(file.getPath());
-        //�ļ����ھ�ɾ��
         if(file.exists()){
         	if(file.delete()) {
-        		System.out.println("ɾ���ļ��ɹ�");
+        		System.out.println("delete");
         	};
         }
-        OutputStream os = new FileOutputStream(file); // �����
+        OutputStream os = new FileOutputStream(file); 
         
-        byte[] buffer = new byte[1024];// ���û���
+        byte[] buffer = new byte[1024];
         int length = 0;
-        // ��ȡuploadFile�ļ������toFile�ļ���
+       
         while ((length = is.read(buffer)) > 0) {
             os.write(buffer, 0, length);
         }
         
-        is.close(); // �ر�������
-        os.close(); // �ر������
-        return "SUCCESS";
-        
+        is.close();
+        os.close();
+        HttpServletResponse response=ServletActionContext.getResponse(); 
+		response.setContentType("text/html;charset=utf-8");  
+	    PrintWriter out = response.getWriter(); 
+        out.println("great");
+	    out.flush();  
+	    out.close();  
     }
 }
+
