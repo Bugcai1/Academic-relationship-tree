@@ -210,7 +210,6 @@ function navigate_tabs(container, tab){
       
       <div class="cont_forms" >
         <div  class="cont_form_login"> <a href="#" onClick="ocultar_login_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
-          <h2>LOGIN</h2> 
           <div id="div2"></div>
       <form enctype="multipart/form-data" id="uploadForm">
        <a style="margin-top:10px;" href="javascript:;" class="file">选择文件<input class="" type="file" name="uploadFile" id="upload_file" onchange="c()" style="margin-bottom:10px;"></a>
@@ -295,7 +294,6 @@ function navigate_tabs(container, tab){
 <script type="text/javascript">
 	function submitAddForm()
 	{
-		alert("jjk");
 		var user_id=$('#add_user').val();
 		var user2_id=$('#add_user_id').val();
 		var final_people=$('#user_id').val();
@@ -303,10 +301,24 @@ function navigate_tabs(container, tab){
 		var start=$('#add_start_time').textbox('getValue');
 		var end=$('#add_end_time').textbox('getValue');
 		var relation=$('#add_relation').val();
+		
+		
+		
 		if(start=="")
 			start="00/01/0000";
 		if(end=="")
-			end="99/98/9999"
+			end="99/98/9999";
+			
+		if(!time_problem(start,end))
+        {
+        	$.messager.confirm('Confirm','时间错误，请更改！',function(r){
+    			if (r){
+    				return;
+    			}
+    		});
+        	return;
+        }
+			
 		
 		if(user_id=="")
 		{
@@ -609,7 +621,22 @@ function loaddata(d){
 
 
 <script type="text/javascript">
-/*画人物的关系图*/
+function time_problem(start,end){
+	var start_s=start.split("/");
+	var end_s=end.split("/");
+	
+	var s=start_s[2]+start_s[0]+start_s[1];
+	var e=end_s[2]+end_s[0]+end_s[1];
+	
+	if(parseInt(s)<parseInt(e))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 </script>
 <script type="text/javascript">//页面加载的时候加载候选人
 var canvas = document.getElementById('relation');
@@ -712,9 +739,7 @@ var links=[];
         }
         else
             end=$("#end_time").val();
-        var endt=end.split("/");
-        var startt=start.split("/");
-        if((parseInt(startt[2])+parseInt(startt[0])+parseInt(startt[1]))>=(parseInt(endt[2])+parseInt(endt[0])+parseInt(endt[1])))
+        if(!time_problem(start,end))
         {
         	$.messager.confirm('Confirm','查寻时间有错，请更改！',function(r){
     			if (r){
@@ -926,6 +951,15 @@ var links=[];
      
         var start1=$("#start_time1").textbox('getValue');
         var end1=$("#end_time1").textbox('getValue');
+        if(!time_problem(start1,end1))
+        {
+        	$.messager.confirm('Confirm','修改时间有错，请更改！',function(r){
+    			if (r){
+    				return;
+    			}
+    		});
+        	return;
+        }
         
         $.post(url,{"user_id":$("#user_id").val(),"ID1":$("#par_id").val(),"ID2":$("#chi_id").val(),"par_name":$("#par").val(),"chi_name":$("#chi").val(),"relation":$("#relation_1").val(),"start":start1,"end":end1},function(data,status){
         	search(); 
