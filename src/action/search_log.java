@@ -30,6 +30,17 @@ public class search_log{
 		JSONArray json=new JSONArray();
 	     JSONObject list=new JSONObject();
 		int id=getUser_id();
+
+		
+		String sqls="select * from register_person where id="+id+";";
+		DbUtil conn=new DbUtil();
+		ResultSet rs=conn.executeQuery(sqls);
+		while(rs.next())
+		{
+			list.put("flag", rs.getString(6));
+			json.add(list);
+		}
+
 		String table="time"+id;
 		String sql="select * from "+table;
 		DbUtil con=new DbUtil();

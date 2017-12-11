@@ -208,6 +208,7 @@ function navigate_tabs(container, tab){
           </div>
       
       
+
       <div class="cont_forms" >
         <div  class="cont_form_login"> <a href="#" onClick="ocultar_login_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
           <div id="div2"></div>
@@ -222,6 +223,10 @@ function navigate_tabs(container, tab){
       <button class="btn_login" onClick="ocultar_login_sign_up()()">EXIT</button>
        </div>
       </div>
+
+
+      
+
 	 </div>
         <table border="1" id = "table2" align="center">
         <tr>
@@ -780,6 +785,10 @@ var links=[];
                  node.setImage("UserPicture/"+dataa[0].parent_id+".jpeg");
                  node.setLocation(x, y);
                  node.click(function(){
+<<<<<<< HEAD
+=======
+            
+>>>>>>> master
                  	$('#add_user').val(this.id);
                      
                  });
@@ -815,6 +824,11 @@ var links=[];
                 node.setImage("UserPicture/"+data[i].parent_id+".jpeg");
                 node.setLocation(x, y);
                 node.click(function(){
+<<<<<<< HEAD
+=======
+                	
+                	
+>>>>>>> master
                 	$('#add_user').val(this.id);
                     
                 });
@@ -845,6 +859,11 @@ var links=[];
                 node.id=data[i].child_id;
                 node.name=data[i].child_name;
                 node.click(function(){
+<<<<<<< HEAD
+=======
+                
+            
+>>>>>>> master
                 	$('#add_user').val(this.id);
                 });
                 node.mouseover(function(){

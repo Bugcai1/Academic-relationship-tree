@@ -9,7 +9,11 @@ jQuery(document).ready(function($){
 		var selectedImage = $(this).parent('.cd-item').children('img'),
 			slectedImageUrl = selectedImage.attr('src');
 		
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> master
 
 		$('body').addClass('overlay-layer');
 		animateQuickView(selectedImage, sliderFinalWidth, maxQuickWidth, 'open', $(this).attr('id'));
@@ -84,7 +88,11 @@ jQuery(document).ready(function($){
 		//----------------------------------------------------------------------
 		if( animationType == 'open') {
 			var userIDView=userID+"View";
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> master
 			//hide the image in the gallery
 			parentListItem.addClass('empty-box');
 			//place the quick view over the image gallery and give it the dimension of the gallery image

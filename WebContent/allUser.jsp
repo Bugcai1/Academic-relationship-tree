@@ -22,6 +22,9 @@ pageEncoding="UTF-8"%>
 	<div id='stars'></div>
 	<div id='stars2'></div>
 	<div id='stars3'></div>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
 	<ul id="itemList" class="cd-items cd-container">
 		
 	</ul> <!-- cd-items -->
@@ -39,7 +42,6 @@ pageEncoding="UTF-8"%>
 <script src="allUser_files/main.js"></script> <!-- Resource jQuery -->
 
 
-<!------------------------------------------------------------------------------------------------>
 <script type="text/javascript">//页面加载的时候加载全部人员的信息
     	window.onload=function(){
 	    	var url="queryAllUsers";
@@ -51,18 +53,19 @@ pageEncoding="UTF-8"%>
 			    
 	    		for(var i=0;i<num;i++) {
 					text=text+"<li class=\"cd-item\">"
-						+"<img src=\""+"UserPicture/"+data[i].ID+".jpeg\" alt=\""+data[i].name+"\">"
-						+"<a href=\"#0\" id=\""+data[i].ID+"\" class=\"cd-trigger\">"+data[i].name+"</a>"
-						+"</li>";
 	
 					viewText=viewText+"<div id=\""+data[i].ID+"View\" class=\"cd-quick-view\">"
 						+"<div class=\"cd-slider-wrapper\">"
 						+"<ul class=\"cd-slider\">"
+
 						+"<li class=\"selected\"><img src=\""+"UserPicture/"+data[i].ID+".jpeg\" alt=\""+data[i].name+"\"></li>"
-						+"</ul>"
+
+						+"<li class=\"selected\"><img style=\"height:100%\" src=\""+"UserPicture/"+data[i].ID+".jpeg\" alt=\""+data[i].name+"\"></li>"
+		+"</ul>"
 						+"</div>"
 						+"<div class=\"cd-item-info\">"
 						+"<h2>"+data[i].name+"</h2>"
+
 						+"<p>性别："+data[i].sex+"</p>"
 						+"<p>工作："+data[i].work+"</p>"
 						+"<p>手机："+data[i].phone+"</p>"
@@ -81,6 +84,10 @@ pageEncoding="UTF-8"%>
 	    		document.getElementsByTagName('head')[0].appendChild(jsElem);
 		},'json');
 	};
+
+	function back(){
+			window.history.back(-1);
+}
 </script>
 <!------------------------------------------------------------------------------------------------>
 

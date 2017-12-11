@@ -68,13 +68,15 @@ public class UploadPicture extends ActionSupport {
         //�ж�UserPicture�ļ����Ƿ����
     	System.out.println("ID"+getUploadFile());
     	 File dir =new File(ServletActionContext.getServletContext().getRealPath("/UserPicture"));    
-    	//����ļ��в������򴴽�    
-    	if  (!dir .exists()  && !dir .isDirectory()){       
-//    	    System.out.println("");  
-    	    dir.mkdir();    
-    	} else{  
-    	    System.out.println("删除存在的图片");  
-    	} 
+
+//    	//����ļ��в������򴴽�    
+//    	if  (!dir .exists()  && !dir .isDirectory()){       
+////    	    System.out.println("");  
+//    	    dir.mkdir();    
+//    	} else{  
+//    	    System.out.println("删除存在的图片");  
+//    	} 
+
     	
     	
         InputStream is = new FileInputStream(uploadFile); // ������

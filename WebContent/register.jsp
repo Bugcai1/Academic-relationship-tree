@@ -26,6 +26,10 @@ pageEncoding="UTF-8"%>
 			<input id="user_id" class="item" type="text" disabled=true>
 		</div>
 		
+		<div style="margin-top:10px" class="frow">
+			 <textarea  id="flag" name="DIVCSS5" cols="50" rows="4">编辑属于自己的个性语</textarea>
+		</div>
+		
 		<div class="frow">
 			<a class="next-step" href="#">下一步</a>
 		</div>
@@ -85,10 +89,11 @@ var id="0";
 </script>
 
 <script type="text/javascript">//提交表单的操作
-
 function submitl(){
 	var sex=$("#sex").val();
-	var wsex=""
+	var wsex="";
+	var str=$('#flag').val();
+	//alert(str);
 	if(parseInt(sex)==1)
 		wsex="男";
 	else if(parseInt(sex)==2)
@@ -98,7 +103,7 @@ function submitl(){
 		return;
 	}
 	var url="insert";
-	$.post(url,{"id":parseInt(id),"name":$("#uname").val(),"sex":wsex,"work":$("#work").val(),"phone":$("#phone").val()},function(data,status){
+	$.post(url,{"flag":str,"id":parseInt(id),"name":$("#uname").val(),"sex":wsex,"work":$("#work").val(),"phone":$("#phone").val()},function(data,status){
 	});
 }
 </script>

@@ -37,7 +37,9 @@ body{font-size:14px;font-family:"å¾®è½¯éé»";background:url("photo
 	<!--åå®¹åå¸åºå-->
 	<div class="boxcenter">
 		<div class="boxc_t"><h4>个性名片</h4></div>
-		<div class="boxc_c" contenteditable="true" id="aa"></div>
+
+		<div class="boxc_c" contenteditable="false" id="aa"></div>
+
 		<div class="boxc_b"><a id="aau" href="">返回上一层</a></div>
 	</div>
 	
@@ -69,13 +71,15 @@ $(function(){
 	var url="search_log";
 	$.post(url,{"user_id":showval},function(data,status){
 	var datas=eval('('+data+')');
+
 	$(".boxc_c").text("个性标签");
 	for(var i=0;i<datas.length;i++)
+
 	{
 		$(".nextbox").prepend("<div class='a'>"+
 			"<div class='b'></div>"+
 			"<span id='time'>"+datas[i].time+"&nbsp;&nbsp;"+
-			//"<span id='hour'>"+"12"+":"+"16"+i+"</span>"+
+
 			"</span>"+
 			"<br>"+
 			"<p style='padding:4px'>"+datas[i].result+"</p>"+
