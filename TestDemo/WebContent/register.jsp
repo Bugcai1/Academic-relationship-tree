@@ -1,111 +1,113 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+"http://www.w3.org/TR/html4/loose.dtd">
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>注册界面</title>
-        <script src="register/jquery.js"></script>
-        <script src="register/jquery.cityselect.js"></script>
-        <link href="register/main.css" type="text/css" rel="stylesheet">
-        <link href="register/easyui.css" type="text/css" rel="stylesheet" />
-        <link href="register/icon.css" type="text/css" rel="stylesheet" />
-        <link href="register/demo.css" type="text/css" rel="stylesheet" />
-        <link href="register/validatebox.css"  type="text/css" rel="stylesheet" />
-        <script src="register/easyui-lang-zh_CN.js"></script>
-        <script src="register/datagrid-detailview.js"></script>
-         <script src="register/jquery.min.js"></script>
-        <script src="register/jquery.easyui.min.js"></script>
-       <script type="text/javascript" src="register/json2.js"></script> 
-        <style type="text/css">
-            body{
-                background: white;
-            }
-            .jieshao{
-                width: 300px;
-                border-bottom: 2px dashed;
-            }
-            .div0{
-                width: 400px;
-                border: 1px solid cornflowerblue;
-                line-height: 30px;
-                padding-left: 50px;
-                margin: auto;
-                margin-top: 50px;
-            }
-            .zi{
-                font-size: 13px;
-            }
-        </style>
-        <script>
-            $(function(){
-                init_city_select($("#sel1, #sel2"));
-            });
-            function getValue() {
-                alert($('#sel1').val());
-            }
-        </script>
-        <script>
-        	window.onload=function(){
-        		var url="getid";
-        		$.post(url,function(data){
-        			alert(data);
-        			$('#user_id').val(data);
-        		});
-        	}
-        </script>
-        <script type="text/javascript">
-        function myformatter(date){
-            var y = date.getFullYear();
-            var m = date.getMonth()+1;
-            var d = date.getDate();
-            return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
-        }
-        function myparser(s){
-            if (!s) return new Date();
-            var ss = (s.split('-'));
-            var y = parseInt(ss[0],10);
-            var m = parseInt(ss[1],10);
-            var d = parseInt(ss[2],10);
-            if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
-                return new Date(y,m-1,d);
-            } else {
-                return new Date();
-            }
-        }
-    </script>
-    </head>
-    <body>
-    <div align="center" margin-top="50px">
-        <h2>个人信息资料</h2>
-    </div>
-     <div class="div0" align="center">
-        <form action="insert" method="post">
-            <span style="padding-left: 33px;">帐号：<input type="text" name="id" id="user_id" value="" /></span></br>
-            真实姓名：<input type="text" name="name" id="ps"  /><br/>
-            <span style="padding-left: 33px;">所在地 : <input name="" id="sel1"  type="text"  class="city_input" readonly="readonly"></span>
-            <br/>
-            <span style="padding-left: 33px;">生日：<input id="" name="" class="easyui-datebox" height="10px" data-options="formatter:myformatter,parser:myparser"></input></span><br/>
-            工作：<input type="text" name="work"><br />
+<head>
+<link type="text/css" rel="stylesheet" href="register/style.css" media="screen">
+<script type="text/javascript" src="register/jquery.js"></script>
+<script type="text/javascript" src="register/index.js"></script>
+<title>头像上传</title>
+</head>
+<body>
+    <section class="container">
+	<form action="insert" method="post">
+	<fieldset class="alpha">
+		<legend><b>1. </b>上传头像</legend>
+		<div>
+			<img id="user_img" style="margin-left:40%;border-radius:25px"  alt="" width="50px" height="50px">
+		</div>
+		<div style="margin-top:10px" class="frow">
+			<a href="uploadPicture.jsp"><input id="" class="item" type="button" value="上传头像"></a>
+		</div>
+		
+		<div style="margin-top:10px" class="frow">
+			<input id="user_id" class="item" type="text" disabled=true>
+		</div>
+		
+		<div style="margin-top:10px" class="frow">
+			 <textarea  id="flag" name="DIVCSS5" cols="50" rows="4">编辑属于自己的个性语</textarea>
+		</div>
+		
+		<div class="frow">
+			<a class="next-step" href="#">下一步</a>
+		</div>
+		
+	</fieldset>
+	<fieldset class="beta">
+		<legend><b>2. </b>个人信息</legend>
+		<div class="frow">
+			<input id="uname" class="item" placeholder="用户名" required type="text">
+		</div>
+		<div class="frow">
+			<select id="sex"><option>--请选择性别--</option><option value="1">男</option><option value="2">女</option></select>
+		</div>
+		<div class="frow">
+			<input id="phone" class="item" placeholder="手机号" required type="text">
+		</div>
+		<div class="frow">
+			<input id="work" class="item" placeholder="工作" required type="text">
+		</div>
+		<div class="frow">
+			<a class="prev-step" href="#">上一步</a>
+		</div>
+		<div class="frow">
+			<input class="submit" type="submit" value="完成" onclick="submitl()">
+		</div>
+	</fieldset>
 
-            <span style="padding-left: 36px;">QQ：<input type="text" name="wd" id="wd" value="" /></span><br />
+	<fieldset class="charlie">
+		<legend><b>3. </b>完成</legend>
+		<div class="frow">
 
-            <span style="padding-left: 28px;">EMS：<input type="text" name="wd" id="wd" value="" /></span><br />
-            <span style="padding-left: 30px;">介绍：</span>
-            <div class="jieshao" >
-            <textarea  name="" rows="10" cols="20" style="resize: none;  width: 300px;height: 100px; "> 
-            </textarea>
-            </div>
-            <p class="zi">以下信息可作为通过客服取回账号的依据</p>
-            性别  : <select name="sex">
-                <option>man</option>
-                <option>woman</option>
-            </select><br />
+			<p>您的信息已经填写完整，谢谢！</p>
+			<a id="aa" href="">前往自己的关系树</a>
+		</div>
+	</fieldset>
+</form>
+</section>
 
-           手机号 : <input type="text" name="phone" id="wd" value="" /><br />
+<script type="text/javascript">
+var id="0";
+	window.onload=function(){
+		var form=document.forms[0];
+		form.onsubmit=function(){
+			return false;
+		};
+		var url="getid";
+		$.post(url,{"name":"bao"},function(data,status){
+			$("#user_id").val("您的账号是："+data);
+			id=data; 
+			ad="search.jsp?cc="+id;
+			$("#aa").attr('href',ad);
+			$('#user_img').attr('src',"UserPicture/"+id+".jpeg");
+		});
+		
+	};
 
-            <input type="submit" name="" id="" value="保存" />
-        </form>
-        </div>
-    </body>
+</script>
+
+<script type="text/javascript">//提交表单的操作
+function submitl(){
+	
+	var sex=$("#sex").val();
+	var wsex="";
+	var str=$('#flag').val();
+	//alert(str);
+	if(parseInt(sex)==1)
+		wsex="男";
+	else if(parseInt(sex)==2)
+		wsex="女";
+	else{
+		alert("请选择性别！！");
+		return;
+	}
+	var url="insert";
+	$.post(url,{"flag":str,"id":parseInt(id),"name":$("#uname").val(),"sex":wsex,"work":$("#work").val(),"phone":$("#phone").val()},function(data,status){
+	});
+}
+</script>
+</body>
 </html>
+

@@ -1,0 +1,140 @@
+@charset "utf-8";
+
+#left1{
+	height:600px;
+	width:70%;
+	background:url(bg.jpg);
+	float:left;
+	margin-top:65px;
+	transition:width 0.6s;
+}
+#right1{
+	height:600px;
+	width:28%;
+	margin-left:20px;
+	background:white;
+	float:left;
+	transition:width 0.6s;
+	margin-top:65px;
+}
+.nav1{
+	width:100%;
+	height:50px;
+	font:bold 0/50px Arial;
+	text-align:center;
+	margin:5px auto 0;
+	border-radius: 8px;
+	background:red;
+}
+.nav1 a{
+	display: inline-block;
+	-webkit-transition: all 0.2s ease-in;
+	-moz-transition: all 0.2s ease-in;
+  	-o-transition: all 0.2s ease-in;
+  	-ms-transition: all 0.2s ease-in;
+  	transition: all 0.2s ease-in;
+}
+.nav1 a:hover{
+	-webkit-transform:rotate(10deg);
+	-moz-transform:rotate(10deg);
+	-o-transform:rotate(10deg);
+	-ms-transform:rotate(10deg);
+	transform:rotate(10deg);
+}
+.nav1 li{
+	position:relative;
+	display:inline-block;
+	padding:0 16px;
+	font-size: 13px;
+	text-shadow:1px 2px 4px rgba(0,0,0,.5);
+	list-style: none outside none;
+}
+
+.nav1 li::before,
+.nav1 li::after{
+	content:"";
+	position:absolute;
+	top:14px;
+	height: 25px;
+	width: 1px;
+ }
+.nav1 li::after{
+	right: 0;
+	background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255,.2) 50%, rgba(255,255,255,0));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255,.2) 50%, rgba(255,255,255,0));
+	background: -o-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255,.2) 50%, rgba(255,255,255,0));
+	background: -ms-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255,.2) 50%, rgba(255,255,255,0));
+	background: linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255,.2) 50%, rgba(255,255,255,0));
+}
+.nav1 li:first-child::before{
+	background: none;
+}
+.nav1 li:last-child::after{
+	background: none;
+}
+
+
+.nav1 a,
+.nav1 a:hover{
+	color:#fff;
+	text-decoration: none;
+ }
+ 
+ 
+ 
+ /* Table Head */
+#table1 thead th {
+	background-color: rgb(81, 130, 187);
+	color: #fff;
+	border-bottom-width: 0;
+}
+
+/* Column Style */
+#table1 td {
+	color: #111;
+}
+/* Heading and Column Style */
+#table1 tr, #table1 th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(81, 130, 187);
+}
+
+/* Padding and font style */
+#table1 td, #table1 th {
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: Verdana;
+	font-weight: bold;
+}
+#table2 thead th {
+	background-color: rgb(81, 130, 187);
+	color: #fff;
+	border-bottom-width: 0;
+}
+
+/* Column Style */
+#table2 td {
+	color: #111;
+}
+/* Heading and Column Style */
+#table2 tr, #table2 th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(81, 130, 187);
+}
+
+/* Padding and font style */
+#table2 td, #table2 th {
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: Verdana;
+	font-weight: bold;
+}
+#top{
+	height: 250px;
+	width: 100%;
+	background-color: white;
+
+}
+ 

@@ -18,8 +18,9 @@ public class DbUtil {
     {
         try
         {
-            Class.forName("com.mysql.jdbc.Driver");//Á¬½ÓÇı¶¯
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/lab","root","123456");//Á¬½ÓÊı¾İ¿â
+            Class.forName("com.mysql.jdbc.Driver");//é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
+            //con=DriverManager.getConnection("jdbc:mysql://localhost:3306/lab","root","123456");//é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ·åŒ¡æ‹·
+            con=DriverManager.getConnection("jdbc:mysql://w.rdc.sae.sina.com.cn/app_finlab?useUnicode=true&characterEncoding=UTF-8","l245yolykj","10i1h2yx440ym1zyih510i1z5z440zwyi1iillk0");
             stat=con.createStatement(); 
         }catch(Exception e)
         {
@@ -27,7 +28,7 @@ public class DbUtil {
         }
     }
     /*
-     * ´´½¨Ò»¸öÈËµÄ¹ØÏµ±í£»ÃüÃû·½Ê½ a+id+ÊÖ»úºÅ
+     * é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ä¸€é”Ÿæ–¤æ‹·é”Ÿå‰¿çš„ç™¸æ‹·ç³»é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å¼ a+id+é”Ÿè¡—ä¼™æ‹·é”Ÿæ–¤æ‹·
      * 
      */
     public void createNewPersonTable(String name) throws SQLException
@@ -36,13 +37,19 @@ public class DbUtil {
     	System.out.println(sql);
     	stat.execute(sql);
     }
+    public void createNewTimeTable(String name) throws SQLException
+    {
+    	String sql="create table "+name+"(id1 int(3),id2 int(3),time varchar(20));";
+    	System.out.println(sql);
+    	stat.execute(sql);
+    }
     /*
-     * ²éÊıµÄ¹¦ÄÜ
+     * é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿä¾¥ç™¸æ‹·é”Ÿæ–¤æ‹·
      */
-    public int executecount(String table_name,int id) throws SQLException
+    public int executecount(String table_name,int id,String sql) throws SQLException
     {
     	int count=0;
-    	String str="select * from "+table_name+" where user_id="+id+";";
+    	String str="select * from "+table_name+" where user_id="+id+sql+";";
 //    	System.out.println(str);
     	rs=stat.executeQuery(str);
     	while(rs.next())
@@ -52,30 +59,34 @@ public class DbUtil {
     	return count;
     }
     /*
-     * ´´½¨×¢²áº¯ÊıµÄÊı¾İ±í
+     * é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·æ³¨é”Ÿç»“å‡½é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ·æ†‹æ‹·
      */
     /*
-     * ·µ»Ø²éÑ¯½á¹û¼¯µÄÓï¾ä
+     * é”Ÿæ–¤æ‹·é”Ÿæˆªè¯§æ‹·è¯¢é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
      */
     public ResultSet executeQuery(String sql)
     {
         try
         { 
+        	
             rs=stat.executeQuery(sql);
+            System.out.println("å§ï½…çˆ¶éŒãƒ¨î‡—");
         }
         catch(Exception e)
         {
-            rs=null;
+        	System.out.println("é‘æ´ªæ£¶æ£°æ¨¹ç°¡");
+            //rs=null;
         }
         return rs;
     }
     /*
-     * Ö´ĞĞ¸üĞÂÓï¾ä£¬É¾³ı/ĞŞ¸Ä/Ìí¼ÓµÈ
+     * æ‰§é”Ÿå«é©æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·æ´Œîƒ¤æ’…æ‹·é”Ÿï¿½/é”Ÿç«é©æ‹·/é”Ÿæ–¤æ‹·æ‹¥é”Ÿï¿½
      */
     public int executeUpdate(String sql)
     {
         try
         {
+        	System.out.println("sql+"+sql);
         	stat.executeUpdate(sql);
             return 0;
         }
@@ -85,7 +96,7 @@ public class DbUtil {
         }
     }
     /*
-     *·µ»ØidµÄº¯Êı£¨¼´²éÑ¯×¢²á±íºÍÎ´×¢²á±í±íµÄËùÓĞÊı¾İ¸öÊıÖ®ºÍ£¬È»ºó¼Ó1£©
+     *é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·idé”Ÿä¾¥çŒ´æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è¯¢æ³¨é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·æœªæ³¨é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·èé”Ÿæ–¤æ‹·é”Ÿè¡—î‡†æ‹·åœé”Ÿé¥ºä¼™æ‹·é”Ÿæ–¤æ‹·1é”Ÿæ–¤æ‹·
      */
     public int getID() throws SQLException
     {

@@ -110,7 +110,7 @@ public int workoutString(String s)
                 sql = sql + "1 or relation = 2 or relation = 3) ;";
                 break;
             case "110":
-                sql = sql + "1 or relation = 3);" ; 
+                sql = sql + "1 or relation = 2);" ; 
                 break;
             case "100":
                 sql = sql + "1) ;";
