@@ -20,6 +20,7 @@ public class newregister {
 	private String sex;
 	private String work;
 	private String phone;
+	private String flag;
 	
 	private int user_id;
 	private String start_time;
@@ -28,7 +29,13 @@ public class newregister {
 	private int final_people;
 	
 	
-	
+	public void setFlag(String flag)
+	{
+		this.flag=flag;
+	}
+	public String getFlag() {
+		return flag;
+	}
 	public int getUser_id() {
 		return user_id;
 	}
@@ -173,7 +180,7 @@ public class newregister {
 	public String insert_register_People() throws SQLException
 	{
 		
-		String insert = "insert into register_person values("+getId()+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"');";
+		String insert = "insert into register_person values("+getId()+",'"+getName()+"','"+getSex()+"','"+getWork()+"','"+getPhone()+"','"+getFlag()+"');";
 		System.out.println("man    "+insert);
 //		return "success";
 		DbUtil con=new DbUtil();

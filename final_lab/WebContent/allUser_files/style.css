@@ -17,8 +17,7 @@ body {
   font-size: 100%;
   font-family: "PT Sans", sans-serif;
   color: #3e585f;
-  background-color: #022452;
-  
+  background-color: #1c131c;
 }
 body::after {
   /* dark overlay layer - visible when we fire .cd-quick-view */
@@ -138,7 +137,7 @@ html, body {
   position: absolute;
   height: 50px;
   line-height: 50px;
-  width: 150px;
+  width: 100%;
   bottom: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.1);
@@ -241,6 +240,7 @@ html, body {
 .cd-slider li img {
   display: block;
   width: 100%;
+  height:100%;
   max-width: 400px;
 }
 .cd-slider li.selected {

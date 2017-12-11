@@ -124,24 +124,28 @@ public class addrelation {
 		search_p = "select * from " + table_name + " where (user_id="+getUser_id()+" and relation_id="+getUser2_id() + ") or ("
 				+ "user_id="+getUser2_id()+" and relation_id="+getUser_id()+");"; 
 		rs = con.executeQuery(search_p);
-		
 		if(rs.next()) {
 			flag=1;
-			HttpServletResponse response=ServletActionContext.getResponse(); 
-			response.setContentType("text/html;charset=utf-8");  
-		    PrintWriter out = response.getWriter();
-		   
-		    
-			   
-		 
-		    out.println(1);
-		    out.flush();  
-	        out.close();
-		 //   System.out.println("回掉了"+flag);
 		}
 		
 		System.out.println("回掉了"+flag);
 		
+		HttpServletResponse response=ServletActionContext.getResponse(); 
+		response.setContentType("text/html;charset=utf-8");  
+	    PrintWriter out = response.getWriter();
+	   int i=0;
+	    while(i<5)
+	    {
+	    	jsonObject.put("flag"+i, flag+"");
+		    jsonArray.add(jsonObject);
+		    i++;
+		    System.out.println("回掉了");
+	    }
+	    System.out.println("回掉了"+flag);
+	    out.println(jsonArray);
+	    out.flush();  
+        out.close();
+	    System.out.println("回掉了"+flag);
 		//----------------------------------------------------------------------------------------------------------
 
 		/*
